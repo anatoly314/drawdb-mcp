@@ -16,7 +16,9 @@ COPY apps ./apps
 RUN pnpm install --frozen-lockfile
 
 # Build all apps with Turborepo (GUI + Backend)
+# Enable remote control for Docker builds (WebSocket auto-detects URL from browser)
 ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV VITE_REMOTE_CONTROL_ENABLED=true
 RUN pnpm build
 
 # Stage 2: Production image with both frontend and backend
