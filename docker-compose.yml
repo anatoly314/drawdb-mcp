@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8080:80"    # GUI and WebSocket (proxied through nginx)
+      - "3000:3000"  # Direct MCP server access for Claude Desktop/LLM clients
     environment:
       # Backend will listen on 0.0.0.0:3000 internally
       # Frontend auto-detects WebSocket URL from browser location
