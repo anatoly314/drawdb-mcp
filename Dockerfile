@@ -43,7 +43,7 @@ COPY --from=build /app/apps/backend/dist ./dist
 COPY --from=build /app/apps/gui/dist /usr/share/nginx/html
 
 # Create nginx directories and configure nginx for SPA and proxy to backend
-RUN mkdir -p /etc/nginx/conf.d /var/lib/nginx /var/log/nginx /run/nginx && \
+RUN mkdir -p /etc/nginx/http.d /var/lib/nginx /var/log/nginx /run/nginx && \
     echo 'server { \
     listen 80; \
     server_name _; \
@@ -70,7 +70,7 @@ RUN mkdir -p /etc/nginx/conf.d /var/lib/nginx /var/log/nginx /run/nginx && \
         proxy_set_header Connection "upgrade"; \
         proxy_set_header Host $host; \
     } \
-}' > /etc/nginx/conf.d/default.conf
+}' > /etc/nginx/http.d/default.conf
 
 # Create startup script to run both nginx and backend
 RUN printf '#!/bin/sh\nnginx\nexec node dist/main-http.js\n' > /app/start.sh && \
