@@ -18,7 +18,22 @@ The following tags are automatically generated:
 
 ## Pull and Run
 
-### Using docker-compose (recommended)
+### Quick Start (One Command)
+
+```bash
+docker run \
+  --name drawdb \
+  -p 8080:80 \
+  -p 3000:3000 \
+  --restart unless-stopped \
+  ghcr.io/anatoly314/drawdb:latest
+```
+
+Then access:
+- **GUI**: http://localhost:8080
+- **MCP Server**: http://localhost:3000 (for AI assistants)
+
+### Using docker-compose (recommended for production)
 
 ```yaml
 version: '3.8'
@@ -26,6 +41,7 @@ version: '3.8'
 services:
   drawdb:
     image: ghcr.io/anatoly314/drawdb:latest
+    container_name: drawdb
     ports:
       - "8080:80"    # GUI and WebSocket (proxied through nginx)
       - "3000:3000"  # Direct MCP server access for Claude Desktop/LLM clients
@@ -34,16 +50,10 @@ services:
     restart: unless-stopped
 ```
 
-### Using docker run
-
+Save as `docker-compose.yml` and run:
 ```bash
-docker pull ghcr.io/anatoly314/drawdb:latest
-docker run -d -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb:latest
+docker-compose up -d
 ```
-
-Then access:
-- **GUI**: http://localhost:8080
-- **MCP Server**: http://localhost:3000 (for AI assistants)
 
 ## Authentication
 

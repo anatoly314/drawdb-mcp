@@ -108,9 +108,15 @@ See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed Docker build and depl
 **Pull from GitHub Container Registry (recommended):**
 
 ```bash
-docker pull ghcr.io/anatoly314/drawdb:latest
-docker run -d -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb:latest
-# Access at http://localhost:8080
+docker run \
+  --name drawdb \
+  -p 8080:80 \
+  -p 3000:3000 \
+  --restart unless-stopped \
+  ghcr.io/anatoly314/drawdb:latest
+
+# Access GUI at http://localhost:8080
+# MCP Server at http://localhost:3000
 ```
 
 See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advanced usage.
