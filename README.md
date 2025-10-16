@@ -103,7 +103,7 @@ The frontend will automatically connect to the backend and display connection st
 
 ### Docker
 
-See [DOCKER_BUILD.md](./DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
+See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
 
 **Quick start with Docker Compose (recommended):**
 

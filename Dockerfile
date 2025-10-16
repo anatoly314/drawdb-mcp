@@ -44,40 +44,12 @@ COPY --from=build /app/apps/backend/dist ./dist
 # Copy built frontend to nginx html directory
 COPY --from=build /app/apps/gui/dist /usr/share/nginx/html
 
-# Create nginx directories and configure nginx for SPA and proxy to backend
-RUN mkdir -p /etc/nginx/http.d /var/lib/nginx /var/log/nginx /run/nginx && \
-    echo 'server { \
-    listen 80; \
-    server_name _; \
-    root /usr/share/nginx/html; \
-    \
-    # Serve frontend \
-    location / { \
-        try_files $uri $uri/ /index.html; \
-    } \
-    \
-    # Proxy backend API and WebSocket \
-    location /api/ { \
-        proxy_pass http://localhost:3000/; \
-        proxy_http_version 1.1; \
-        proxy_set_header Upgrade $http_upgrade; \
-        proxy_set_header Connection "upgrade"; \
-        proxy_set_header Host $host; \
-    } \
-    \
-    location /remote-control { \
-        proxy_pass http://localhost:3000/remote-control; \
-        proxy_http_version 1.1; \
-        proxy_set_header Upgrade $http_upgrade; \
-        proxy_set_header Connection "upgrade"; \
-        proxy_set_header Host $host; \
-    } \
-}' > /etc/nginx/http.d/default.conf
+# Copy nginx configuration
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
-# Create startup script to run both nginx and backend
-# Backend listens on 0.0.0.0 so nginx can proxy to it
-RUN printf '#!/bin/sh\nnginx\nexec node dist/main-http.js --host 0.0.0.0\n' > /app/start.sh && \
-    chmod +x /app/start.sh
+# Copy startup script
+COPY docker/start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
 # Change ownership
 RUN chown -R nodejs:nodejs /app && \
@@ -88,8 +60,8 @@ RUN chown -R nodejs:nodejs /app && \
 
 USER nodejs
 
-# Expose only port 80 (nginx)
-EXPOSE 80
+# Expose both ports (documentation only - actual mapping in docker-compose.yml)
+EXPOSE 80 3000
 
 # Use dumb-init to handle signals properly
 ENTRYPOINT ["dumb-init", "--"]
