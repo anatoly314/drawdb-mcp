@@ -41,6 +41,12 @@ DrawDB is a robust and user-friendly database entity relationship (DBER) editor 
 
 This fork extends the original DrawDB with **AI assistant integration** via Model Context Protocol (MCP). AI assistants like Claude can now create, modify, and manage database diagrams programmatically through a WebSocket API.
 
+### Demo Video
+
+[![DrawDB MCP Integration Demo](https://img.youtube.com/vi/O1PnbgKI0K0/0.jpg)](https://youtu.be/O1PnbgKI0K0)
+
+Watch how to design database schemas using natural language with Claude AI.
+
 **Architecture:**
 - **apps/gui**: Original React-based DrawDB frontend
 - **apps/backend**: NestJS MCP server that enables AI assistants to control the diagram editor
