@@ -4,7 +4,7 @@
   "description": "Model Context Protocol server for DrawDB - enables AI assistants to create and modify database diagrams via WebSocket",
   "author": "Anatoly Tarnavsky",
   "private": true,
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "main": "dist/main-http.js",
   "bin": {
     "drawdb-mcp": "bin/drawdb-mcp.js"
