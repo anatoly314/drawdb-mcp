@@ -73,7 +73,8 @@ RUN mkdir -p /etc/nginx/http.d /var/lib/nginx /var/log/nginx /run/nginx && \
 }' > /etc/nginx/http.d/default.conf
 
 # Create startup script to run both nginx and backend
-RUN printf '#!/bin/sh\nnginx\nexec node dist/main-http.js\n' > /app/start.sh && \
+# Backend listens on 0.0.0.0 so nginx can proxy to it
+RUN printf '#!/bin/sh\nnginx\nexec node dist/main-http.js --host 0.0.0.0\n' > /app/start.sh && \
     chmod +x /app/start.sh
 
 # Change ownership
