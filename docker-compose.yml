@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  drawdb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      # Backend will listen on 0.0.0.0:3000 internally
+      # Frontend auto-detects WebSocket URL from browser location
+      - NODE_ENV=production
+    restart: unless-stopped
+    container_name: drawdb-local
+    # Force rebuild on every up
+    # Run with: docker-compose up --build

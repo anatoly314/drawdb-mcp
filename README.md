@@ -105,7 +105,16 @@ The frontend will automatically connect to the backend and display connection st
 
 See [DOCKER_BUILD.md](./DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
 
-**Quick start:**
+**Quick start with Docker Compose (recommended):**
+
+```bash
+# Build and run (rebuilds fresh image every time)
+docker-compose up --build
+
+# Access at http://localhost:8080
+```
+
+**Or using Docker directly:**
 
 ```bash
 docker build -t drawdb:local .

@@ -10,13 +10,30 @@ The Docker image includes:
 
 Both services run in the same container for simplicity.
 
-## Build Locally
+## Build and Run with Docker Compose (Recommended)
+
+The easiest way to run locally with automatic rebuilds:
+
+```bash
+# Build and run (rebuilds image every time)
+docker-compose up --build
+
+# Run in background
+docker-compose up --build -d
+
+# Stop
+docker-compose down
+```
+
+Access the application at http://localhost:8080
+
+## Build Locally (Docker only)
 
 ```bash
 docker build -t drawdb:local .
 ```
 
-## Run Locally
+## Run Locally (Docker only)
 
 ```bash
 docker run -p 8080:80 drawdb:local
