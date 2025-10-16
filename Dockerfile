@@ -42,8 +42,9 @@ COPY --from=build /app/apps/backend/dist ./dist
 # Copy built frontend to nginx html directory
 COPY --from=build /app/apps/gui/dist /usr/share/nginx/html
 
-# Configure nginx for SPA and proxy to backend
-RUN echo 'server { \
+# Create nginx directories and configure nginx for SPA and proxy to backend
+RUN mkdir -p /etc/nginx/conf.d /var/lib/nginx /var/log/nginx /run/nginx && \
+    echo 'server { \
     listen 80; \
     server_name _; \
     root /usr/share/nginx/html; \
@@ -82,8 +83,7 @@ RUN chown -R nodejs:nodejs /app && \
     chown -R nodejs:nodejs /usr/share/nginx/html && \
     chown -R nodejs:nodejs /var/lib/nginx && \
     chown -R nodejs:nodejs /var/log/nginx && \
-    touch /run/nginx/nginx.pid && \
-    chown nodejs:nodejs /run/nginx/nginx.pid
+    chown -R nodejs:nodejs /run/nginx
 
 USER nodejs
 

@@ -45,7 +45,11 @@ export function useRemoteControl(enabled = false) {
       return;
     }
 
-    const wsUrl = import.meta.env.VITE_REMOTE_CONTROL_WS || "ws://localhost:3000/remote-control";
+    // Auto-detect WebSocket URL based on current page location
+    // This works for local dev, Docker, and production deployments
+    const defaultWsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/remote-control`;
+    const wsUrl = import.meta.env.VITE_REMOTE_CONTROL_WS || defaultWsUrl;
+
     const maxReconnectAttempts = 10;
     const baseDelay = 1000; // 1 second
     const maxDelay = 30000; // 30 seconds
