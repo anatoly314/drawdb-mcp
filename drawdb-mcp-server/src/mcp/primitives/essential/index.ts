@@ -12,12 +12,16 @@ import { UpdateFieldTool } from './tools/update-field.tool';
 import { DeleteFieldTool } from './tools/delete-field.tool';
 import { AddNoteTool } from './tools/add-note.tool';
 import { AddAreaTool } from './tools/add-area.tool';
+import { ExportDiagramTool } from './tools/export-diagram.tool';
+import { ImportDiagramTool } from './tools/import-diagram.tool';
+import { GetTableTool } from './tools/get-table.tool';
 
 const MCP_PRIMITIVES = [
   AddTableTool,
   UpdateTableTool,
   DeleteTableTool,
   GetDiagramTool,
+  GetTableTool,
   AddRelationshipTool,
   UpdateRelationshipTool,
   DeleteRelationshipTool,
@@ -26,6 +30,8 @@ const MCP_PRIMITIVES = [
   DeleteFieldTool,
   AddNoteTool,
   AddAreaTool,
+  ExportDiagramTool,
+  ImportDiagramTool,
 ];
 
 /**
@@ -56,3 +62,6 @@ export * from './tools/update-field.tool';
 export * from './tools/delete-field.tool';
 export * from './tools/add-note.tool';
 export * from './tools/add-area.tool';
+export * from './tools/export-diagram.tool';
+export * from './tools/import-diagram.tool';
+export * from './tools/get-table.tool';

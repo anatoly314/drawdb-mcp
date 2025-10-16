@@ -233,9 +233,23 @@ export class DrawDBClientService {
   }
 
   /**
+   * Get a specific table by ID or name
+   */
+  async getTable(tableId?: string, tableName?: string) {
+    return this.sendCommand('getTable', { tableId, tableName });
+  }
+
+  /**
    * Get all relationships
    */
   async getRelationships() {
     return this.sendCommand('getRelationships');
+  }
+
+  /**
+   * Import a complete diagram from JSON
+   */
+  async importDiagram(diagram: any, clearCurrent = true) {
+    return this.sendCommand('importDiagram', { diagram, clearCurrent });
   }
 }

@@ -18,6 +18,13 @@ export function useRemoteControl(enabled = false) {
   const enums = useContext(EnumsContext);
   const types = useContext(TypesContext);
 
+  // Use refs to always access latest context values
+  const contextsRef = useRef({ diagram, areas, notes, enums, types });
+
+  useEffect(() => {
+    contextsRef.current = { diagram, areas, notes, enums, types };
+  }, [diagram, areas, notes, enums, types]);
+
   useEffect(() => {
     if (!enabled) return;
 
@@ -65,6 +72,8 @@ export function useRemoteControl(enabled = false) {
 
   const handleCommand = (message) => {
     const { id, command, params } = message;
+    // Always use latest context values from ref
+    const { diagram, areas, notes, enums, types } = contextsRef.current;
 
     try {
       let result;
@@ -203,6 +212,23 @@ export function useRemoteControl(enabled = false) {
           result = { success: true, data: diagram.tables };
           break;
 
+        case "getTable":
+          {
+            let table = null;
+            if (params.tableId) {
+              table = diagram.tables.find((t) => t.id === params.tableId);
+            } else if (params.tableName) {
+              table = diagram.tables.find((t) => t.name === params.tableName);
+            }
+
+            if (!table) {
+              throw new Error(`Table not found: ${params.tableId || params.tableName}`);
+            }
+
+            result = { success: true, data: table };
+          }
+          break;
+
         case "getRelationships":
           result = { success: true, data: diagram.relationships };
           break;
@@ -236,6 +262,47 @@ export function useRemoteControl(enabled = false) {
               types: types.types,
             },
           };
+          break;
+
+        case "importDiagram":
+          {
+            const importedDiagram = params.diagram;
+
+            // Clear current diagram if requested
+            if (params.clearCurrent !== false) {
+              diagram.setTables([]);
+              diagram.setRelationships([]);
+              areas.setAreas([]);
+              notes.setNotes([]);
+              enums.setEnums([]);
+              types.setTypes([]);
+            }
+
+            // Load new diagram
+            if (importedDiagram.database) {
+              diagram.setDatabase(importedDiagram.database);
+            }
+            if (importedDiagram.tables) {
+              diagram.setTables(importedDiagram.tables);
+            }
+            if (importedDiagram.relationships) {
+              diagram.setRelationships(importedDiagram.relationships);
+            }
+            if (importedDiagram.areas) {
+              areas.setAreas(importedDiagram.areas);
+            }
+            if (importedDiagram.notes) {
+              notes.setNotes(importedDiagram.notes);
+            }
+            if (importedDiagram.enums) {
+              enums.setEnums(importedDiagram.enums);
+            }
+            if (importedDiagram.types) {
+              types.setTypes(importedDiagram.types);
+            }
+
+            result = { success: true, message: "Diagram imported" };
+          }
           break;
 
         default:

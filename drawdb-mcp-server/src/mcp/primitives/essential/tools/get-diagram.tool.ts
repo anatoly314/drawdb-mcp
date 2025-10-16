@@ -13,7 +13,7 @@ export class GetDiagramTool {
   @Tool({
     name: 'get_diagram',
     description:
-      'Get the current state of the database diagram including all tables, relationships, areas, notes, and types.',
+      'Get a high-level summary of the database diagram. Returns table names/IDs and counts only - use get_table for detailed table information.',
     parameters: z.object({}),
   })
   async getDiagram(_input: any, context: Context) {
@@ -30,21 +30,39 @@ export class GetDiagramTool {
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log('Retrieved diagram state');
+      this.logger.log('Retrieved diagram summary');
 
+      // Return only summary data to avoid token limit issues
       return {
         success: true,
-        diagram,
         summary: {
           database: diagram.database,
           tableCount: diagram.tables?.length || 0,
           relationshipCount: diagram.relationships?.length || 0,
           areaCount: diagram.areas?.length || 0,
           noteCount: diagram.notes?.length || 0,
+          enumCount: diagram.enums?.length || 0,
+          typeCount: diagram.types?.length || 0,
           tables: diagram.tables?.map((t: any) => ({
             id: t.id,
             name: t.name,
             fieldCount: t.fields?.length || 0,
+            color: t.color,
+          })),
+          relationships: diagram.relationships?.map((r: any) => ({
+            id: r.id,
+            name: r.name,
+            cardinality: r.cardinality,
+            startTableId: r.startTableId,
+            endTableId: r.endTableId,
+          })),
+          notes: diagram.notes?.map((n: any) => ({
+            id: n.id,
+            content: n.content?.substring(0, 100), // First 100 chars
+          })),
+          areas: diagram.areas?.map((a: any) => ({
+            id: a.id,
+            name: a.name,
           })),
         },
       };
