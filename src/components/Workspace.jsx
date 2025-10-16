@@ -17,6 +17,7 @@ import {
   useTasks,
   useSaveState,
   useEnums,
+  useRemoteControl,
 } from "../hooks";
 import FloatingControls from "./FloatingControls";
 import { Button, Modal, Tag } from "@douyinfe/semi-ui";
@@ -68,6 +69,10 @@ export default function WorkSpace() {
   const { undoStack, redoStack, setUndoStack, setRedoStack } = useUndoRedo();
   const { t, i18n } = useTranslation();
   let [searchParams, setSearchParams] = useSearchParams();
+
+  // Enable remote control if VITE_REMOTE_CONTROL_ENABLED is set
+  const remoteControlEnabled = import.meta.env.VITE_REMOTE_CONTROL_ENABLED === "true";
+  useRemoteControl(remoteControlEnabled);
   const handleResize = (e) => {
     if (!resize) return;
     const w = isRtl(i18n.language) ? window.innerWidth - e.clientX : e.clientX;
