@@ -1,7 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { createPinoLogger, createLoggerService } from "./bootstrap";
-import { OriginValidationGuard } from "./http/guards/origin-validation.guard";
 import { parseCliArgs, displayStartupBanner } from "./cli";
 import { WsAdapter } from "@nestjs/platform-ws";
 
@@ -24,9 +23,6 @@ async function bootstrap() {
 
   // Configure WebSocket adapter
   app.useWebSocketAdapter(new WsAdapter(app));
-
-  // Apply security guards (required by MCP Streamable HTTP spec)
-  app.useGlobalGuards(new OriginValidationGuard());
 
   // Show startup information
   displayStartupBanner(options);
