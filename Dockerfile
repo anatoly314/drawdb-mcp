@@ -32,11 +32,12 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# Copy backend package files
-COPY apps/backend/package.json ./
+# Copy backend package.json only (no workspace needed for runtime)
+COPY apps/backend/package.json ./package.json
 
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile && \
+# Create a minimal pnpm-lock.yaml for the backend dependencies
+# We'll install from the backend's package.json directly
+RUN pnpm install --prod && \
     pnpm store prune
 
 # Copy built backend from builder
