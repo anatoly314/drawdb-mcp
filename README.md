@@ -37,18 +37,48 @@
 
 DrawDB is a robust and user-friendly database entity relationship (DBER) editor right in your browser. Build diagrams with a few clicks, export sql scripts, customize your editor, and more without creating an account. See the full set of features [here](https://drawdb.app/).
 
-This is a monorepo built with [Turborepo](https://turbo.build/repo) and [pnpm workspaces](https://pnpm.io/workspaces), containing:
-- **apps/gui**: React-based frontend application
-- **apps/backend**: NestJS-based MCP (Model Context Protocol) server for AI assistant integration
+## What's New: AI-Powered Database Design
+
+This fork extends the original DrawDB with **AI assistant integration** via Model Context Protocol (MCP). AI assistants like Claude can now create, modify, and manage database diagrams programmatically through a WebSocket API.
+
+**Architecture:**
+- **apps/gui**: Original React-based DrawDB frontend
+- **apps/backend**: NestJS MCP server that enables AI assistants to control the diagram editor
+- Built with [Turborepo](https://turbo.build/repo) and [pnpm workspaces](https://pnpm.io/workspaces)
 
 ## Getting Started
 
-### Prerequisites
+### Quick Start with Docker (Recommended)
+
+The easiest way to get started is using Docker:
+
+```bash
+docker run \
+  --name drawdb \
+  -p 8080:80 \
+  -p 3000:3000 \
+  --restart unless-stopped \
+  ghcr.io/anatoly314/drawdb:latest
+```
+
+Then:
+1. **Open GUI**: http://localhost:8080
+2. **Connect Claude Code** to the MCP server:
+
+```bash
+claude mcp add --transport http drawdb-mcp http://127.0.0.1:3000
+```
+
+Now Claude can create and modify database diagrams for you!
+
+See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advanced usage.
+
+### Local Development
+
+#### Prerequisites
 
 - Node.js 20+
 - pnpm 8.15.0+ (install via `npm install -g pnpm`)
-
-### Local Development
 
 **Start both GUI and backend:**
 ```bash
@@ -84,60 +114,34 @@ pnpm build --filter=gui
 pnpm build --filter=backend
 ```
 
-### AI Assistant Remote Control
+#### Connect Claude Code to MCP Server
 
-The backend MCP server enables AI assistants (like Claude) to create and modify database diagrams via WebSocket. To enable this feature:
+When running locally, connect Claude Code:
 
-1. Create `apps/gui/.env`:
 ```bash
-VITE_REMOTE_CONTROL_ENABLED=true
-VITE_REMOTE_CONTROL_WS=ws://localhost:3000/remote-control
+claude mcp add --transport http drawdb-mcp http://127.0.0.1:3000
 ```
 
-2. Start both frontend and backend:
-```bash
-pnpm dev
-```
+The frontend automatically connects to the backend via WebSocket for real-time updates.
 
-The frontend will automatically connect to the backend and display connection status.
+### Docker Deployment
 
-### Docker
+See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed build instructions.
 
-See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
-
-**Pull from GitHub Container Registry (recommended):**
+**Build with Docker Compose:**
 
 ```bash
-docker run \
-  --name drawdb \
-  -p 8080:80 \
-  -p 3000:3000 \
-  --restart unless-stopped \
-  ghcr.io/anatoly314/drawdb:latest
-
-# Access GUI at http://localhost:8080
-# MCP Server at http://localhost:3000
-```
-
-See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advanced usage.
-
-**Or build locally with Docker Compose:**
-
-```bash
-# Build and run (rebuilds fresh image every time)
 docker-compose up --build
-
 # Access at http://localhost:8080
 ```
 
-**Or using Docker directly:**
+**Or build directly:**
 
 ```bash
 docker build -t drawdb:local .
 docker run -p 8080:80 -p 3000:3000 drawdb:local
-# Access at http://localhost:8080
 ```
 
-The Docker image includes both the frontend and backend running together. The WebSocket connection is automatically proxied through Nginx.
+The Docker image includes both frontend and backend. WebSocket is proxied through Nginx.
 
 If you want to enable sharing, set up the [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is optional unless you need to share files.
