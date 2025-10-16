@@ -107,18 +107,12 @@ See [DOCKER_BUILD.md](./DOCKER_BUILD.md) for detailed Docker build and deploymen
 
 **Quick start:**
 
-**Build frontend image:**
 ```bash
-docker build --target frontend -t drawdb-gui:local .
-docker run -p 8080:80 drawdb-gui:local
+docker build -t drawdb:local .
+docker run -p 8080:80 drawdb:local
 # Access at http://localhost:8080
 ```
 
-**Build backend image:**
-```bash
-docker build --target backend -t drawdb-backend:local .
-docker run -p 3000:3000 drawdb-backend:local
-# WebSocket at ws://localhost:3000/remote-control
-```
+The Docker image includes both the frontend and backend running together. The WebSocket connection is automatically proxied through Nginx.
 
 If you want to enable sharing, set up the [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is optional unless you need to share files.
