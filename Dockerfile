@@ -73,9 +73,7 @@ RUN mkdir -p /etc/nginx/conf.d /var/lib/nginx /var/log/nginx /run/nginx && \
 }' > /etc/nginx/conf.d/default.conf
 
 # Create startup script to run both nginx and backend
-RUN echo '#!/bin/sh\n\
-nginx\n\
-exec node dist/main-http.js' > /app/start.sh && \
+RUN printf '#!/bin/sh\nnginx\nexec node dist/main-http.js\n' > /app/start.sh && \
     chmod +x /app/start.sh
 
 # Change ownership
@@ -94,4 +92,4 @@ EXPOSE 80
 ENTRYPOINT ["dumb-init", "--"]
 
 # Start both nginx and backend
-CMD ["/app/start.sh"]
+CMD ["sh", "/app/start.sh"]
