@@ -24,6 +24,11 @@ RUN pnpm build
 # Stage 2: Production image with both frontend and backend
 FROM node:20-alpine
 
+# Label for GitHub Container Registry
+LABEL org.opencontainers.image.source=https://github.com/anatoly314/drawdb
+LABEL org.opencontainers.image.description="DrawDB - Database design and diagramming tool with AI assistant"
+LABEL org.opencontainers.image.licenses=AGPL-3.0
+
 # Install pnpm, nginx, and dumb-init
 RUN npm install -g pnpm@8.15.0 && \
     apk add --no-cache nginx dumb-init

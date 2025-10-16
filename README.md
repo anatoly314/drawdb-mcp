@@ -105,7 +105,17 @@ The frontend will automatically connect to the backend and display connection st
 
 See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
 
-**Quick start with Docker Compose (recommended):**
+**Pull from GitHub Container Registry (recommended):**
+
+```bash
+docker pull ghcr.io/anatoly314/drawdb:latest
+docker run -d -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb:latest
+# Access at http://localhost:8080
+```
+
+See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advanced usage.
+
+**Or build locally with Docker Compose:**
 
 ```bash
 # Build and run (rebuilds fresh image every time)
@@ -118,7 +128,7 @@ docker-compose up --build
 
 ```bash
 docker build -t drawdb:local .
-docker run -p 8080:80 drawdb:local
+docker run -p 8080:80 -p 3000:3000 drawdb:local
 # Access at http://localhost:8080
 ```
 
