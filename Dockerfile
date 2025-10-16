@@ -51,7 +51,7 @@ RUN mkdir -p /etc/nginx/http.d /var/lib/nginx /var/log/nginx /run/nginx && \
     \
     # Serve frontend \
     location / { \
-        try_files $uri /index.html; \
+        try_files $uri $uri/ /index.html; \
     } \
     \
     # Proxy backend API and WebSocket \
