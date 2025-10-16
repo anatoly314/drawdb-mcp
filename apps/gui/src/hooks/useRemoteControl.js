@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { DiagramContext } from "../context/DiagramContext";
 import { AreasContext } from "../context/AreasContext";
 import { NotesContext } from "../context/NotesContext";
@@ -9,9 +9,14 @@ import { Toast } from "@douyinfe/semi-ui";
 /**
  * Hook that enables remote control of the diagram editor via WebSocket
  * Commands from backend/LLM are executed on the diagram state
+ * Features automatic reconnection with exponential backoff
  */
 export function useRemoteControl(enabled = false) {
   const wsRef = useRef(null);
+  const reconnectTimeoutRef = useRef(null);
+  const reconnectAttemptsRef = useRef(0);
+  const [isConnected, setIsConnected] = useState(false);
+
   const diagram = useContext(DiagramContext);
   const areas = useContext(AreasContext);
   const notes = useContext(NotesContext);
@@ -26,41 +31,115 @@ export function useRemoteControl(enabled = false) {
   }, [diagram, areas, notes, enums, types]);
 
   useEffect(() => {
-    if (!enabled) return;
-
-    const wsUrl = import.meta.env.VITE_REMOTE_CONTROL_WS || "ws://localhost:8080/remote-control";
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
-
-    ws.onopen = () => {
-      console.log("[RemoteControl] Connected to backend");
-      Toast.success("AI Assistant connected");
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        handleCommand(message);
-      } catch (error) {
-        console.error("[RemoteControl] Failed to parse message:", error);
-        sendResponse({ error: error.message });
+    if (!enabled) {
+      // Clean up when disabled
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
       }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
+      setIsConnected(false);
+      return;
+    }
+
+    // Auto-detect WebSocket URL based on current page location
+    // This works for local dev, Docker, and production deployments
+    const defaultWsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/remote-control`;
+    const wsUrl = import.meta.env.VITE_REMOTE_CONTROL_WS || defaultWsUrl;
+
+    const maxReconnectAttempts = 10;
+    const baseDelay = 1000; // 1 second
+    const maxDelay = 30000; // 30 seconds
+
+    const connect = () => {
+      // Prevent multiple simultaneous connections
+      if (wsRef.current?.readyState === WebSocket.CONNECTING) {
+        return;
+      }
+
+      console.log("[RemoteControl] Connecting to backend...");
+      const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("[RemoteControl] Connected to backend");
+        setIsConnected(true);
+
+        // Show reconnection message if this was a reconnect attempt
+        const wasReconnecting = reconnectAttemptsRef.current > 0;
+        reconnectAttemptsRef.current = 0; // Reset retry counter on successful connection
+
+        if (wasReconnecting) {
+          Toast.success("AI Assistant reconnected");
+        } else {
+          Toast.success("AI Assistant connected");
+        }
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          handleCommand(message);
+        } catch (error) {
+          console.error("[RemoteControl] Failed to parse message:", error);
+          sendResponse({ error: error.message });
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error("[RemoteControl] WebSocket error:", error);
+      };
+
+      ws.onclose = (event) => {
+        console.log("[RemoteControl] Disconnected from backend", event.code, event.reason);
+        setIsConnected(false);
+        wsRef.current = null;
+
+        // Only attempt to reconnect if enabled and haven't exceeded max attempts
+        if (enabled && reconnectAttemptsRef.current < maxReconnectAttempts) {
+          reconnectAttemptsRef.current++;
+
+          // Calculate exponential backoff delay with jitter
+          const exponentialDelay = Math.min(
+            baseDelay * Math.pow(2, reconnectAttemptsRef.current - 1),
+            maxDelay
+          );
+          const jitter = Math.random() * 1000; // Add random jitter up to 1 second
+          const delay = exponentialDelay + jitter;
+
+          console.log(
+            `[RemoteControl] Reconnecting in ${Math.round(delay / 1000)}s (attempt ${reconnectAttemptsRef.current}/${maxReconnectAttempts})...`
+          );
+
+          if (reconnectAttemptsRef.current === 1) {
+            Toast.warning("AI Assistant disconnected, reconnecting...");
+          }
+
+          reconnectTimeoutRef.current = setTimeout(connect, delay);
+        } else if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
+          console.error("[RemoteControl] Max reconnection attempts reached");
+          Toast.error("AI Assistant connection failed. Please refresh the page.");
+        }
+      };
     };
 
-    ws.onerror = (error) => {
-      console.error("[RemoteControl] WebSocket error:", error);
-      Toast.error("AI Assistant connection error");
-    };
-
-    ws.onclose = () => {
-      console.log("[RemoteControl] Disconnected from backend");
-      Toast.warning("AI Assistant disconnected");
-    };
+    // Initial connection
+    connect();
 
     return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.close();
+      // Cleanup on unmount or when enabled changes
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
       }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
+      setIsConnected(false);
     };
   }, [enabled]);
 
@@ -321,7 +400,7 @@ export function useRemoteControl(enabled = false) {
   };
 
   return {
-    isConnected: wsRef.current?.readyState === WebSocket.OPEN,
+    isConnected,
     send: sendResponse,
   };
 }

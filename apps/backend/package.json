@@ -1,16 +1,17 @@
 {
-  "name": "drawdb-mcp-server",
-  "version": "0.1.0",
+  "name": "backend",
+  "version": "1.0.0",
   "description": "Model Context Protocol server for DrawDB - enables AI assistants to create and modify database diagrams via WebSocket",
   "author": "Anatoly Tarnavsky",
-  "private": false,
-  "license": "MIT",
+  "private": true,
+  "license": "AGPL-3.0",
   "main": "dist/main-http.js",
   "bin": {
     "drawdb-mcp": "bin/drawdb-mcp.js"
   },
   "scripts": {
     "build": "nest build",
+    "dev": "nest start --watch --entryFile main-http",
     "format": "prettier --write \"src/**/*.ts\"",
     "start:dev:stdio": "nest start --watch --entryFile main-stdio",
     "start:dev:http": "nest start --watch --entryFile main-http",

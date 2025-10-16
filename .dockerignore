@@ -1,36 +1,68 @@
-# Ignore node_modules
-node_modules
+# Git
+.git
+.gitignore
+.gitattributes
 
-# Ignore logs
-*.log
-logs
-*.log.*
+# CI/CD
+.github
 
-# Ignore environment variables
-.env
+# Dependencies
+**/node_modules
+**/.pnp
+**/.pnp.js
 
-# Ignore build directories and files
-dist
-build
+# Testing
+**/coverage
+**/__tests__
 
-# Ignore temporary files and directories
-tmp
-temp
-*.tmp
-*.swp
-*.swo
-*.bak
+# Build outputs (will be built inside Docker)
+**/dist
+**/build
+**/.next
+.turbo
+.vite
 
-# Ignore Docker-related files
-Dockerfile*
-docker-compose.yml
+# Development
+**/.vscode
+**/.idea
+**/*.iml
+**/*.sublime-project
+**/*.sublime-workspace
+**/*.swp
+**/*.swo
+**/*.bak
 
-# Ignore IDE/editor specific files
-.vscode
-.idea
-*.iml
-*.sublime-project
-*.sublime-workspace
+# Environment files
+**/.env
+**/.env.local
+**/.env.development
+**/.env.test
+**/.env.production
+**/.env*.local
 
-# Ignore OS-specific files
+# Logs
+**/logs
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+**/lerna-debug.log*
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Temporary
+**/tmp
+**/temp
+**/*.tmp
+
+# Docker (but keep Dockerfile for build context)
+docker-compose.yml
+docker-compose*.yml
+
+# Cache
+**/.cache
+**/.parcel-cache
+**/.eslintcache

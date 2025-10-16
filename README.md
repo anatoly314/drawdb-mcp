@@ -12,7 +12,7 @@
 <br/>
 
 <div align="center">
-    <img width="64" alt="drawdb logo" src="./src/assets/icon-dark.png">
+    <img width="64" alt="drawdb logo" src="./apps/gui/src/assets/icon-dark.png">
     <h1>drawDB</h1>
 </div>
 
@@ -37,31 +37,91 @@
 
 DrawDB is a robust and user-friendly database entity relationship (DBER) editor right in your browser. Build diagrams with a few clicks, export sql scripts, customize your editor, and more without creating an account. See the full set of features [here](https://drawdb.app/).
 
+This is a monorepo built with [Turborepo](https://turbo.build/repo) and [pnpm workspaces](https://pnpm.io/workspaces), containing:
+- **apps/gui**: React-based frontend application
+- **apps/backend**: NestJS-based MCP (Model Context Protocol) server for AI assistant integration
+
 ## Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm 8.15.0+ (install via `npm install -g pnpm`)
 
 ### Local Development
 
+**Start both GUI and backend:**
 ```bash
 git clone https://github.com/drawdb-io/drawdb
 cd drawdb
-npm install
-npm run dev
+pnpm install
+pnpm dev
+```
+
+**Start GUI only:**
+```bash
+pnpm gui:dev
+# Access at http://localhost:5173
+```
+
+**Start backend only:**
+```bash
+pnpm backend:dev
+# WebSocket at ws://localhost:3000/remote-control
 ```
 
 ### Build
 
+**Build both applications:**
 ```bash
-git clone https://github.com/drawdb-io/drawdb
-cd drawdb
-npm install
-npm run build
+pnpm install
+pnpm build
 ```
 
-### Docker Build
-
+**Build specific app:**
 ```bash
-docker build -t drawdb .
-docker run -p 3000:80 drawdb
+pnpm build --filter=gui
+pnpm build --filter=backend
 ```
 
-If you want to enable sharing, set up the [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is optional unless you need to share files..
+### AI Assistant Remote Control
+
+The backend MCP server enables AI assistants (like Claude) to create and modify database diagrams via WebSocket. To enable this feature:
+
+1. Create `apps/gui/.env`:
+```bash
+VITE_REMOTE_CONTROL_ENABLED=true
+VITE_REMOTE_CONTROL_WS=ws://localhost:3000/remote-control
+```
+
+2. Start both frontend and backend:
+```bash
+pnpm dev
+```
+
+The frontend will automatically connect to the backend and display connection status.
+
+### Docker
+
+See [DOCKER_BUILD.md](./docs/DOCKER_BUILD.md) for detailed Docker build and deployment instructions.
+
+**Quick start with Docker Compose (recommended):**
+
+```bash
+# Build and run (rebuilds fresh image every time)
+docker-compose up --build
+
+# Access at http://localhost:8080
+```
+
+**Or using Docker directly:**
+
+```bash
+docker build -t drawdb:local .
+docker run -p 8080:80 drawdb:local
+# Access at http://localhost:8080
+```
+
+The Docker image includes both the frontend and backend running together. The WebSocket connection is automatically proxied through Nginx.
+
+If you want to enable sharing, set up the [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is optional unless you need to share files.

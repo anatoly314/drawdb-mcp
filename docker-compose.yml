@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  drawdb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"    # GUI and WebSocket (proxied through nginx)
+      - "3000:3000"  # Direct MCP server access for Claude Desktop/LLM clients
+    environment:
+      # Backend will listen on 0.0.0.0:3000 internally
+      # Frontend auto-detects WebSocket URL from browser location
+      - NODE_ENV=production
+    restart: unless-stopped
+    container_name: drawdb-local
+    # Force rebuild on every up
+    # Run with: docker-compose up --build

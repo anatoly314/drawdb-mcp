@@ -8,10 +8,14 @@ import "./index.css";
 import "./i18n/i18n.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// Only enable Vercel Analytics on Vercel deployments
+const isVercel = import.meta.env.VITE_VERCEL === '1' || typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
+
 root.render(
   <LocaleProvider locale={en_US}>
     <App />
-    <Analytics />
-    <SpeedInsights />
+    {isVercel && <Analytics />}
+    {isVercel && <SpeedInsights />}
   </LocaleProvider>,
 );
