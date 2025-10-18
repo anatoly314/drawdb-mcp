@@ -25,11 +25,11 @@ The easiest way to get started is using Docker:
 
 ```bash
 docker run \
-  --name drawdb \
+  --name drawdb-mcp \
   -p 8080:80 \
   -p 3000:3000 \
   --restart unless-stopped \
-  ghcr.io/anatoly314/drawdb:latest
+  ghcr.io/anatoly314/drawdb-mcp:latest
 ```
 
 Then:
@@ -55,8 +55,8 @@ See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advan
 **Start both GUI and backend:**
 
 ```bash
-git clone https://github.com/drawdb-io/drawdb
-cd drawdb
+git clone https://github.com/anatoly314/drawdb-mcp
+cd drawdb-mcp
 pnpm install
 pnpm dev
 ```
@@ -115,10 +115,8 @@ docker-compose up --build
 **Or build directly:**
 
 ```bash
-docker build -t drawdb:local .
-docker run -p 8080:80 -p 3000:3000 drawdb:local
+docker build -t drawdb-mcp:local .
+docker run -p 8080:80 -p 3000:3000 drawdb-mcp:local
 ```
 
 The Docker image includes both frontend and backend. WebSocket is proxied through Nginx.
-
-If you want to enable sharing, set up the [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is optional unless you need to share files.

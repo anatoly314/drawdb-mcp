@@ -49,7 +49,7 @@ WebSocket Endpoint:
 MCP Endpoint:
   The MCP protocol endpoint is available at /mcp
 
-For more information, visit: https://github.com/drawdb-io/drawdb
+For more information, visit: https://github.com/anatoly314/drawdb-mcp
 `,
     )
     .parse();
