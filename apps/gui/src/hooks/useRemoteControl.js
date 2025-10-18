@@ -223,13 +223,25 @@ export function useRemoteControl(enabled = false) {
           break;
 
         case "deleteArea":
-          areas.deleteArea(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Area deleted" };
+          // Areas use numeric array indices, so find by name
+          const areaToDelete = areas.areas.find((a) => a.name === params.id || a.id === params.id);
+          if (areaToDelete) {
+            areas.deleteArea(areaToDelete.id, params.addToHistory ?? true);
+            result = { success: true, message: "Area deleted" };
+          } else {
+            throw new Error(`Area with id "${params.id}" not found`);
+          }
           break;
 
         case "updateArea":
-          areas.updateArea(params.id, params.updates);
-          result = { success: true, message: "Area updated" };
+          // Areas use numeric array indices, so find by name
+          const areaToUpdate = areas.areas.find((a) => a.name === params.id || a.id === params.id);
+          if (areaToUpdate) {
+            areas.updateArea(areaToUpdate.id, params.updates);
+            result = { success: true, message: "Area updated" };
+          } else {
+            throw new Error(`Area with id "${params.id}" not found`);
+          }
           break;
 
         // Note operations
@@ -239,13 +251,26 @@ export function useRemoteControl(enabled = false) {
           break;
 
         case "deleteNote":
-          notes.deleteNote(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Note deleted" };
+          // Notes use numeric array indices, so find by title
+          const noteToDelete = notes.notes.find((n) => n.title === params.id || n.id === params.id);
+          if (noteToDelete) {
+            notes.deleteNote(noteToDelete.id, params.addToHistory ?? true);
+            result = { success: true, message: "Note deleted" };
+          } else {
+            throw new Error(`Note with id "${params.id}" not found`);
+          }
           break;
 
         case "updateNote":
-          notes.updateNote(params.id, params.updates);
-          result = { success: true, message: "Note updated" };
+          // Notes use numeric array indices, so find by title
+          const noteToUpdate = notes.notes.find((n) => n.title === params.id || n.id === params.id);
+          if (noteToUpdate) {
+            notes.updateNote(noteToUpdate.id, params.updates);
+            result = { success: true, message: "Note updated" };
+          } else {
+            throw new Error(`Note with id "${params.id}" not found`);
+          }
+
           break;
 
         // Enum operations

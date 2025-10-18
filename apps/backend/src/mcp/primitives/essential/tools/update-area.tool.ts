@@ -15,7 +15,7 @@ export class UpdateAreaTool {
     description:
       'Update properties of an existing area in the diagram. Can modify name, position, color, or indices.',
     parameters: z.object({
-      areaId: z.string().describe('ID of the area to update'),
+      areaId: z.string().describe('Name of the area to update (areas are identified by their name property)'),
       name: z.string().optional().describe('New area name'),
       x: z.number().optional().describe('New X coordinate on canvas'),
       y: z.number().optional().describe('New Y coordinate on canvas'),
