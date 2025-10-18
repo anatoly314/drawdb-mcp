@@ -54,10 +54,7 @@ export class DrawDBClientService {
   /**
    * Send a command to DrawDB and wait for response
    */
-  async sendCommand<T = any>(
-    command: string,
-    params: Record<string, any> = {},
-  ): Promise<T> {
+  async sendCommand<T = any>(command: string, params: Record<string, any> = {}): Promise<T> {
     if (!this.isConnected()) {
       throw new Error(
         'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',

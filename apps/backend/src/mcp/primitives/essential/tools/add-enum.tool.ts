@@ -1,0 +1,65 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { Tool } from '@rekog/mcp-nest';
+import type { Context } from '@rekog/mcp-nest';
+import { z } from 'zod';
+import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
+import { nanoid } from 'nanoid';
+
+@Injectable()
+export class AddEnumTool {
+  private readonly logger = new Logger(AddEnumTool.name);
+
+  constructor(private readonly drawdbClient: DrawDBClientService) {}
+
+  @Tool({
+    name: 'add_enum',
+    description:
+      'Add a new ENUM type to the diagram (PostgreSQL). ENUMs define a list of allowed values for a column, such as status types or categories.',
+    parameters: z.object({
+      name: z.string().describe('ENUM type name (e.g., "user_status", "priority_level")'),
+      values: z
+        .array(z.string())
+        .describe('Array of allowed enum values (e.g., ["pending", "active", "suspended"])'),
+    }),
+  })
+  async addEnum(input: any, context: Context) {
+    try {
+      if (!this.drawdbClient.isConnected()) {
+        throw new Error(
+          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+        );
+      }
+
+      await context.reportProgress({ progress: 10, total: 100 });
+
+      const enumId = nanoid();
+      const enumData = {
+        id: enumId,
+        name: input.name,
+        values: input.values || [],
+      };
+
+      await context.reportProgress({ progress: 50, total: 100 });
+
+      await this.drawdbClient.sendCommand('addEnum', {
+        data: enumData,
+        addToHistory: true,
+      });
+
+      await context.reportProgress({ progress: 100, total: 100 });
+
+      this.logger.log(`Enum "${input.name}" added successfully`);
+
+      return {
+        success: true,
+        message: `Enum "${input.name}" added successfully with ${input.values.length} values`,
+        enumId,
+        name: input.name,
+        values: input.values,
+      };
+    } catch (error) {
+      this.logger.error('Failed to add enum', error);
+      throw error;
+    }
+  }
+}

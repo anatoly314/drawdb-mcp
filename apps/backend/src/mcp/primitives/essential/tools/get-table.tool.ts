@@ -33,17 +33,12 @@ export class GetTableTool {
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      const table = await this.drawdbClient.getTable(
-        input.tableId,
-        input.tableName,
-      );
+      const table = await this.drawdbClient.getTable(input.tableId, input.tableName);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
       if (!table) {
-        throw new Error(
-          `Table not found: ${input.tableId || input.tableName}`,
-        );
+        throw new Error(`Table not found: ${input.tableId || input.tableName}`);
       }
 
       this.logger.log(`Retrieved table: ${table.name}`);

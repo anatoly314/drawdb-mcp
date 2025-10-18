@@ -12,6 +12,7 @@ This fork of [DrawDB](https://github.com/drawdb-io/drawdb) extends the original 
 Watch how to design database schemas using natural language with Claude AI.
 
 **Architecture:**
+
 - **apps/gui**: Original React-based DrawDB frontend
 - **apps/backend**: NestJS MCP server that enables AI assistants to control the diagram editor
 - Built with [Turborepo](https://turbo.build/repo) and [pnpm workspaces](https://pnpm.io/workspaces)
@@ -32,6 +33,7 @@ docker run \
 ```
 
 Then:
+
 1. **Open GUI**: http://localhost:8080
 2. **Connect Claude Code** to the MCP server:
 
@@ -51,6 +53,7 @@ See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advan
 - pnpm 8.15.0+ (install via `npm install -g pnpm`)
 
 **Start both GUI and backend:**
+
 ```bash
 git clone https://github.com/drawdb-io/drawdb
 cd drawdb
@@ -59,12 +62,14 @@ pnpm dev
 ```
 
 **Start GUI only:**
+
 ```bash
 pnpm gui:dev
 # Access at http://localhost:5173
 ```
 
 **Start backend only:**
+
 ```bash
 pnpm backend:dev
 # WebSocket at ws://localhost:3000/remote-control
@@ -73,12 +78,14 @@ pnpm backend:dev
 ### Build
 
 **Build both applications:**
+
 ```bash
 pnpm install
 pnpm build
 ```
 
 **Build specific app:**
+
 ```bash
 pnpm build --filter=gui
 pnpm build --filter=backend

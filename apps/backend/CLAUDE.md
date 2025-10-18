@@ -13,6 +13,7 @@ This is an MCP (Model Context Protocol) server that enables AI assistants to int
 ## Essential Commands
 
 ### Development
+
 ```bash
 # Building
 npm run build           # Build project → dist/ (includes both entry points)
@@ -32,6 +33,7 @@ npm run format          # Format code with Prettier
 ```
 
 ### Testing
+
 ```bash
 npm test                           # Run all tests
 npm run test:unit                  # Unit tests only (*.spec.ts files)
@@ -50,6 +52,7 @@ npm test -- path/to/test.spec.ts  # Example: npm test -- src/mcp/primitives/gui/
 Test coverage thresholds are enforced at 70% for branches, functions, lines, and statements.
 
 ### Debugging
+
 ```bash
 # Development with debugger attached
 npm run start:debug:stdio          # STDIO mode with debugger on port 9229
@@ -83,6 +86,7 @@ The application follows a modular NestJS architecture with MCP primitives organi
 The server supports two MCP transport modes via **separate entry points**:
 
 **STDIO Mode**:
+
 - Entry point: `dist/main-stdio.js`
 - For local MCP clients (Claude Desktop, MCP Inspector)
 - Standard input/output communication
@@ -90,6 +94,7 @@ The server supports two MCP transport modes via **separate entry points**:
 - Run: `npm run start:prod:stdio` or `node dist/main-stdio.js`
 
 **HTTP Mode (Streamable HTTP)**:
+
 - Entry point: `dist/main-http.js`
 - For remote MCP clients, web-based integrations
 - Uses MCP Streamable HTTP protocol (SSE is deprecated)
@@ -100,6 +105,7 @@ The server supports two MCP transport modes via **separate entry points**:
 - CLI options: `--port`, `--host`, `--anki-connect` (parsed by `src/cli.ts` using commander)
 
 **Key Implementation Details**:
+
 - Both entry points compile together in single build (`npm run build`)
 - Each has its own bootstrap logic:
   - `src/main-stdio.ts`: `NestFactory.createApplicationContext()` + AppModule.forStdio()
@@ -108,6 +114,7 @@ The server supports two MCP transport modes via **separate entry points**:
 - HTTP mode uses `mcpEndpoint: '/'` to mount MCP at root path
 
 **Security (HTTP Mode)**:
+
 - Origin header validation via `OriginValidationGuard` (prevents DNS rebinding)
 - Binds to 127.0.0.1 by default (localhost-only)
 - No authentication (OAuth support planned for future)
@@ -117,6 +124,7 @@ The server supports two MCP transport modes via **separate entry points**:
 MCP primitives (tools, prompts, resources) are organized in feature modules:
 
 **`src/mcp/primitives/essential/`** - Core Anki functionality
+
 - **Tools**: `src/mcp/primitives/essential/tools/*.tool.ts` - MCP tools for Anki operations
   - Review: `sync`, `get-due-cards`, `present-card`, `rate-card`
   - Decks: `list-decks`, `create-deck`
@@ -128,6 +136,7 @@ MCP primitives (tools, prompts, resources) are organized in feature modules:
 - **`index.ts`** - Module definition with `McpPrimitivesAnkiEssentialModule.forRoot()`
 
 **`src/mcp/primitives/gui/`** - GUI-specific primitives for Anki interface operations
+
 - **Tools**: `src/mcp/primitives/gui/tools/*.tool.ts` - MCP tools for GUI operations
   - Browser: `gui-browse`, `gui-select-card`, `gui-selected-notes`
   - Dialogs: `gui-add-cards`, `gui-edit-note`, `gui-deck-overview`, `gui-deck-browser`
@@ -167,6 +176,7 @@ The project uses NestJS dynamic modules with dependency injection:
 ### AnkiConnect Communication
 
 All Anki operations go through `AnkiConnectClient`:
+
 - Uses `ky` HTTP client with retry logic (2 retries, exponential backoff)
 - Formats requests with `action`, `version`, `key`, and `params`
 - Throws `AnkiConnectError` on API errors with action context
@@ -175,6 +185,7 @@ All Anki operations go through `AnkiConnectClient`:
 ### MCP Tool Pattern
 
 Each tool follows this structure:
+
 1. Extends base tool class from `@rekog/mcp-nest`
 2. Defines Zod schema for input validation
 3. Implements `execute()` method that calls `AnkiConnectClient`
@@ -184,6 +195,7 @@ Example: `src/mcp/primitives/essential/tools/sync.tool.ts`
 
 **Dispatcher Pattern (Experimental)**:
 The `mediaActions` tool uses a unified dispatcher pattern to consolidate related operations:
+
 - Single tool with `action` parameter (enum: storeMediaFile, retrieveMediaFile, getMediaFilesNames, deleteMediaFile)
 - Action implementations in separate files under `mediaActions/actions/*.action.ts`
 - Pure functions that accept params and `AnkiConnectClient`
@@ -201,6 +213,7 @@ Default AnkiConnect URL is `http://localhost:8765` (see `src/anki-config.service
 ### Path Aliases
 
 TypeScript path aliases are configured:
+
 - `@/*` → `src/*`
 - `@test/*` → `test/*`
 
@@ -211,6 +224,7 @@ These work in both source code and tests via Jest's `moduleNameMapper`.
 ### Adding a New MCP Tool
 
 **Essential Tools** (general Anki operations):
+
 1. Create `src/mcp/primitives/essential/tools/your-tool.tool.ts`
 2. Export it from `src/mcp/primitives/essential/index.ts`
 3. Add to `MCP_PRIMITIVES` array in the same file
@@ -219,6 +233,7 @@ These work in both source code and tests via Jest's `moduleNameMapper`.
 6. Run `npm run test:tools` to verify
 
 **GUI Tools** (Anki interface operations):
+
 1. Create `src/mcp/primitives/gui/tools/your-gui-tool.tool.ts`
 2. Export it from `src/mcp/primitives/gui/index.ts`
 3. Add to `MCP_PRIMITIVES` array in the same file
@@ -232,12 +247,14 @@ These work in both source code and tests via Jest's `moduleNameMapper`.
 ### Adding a New MCP Prompt
 
 **Essential Prompts** (general use):
+
 1. Create `src/mcp/primitives/essential/prompts/your-prompt.prompt.ts`
 2. Export it from `src/mcp/primitives/essential/index.ts`
 3. Add to `MCP_PRIMITIVES` array
 4. Prompts define reusable conversation starters for AI assistants
 
 **GUI Prompts** (if needed):
+
 - Follow the same pattern but in `src/mcp/primitives/gui/prompts/`
 
 ### Testing Best Practices
@@ -279,6 +296,7 @@ npm run sync-version          # Sync version from package.json to manifest.json
 ```
 
 **Key Points**:
+
 - `mcpb:bundle` automatically syncs version from `package.json` to `manifest.json` before building
 - MCPB bundles use **STDIO entry point** (`manifest.json` → `dist/main-stdio.js`)
 - User config keys in `manifest.json` **must use snake_case** (e.g., `anki_connect_url`), not camelCase
@@ -319,6 +337,7 @@ This project follows [Semantic Versioning](https://semver.org/):
 **DO NOT run `npm run mcpb:bundle` manually** - GitHub Actions handles it automatically when you push a tag.
 
 **Manifest Update Template** (only for new tools):
+
 ```json
 {
   "tools": [

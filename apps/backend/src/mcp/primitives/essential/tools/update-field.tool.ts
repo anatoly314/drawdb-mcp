@@ -51,17 +51,11 @@ export class UpdateFieldTool {
 
       await context.reportProgress({ progress: 50, total: 100 });
 
-      await this.drawdbClient.updateField(
-        input.tableId,
-        input.fieldId,
-        updates,
-      );
+      await this.drawdbClient.updateField(input.tableId, input.fieldId, updates);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(
-        `Field ${input.fieldId} in table ${input.tableId} updated successfully`,
-      );
+      this.logger.log(`Field ${input.fieldId} in table ${input.tableId} updated successfully`);
 
       return {
         success: true,

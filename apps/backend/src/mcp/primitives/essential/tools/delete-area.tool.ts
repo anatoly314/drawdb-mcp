@@ -5,21 +5,20 @@ import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
 
 @Injectable()
-export class DeleteFieldTool {
-  private readonly logger = new Logger(DeleteFieldTool.name);
+export class DeleteAreaTool {
+  private readonly logger = new Logger(DeleteAreaTool.name);
 
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_field',
+    name: 'delete_area',
     description:
-      'Delete a field from a table. This will also remove any relationships connected to this field.',
+      'Delete a rectangular area from the diagram. Removes the area grouping but does not affect the tables within it.',
     parameters: z.object({
-      tableId: z.string().describe('ID of the table containing the field'),
-      fieldId: z.string().describe('ID of the field to delete'),
+      areaId: z.string().describe('ID of the area to delete'),
     }),
   })
-  async deleteField(input: any, context: Context) {
+  async deleteArea(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
@@ -29,20 +28,19 @@ export class DeleteFieldTool {
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      await this.drawdbClient.deleteField(input.tableId, input.fieldId, true);
+      await this.drawdbClient.deleteArea(input.areaId, true);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Field ${input.fieldId} deleted from table ${input.tableId}`);
+      this.logger.log(`Area ${input.areaId} deleted successfully`);
 
       return {
         success: true,
-        message: `Field ${input.fieldId} deleted successfully`,
-        tableId: input.tableId,
-        fieldId: input.fieldId,
+        message: `Area ${input.areaId} deleted successfully`,
+        areaId: input.areaId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete field', error);
+      this.logger.error('Failed to delete area', error);
       throw error;
     }
   }

@@ -5,21 +5,20 @@ import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
 
 @Injectable()
-export class DeleteFieldTool {
-  private readonly logger = new Logger(DeleteFieldTool.name);
+export class DeleteEnumTool {
+  private readonly logger = new Logger(DeleteEnumTool.name);
 
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_field',
+    name: 'delete_enum',
     description:
-      'Delete a field from a table. This will also remove any relationships connected to this field.',
+      'Delete an ENUM type from the diagram. This will remove the enum definition but may affect tables that reference it.',
     parameters: z.object({
-      tableId: z.string().describe('ID of the table containing the field'),
-      fieldId: z.string().describe('ID of the field to delete'),
+      enumId: z.string().describe('ID of the enum to delete'),
     }),
   })
-  async deleteField(input: any, context: Context) {
+  async deleteEnum(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
@@ -29,20 +28,22 @@ export class DeleteFieldTool {
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      await this.drawdbClient.deleteField(input.tableId, input.fieldId, true);
+      await this.drawdbClient.sendCommand('deleteEnum', {
+        id: input.enumId,
+        addToHistory: true,
+      });
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Field ${input.fieldId} deleted from table ${input.tableId}`);
+      this.logger.log(`Enum ${input.enumId} deleted successfully`);
 
       return {
         success: true,
-        message: `Field ${input.fieldId} deleted successfully`,
-        tableId: input.tableId,
-        fieldId: input.fieldId,
+        message: `Enum ${input.enumId} deleted successfully`,
+        enumId: input.enumId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete field', error);
+      this.logger.error('Failed to delete enum', error);
       throw error;
     }
   }

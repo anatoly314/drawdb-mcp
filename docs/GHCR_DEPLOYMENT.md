@@ -30,6 +30,7 @@ docker run \
 ```
 
 Then access:
+
 - **GUI**: http://localhost:8080
 - **MCP Server**: http://localhost:3000 (for AI assistants)
 
@@ -43,14 +44,15 @@ services:
     image: ghcr.io/anatoly314/drawdb:latest
     container_name: drawdb
     ports:
-      - "8080:80"    # GUI and WebSocket (proxied through nginx)
-      - "3000:3000"  # Direct MCP server access for Claude Desktop/LLM clients
+      - '8080:80' # GUI and WebSocket (proxied through nginx)
+      - '3000:3000' # Direct MCP server access for Claude Desktop/LLM clients
     environment:
       - NODE_ENV=production
     restart: unless-stopped
 ```
 
 Save as `docker-compose.yml` and run:
+
 ```bash
 docker-compose up -d
 ```
@@ -66,6 +68,7 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 ## Build Workflow
 
 Images are built using GitHub Actions on:
+
 - Push to `main` or `develop` branches
 - Creation of version tags (e.g., `v1.0.0`)
 - Pull requests to `main` (build only, no push)
@@ -75,6 +78,7 @@ See `.github/workflows/docker-publish.yml` for the complete workflow.
 ## Image Contents
 
 Each image contains:
+
 - **Frontend**: React application served by nginx on port 80
 - **Backend**: NestJS MCP server on port 3000
 - **WebSocket**: Remote control for AI assistants (proxied through nginx at `/remote-control`)
@@ -111,16 +115,16 @@ spec:
         app: drawdb
     spec:
       containers:
-      - name: drawdb
-        image: ghcr.io/anatoly314/drawdb:latest
-        ports:
-        - containerPort: 80
-          name: http
-        - containerPort: 3000
-          name: mcp
-        env:
-        - name: NODE_ENV
-          value: "production"
+        - name: drawdb
+          image: ghcr.io/anatoly314/drawdb:latest
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 3000
+              name: mcp
+          env:
+            - name: NODE_ENV
+              value: 'production'
 ```
 
 ### Environment Variables
@@ -134,13 +138,16 @@ The following environment variables can be configured:
 ## Troubleshooting
 
 ### Cannot pull image
+
 - Ensure the package is set to public
 - If private, authenticate with `docker login ghcr.io`
 
 ### WebSocket not connecting
+
 - Check that port 80 or your mapped port is accessible
 - WebSocket URL is auto-detected from browser location
 
 ### MCP server not accessible
+
 - Ensure port 3000 is exposed and mapped correctly
 - For Claude Desktop, use `http://localhost:3000` as the MCP endpoint

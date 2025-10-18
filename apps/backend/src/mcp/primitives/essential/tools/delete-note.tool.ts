@@ -5,21 +5,20 @@ import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
 
 @Injectable()
-export class DeleteFieldTool {
-  private readonly logger = new Logger(DeleteFieldTool.name);
+export class DeleteNoteTool {
+  private readonly logger = new Logger(DeleteNoteTool.name);
 
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_field',
+    name: 'delete_note',
     description:
-      'Delete a field from a table. This will also remove any relationships connected to this field.',
+      'Delete a sticky note from the diagram. This will remove the note annotation from the canvas.',
     parameters: z.object({
-      tableId: z.string().describe('ID of the table containing the field'),
-      fieldId: z.string().describe('ID of the field to delete'),
+      noteId: z.string().describe('ID of the note to delete'),
     }),
   })
-  async deleteField(input: any, context: Context) {
+  async deleteNote(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
@@ -29,20 +28,19 @@ export class DeleteFieldTool {
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      await this.drawdbClient.deleteField(input.tableId, input.fieldId, true);
+      await this.drawdbClient.deleteNote(input.noteId, true);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Field ${input.fieldId} deleted from table ${input.tableId}`);
+      this.logger.log(`Note ${input.noteId} deleted successfully`);
 
       return {
         success: true,
-        message: `Field ${input.fieldId} deleted successfully`,
-        tableId: input.tableId,
-        fieldId: input.fieldId,
+        message: `Note ${input.noteId} deleted successfully`,
+        noteId: input.noteId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete field', error);
+      this.logger.error('Failed to delete note', error);
       throw error;
     }
   }

@@ -43,6 +43,7 @@ npm run start:dev:http
 ```
 
 You should see:
+
 ```
 DrawDB MCP Server started
 HTTP server listening on http://localhost:3000
@@ -79,15 +80,18 @@ Restart Claude Desktop, then try:
 ## Troubleshooting
 
 **Frontend not connecting?**
+
 - Check that both servers are running
 - Verify the WebSocket URL in `.env` matches the server port
 - Check browser console for errors
 
 **MCP tools not working?**
+
 - Ensure DrawDB frontend shows "AI Assistant connected"
 - Try the `get_diagram` tool to verify connection
 
 **Port already in use?**
+
 - Change the port in `.env` and when starting the server:
   ```bash
   node dist/main-http.js --port 8080

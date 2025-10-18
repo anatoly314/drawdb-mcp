@@ -13,6 +13,7 @@ The frontend hook listens for commands and executes them against the existing Re
 ## Setup
 
 1. **Enable remote control** in your `.env`:
+
 ```bash
 VITE_REMOTE_CONTROL_ENABLED=true
 VITE_REMOTE_CONTROL_WS=ws://localhost:8080/remote-control
@@ -51,6 +52,7 @@ All messages are JSON with this structure:
 #### Table Operations
 
 **addTable**
+
 ```json
 {
   "id": "cmd_123",
@@ -86,6 +88,7 @@ All messages are JSON with this structure:
 ```
 
 **updateTable**
+
 ```json
 {
   "id": "cmd_124",
@@ -102,6 +105,7 @@ All messages are JSON with this structure:
 ```
 
 **deleteTable**
+
 ```json
 {
   "id": "cmd_125",
@@ -116,6 +120,7 @@ All messages are JSON with this structure:
 #### Field Operations
 
 **addField**
+
 ```json
 {
   "id": "cmd_126",
@@ -134,6 +139,7 @@ All messages are JSON with this structure:
 ```
 
 **updateField**
+
 ```json
 {
   "id": "cmd_127",
@@ -150,6 +156,7 @@ All messages are JSON with this structure:
 ```
 
 **deleteField**
+
 ```json
 {
   "id": "cmd_128",
@@ -165,6 +172,7 @@ All messages are JSON with this structure:
 #### Relationship Operations
 
 **addRelationship**
+
 ```json
 {
   "id": "cmd_129",
@@ -187,6 +195,7 @@ All messages are JSON with this structure:
 ```
 
 **updateRelationship**
+
 ```json
 {
   "id": "cmd_130",
@@ -201,6 +210,7 @@ All messages are JSON with this structure:
 ```
 
 **deleteRelationship**
+
 ```json
 {
   "id": "cmd_131",
@@ -215,6 +225,7 @@ All messages are JSON with this structure:
 #### Area Operations (Grouping)
 
 **addArea**
+
 ```json
 {
   "id": "cmd_132",
@@ -236,6 +247,7 @@ All messages are JSON with this structure:
 #### Note Operations
 
 **addNote**
+
 ```json
 {
   "id": "cmd_133",
@@ -255,6 +267,7 @@ All messages are JSON with this structure:
 #### Query Operations (Read-only)
 
 **getDiagram** - Get entire diagram state
+
 ```json
 {
   "id": "cmd_134",
@@ -264,6 +277,7 @@ All messages are JSON with this structure:
 ```
 
 Response:
+
 ```json
 {
   "id": "cmd_134",
@@ -281,6 +295,7 @@ Response:
 ```
 
 **getTables** - Get all tables
+
 ```json
 {
   "id": "cmd_135",
@@ -294,6 +309,7 @@ Other query commands: `getRelationships`, `getAreas`, `getNotes`, `getEnums`, `g
 #### Database Settings
 
 **setDatabase**
+
 ```json
 {
   "id": "cmd_136",
@@ -328,6 +344,7 @@ Fields must follow this structure:
 ## Cardinality Values
 
 For relationships, use these cardinality values:
+
 - `"one_to_one"`
 - `"one_to_many"`
 - `"many_to_one"`
@@ -335,6 +352,7 @@ For relationships, use these cardinality values:
 ## Constraint Values
 
 For update/delete constraints:
+
 - `"No action"`
 - `"Restrict"`
 - `"Cascade"`
@@ -352,34 +370,36 @@ wss.on('connection', (ws) => {
   console.log('DrawDB client connected');
 
   // Example: Create a table when client connects
-  ws.send(JSON.stringify({
-    id: 'cmd_' + Date.now(),
-    command: 'addTable',
-    params: {
-      data: {
-        id: 'tbl_' + Date.now(),
-        name: 'users',
-        x: 100,
-        y: 100,
-        fields: [
-          {
-            id: 'fld_1',
-            name: 'id',
-            type: 'INTEGER',
-            primary: true,
-            notNull: true,
-            increment: true,
-            default: '',
-            check: '',
-            comment: ''
-          }
-        ],
-        color: '#175e7a',
-        indices: [],
-        comment: ''
-      }
-    }
-  }));
+  ws.send(
+    JSON.stringify({
+      id: 'cmd_' + Date.now(),
+      command: 'addTable',
+      params: {
+        data: {
+          id: 'tbl_' + Date.now(),
+          name: 'users',
+          x: 100,
+          y: 100,
+          fields: [
+            {
+              id: 'fld_1',
+              name: 'id',
+              type: 'INTEGER',
+              primary: true,
+              notNull: true,
+              increment: true,
+              default: '',
+              check: '',
+              comment: '',
+            },
+          ],
+          color: '#175e7a',
+          indices: [],
+          comment: '',
+        },
+      },
+    }),
+  );
 
   // Listen for responses
   ws.on('message', (data) => {
@@ -399,6 +419,7 @@ To integrate with an MCP server:
 4. Responses flow back through the same path
 
 Example MCP tool structure:
+
 ```typescript
 {
   name: "drawdb_add_table",

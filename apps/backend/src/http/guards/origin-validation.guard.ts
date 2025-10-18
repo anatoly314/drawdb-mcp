@@ -30,15 +30,11 @@ export class OriginValidationGuard implements CanActivate {
     const origin = request.headers.origin || request.headers.referer;
 
     // Log all incoming requests for debugging
-    console.log(
-      `[OriginValidationGuard] Request: ${request.method} ${request.url}`,
-    );
+    console.log(`[OriginValidationGuard] Request: ${request.method} ${request.url}`);
     console.log(
       `[OriginValidationGuard] Origin: ${origin || 'none'}, Referer: ${request.headers.referer || 'none'}`,
     );
-    console.log(
-      `[OriginValidationGuard] Allowed origins: ${this.allowedOrigins.join(', ')}`,
-    );
+    console.log(`[OriginValidationGuard] Allowed origins: ${this.allowedOrigins.join(', ')}`);
 
     // No origin header - allow for direct API calls (curl, Postman, etc.)
     if (!origin) {
@@ -59,9 +55,7 @@ export class OriginValidationGuard implements CanActivate {
         `[OriginValidationGuard] Allowed origins are: ${this.allowedOrigins.join(', ')}`,
       );
     } else {
-      console.log(
-        `[OriginValidationGuard] ✅ ALLOWED request from origin: ${origin}`,
-      );
+      console.log(`[OriginValidationGuard] ✅ ALLOWED request from origin: ${origin}`);
     }
 
     return isAllowed;

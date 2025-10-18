@@ -5,21 +5,20 @@ import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
 
 @Injectable()
-export class DeleteFieldTool {
-  private readonly logger = new Logger(DeleteFieldTool.name);
+export class DeleteTypeTool {
+  private readonly logger = new Logger(DeleteTypeTool.name);
 
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_field',
+    name: 'delete_type',
     description:
-      'Delete a field from a table. This will also remove any relationships connected to this field.',
+      'Delete a custom composite TYPE from the diagram. This will remove the type definition but may affect tables that reference it.',
     parameters: z.object({
-      tableId: z.string().describe('ID of the table containing the field'),
-      fieldId: z.string().describe('ID of the field to delete'),
+      typeId: z.string().describe('ID of the type to delete'),
     }),
   })
-  async deleteField(input: any, context: Context) {
+  async deleteType(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
@@ -29,20 +28,22 @@ export class DeleteFieldTool {
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      await this.drawdbClient.deleteField(input.tableId, input.fieldId, true);
+      await this.drawdbClient.sendCommand('deleteType', {
+        id: input.typeId,
+        addToHistory: true,
+      });
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Field ${input.fieldId} deleted from table ${input.tableId}`);
+      this.logger.log(`Type ${input.typeId} deleted successfully`);
 
       return {
         success: true,
-        message: `Field ${input.fieldId} deleted successfully`,
-        tableId: input.tableId,
-        fieldId: input.fieldId,
+        message: `Type ${input.typeId} deleted successfully`,
+        typeId: input.typeId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete field', error);
+      this.logger.error('Failed to delete type', error);
       throw error;
     }
   }

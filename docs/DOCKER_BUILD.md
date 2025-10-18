@@ -5,6 +5,7 @@ This monorepo builds a single Docker image that includes both the frontend and b
 ## Image Description
 
 The Docker image includes:
+
 - **Frontend (GUI)**: React app served by Nginx on port 80
 - **Backend (MCP Server)**: Node.js app with WebSocket support on port 3000 (proxied through Nginx)
 

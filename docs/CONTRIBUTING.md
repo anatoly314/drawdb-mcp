@@ -7,15 +7,15 @@ The following is a set of guidelines for contributing to our project. These are 
 ## Table of Contents
 
 1. [How Can I Contribute?](#how-can-i-contribute)
-    - [Reporting Bugs](#reporting-bugs)
-    - [Suggesting Enhancements](#suggesting-enhancements)
-    - [Submitting Pull Requests](#submitting-pull-requests)
+   - [Reporting Bugs](#reporting-bugs)
+   - [Suggesting Enhancements](#suggesting-enhancements)
+   - [Submitting Pull Requests](#submitting-pull-requests)
 2. [Style Guides](#style-guides)
-    - [Git Commit Messages](#git-commit-messages)
-    - [Style Guide](#style-guide)
+   - [Git Commit Messages](#git-commit-messages)
+   - [Style Guide](#style-guide)
 3. [Additional Notes](#additional-notes)
-    - [Issue and Pull Request Labels](#issue-and-pull-request-labels)
-    - [Getting Help](#getting-help)
+   - [Issue and Pull Request Labels](#issue-and-pull-request-labels)
+   - [Getting Help](#getting-help)
 
 ## How Can I Contribute?
 
@@ -38,7 +38,7 @@ This section guides you through submitting an enhancement suggestion for our pro
 
 ### Submitting Pull Requests
 
-If you would like to implement a big feature that has not been discussed before please reach out to the maintainer on Discord at @dottle_ or send an email to drawdb@outlook.com.
+If you would like to implement a big feature that has not been discussed before please reach out to the maintainer on Discord at @dottle\_ or send an email to drawdb@outlook.com.
 
 Please follow these steps to have your contribution considered by the maintainers:
 

@@ -37,9 +37,7 @@ export class ExportDiagramTool {
       await context.reportProgress({ progress: 75, total: 100 });
 
       // Format JSON based on user preference
-      const json = input.formatted
-        ? JSON.stringify(diagram, null, 2)
-        : JSON.stringify(diagram);
+      const json = input.formatted ? JSON.stringify(diagram, null, 2) : JSON.stringify(diagram);
 
       await context.reportProgress({ progress: 100, total: 100 });
 

@@ -15,9 +15,7 @@ export class ImportDiagramTool {
     description:
       'Import a complete diagram from JSON. Replaces the current diagram with the provided one. Use this to load previously exported diagrams.',
     parameters: z.object({
-      json: z
-        .string()
-        .describe('JSON string containing the complete diagram structure'),
+      json: z.string().describe('JSON string containing the complete diagram structure'),
       clearCurrent: z
         .boolean()
         .optional()

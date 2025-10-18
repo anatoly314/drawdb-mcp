@@ -57,10 +57,7 @@ export class UpdateRelationshipTool {
 
       await context.reportProgress({ progress: 50, total: 100 });
 
-      await this.drawdbClient.updateRelationship(
-        input.relationshipId,
-        updates,
-      );
+      await this.drawdbClient.updateRelationship(input.relationshipId, updates);
 
       await context.reportProgress({ progress: 100, total: 100 });
 

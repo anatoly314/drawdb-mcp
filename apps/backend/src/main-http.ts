@@ -1,8 +1,8 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { createPinoLogger, createLoggerService } from "./bootstrap";
-import { parseCliArgs, displayStartupBanner } from "./cli";
-import { WsAdapter } from "@nestjs/platform-ws";
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { createPinoLogger, createLoggerService } from './bootstrap';
+import { parseCliArgs, displayStartupBanner } from './cli';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
   const options = parseCliArgs();
@@ -30,6 +30,6 @@ async function bootstrap() {
 }
 
 bootstrap().catch((err) => {
-  console.error("Failed to start DrawDB MCP HTTP server:", err);
+  console.error('Failed to start DrawDB MCP HTTP server:', err);
   process.exit(1);
 });
