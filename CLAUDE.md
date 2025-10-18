@@ -42,6 +42,7 @@ pnpm build --filter=backend # Build backend only
 pnpm lint           # Run linters for all apps
 pnpm format         # Format all code with Prettier
 pnpm clean          # Clean all build artifacts and node_modules
+pnpm backend:inspector  # Launch MCP Inspector for testing tools (STDIO mode)
 ```
 
 ### Docker
@@ -128,6 +129,8 @@ This is a **pnpm workspaces + Turborepo** monorepo (converted from standalone ap
 - Enabled when `VITE_REMOTE_CONTROL_ENABLED=true` (automatically set in Docker builds)
 - WebSocket auto-detects URL from browser (supports both direct access and nginx proxy)
 - Commands are handled by contexts, responses sent back to backend
+- Automatic reconnection with exponential backoff (max 10 attempts, up to 30s delay)
+- Connection status displayed via Toast notifications
 
 ### Backend (apps/backend)
 
@@ -220,11 +223,13 @@ Example: `apps/backend/src/mcp/primitives/essential/tools/add-table.tool.ts`
 - `addRelationship()`, `updateRelationship()`, `deleteRelationship()` - Relationship operations
 - `addArea()`, `updateArea()`, `deleteArea()` - Area (grouping) operations
 - `addNote()`, `updateNote()`, `deleteNote()` - Note operations
-- `getTables()`, `getTable()`, `getRelationships()` - Query operations
+- `addEnum()`, `updateEnum()`, `deleteEnum()` - PostgreSQL ENUM type operations
+- `addType()`, `updateType()`, `deleteType()` - PostgreSQL composite type operations
+- `getTables()`, `getTable()`, `getRelationships()`, `getAreas()`, `getNotes()`, `getEnums()`, `getTypes()` - Query operations
 - `setDatabase()` - Set database type (MySQL, PostgreSQL, SQLite, etc.)
 - `importDiagram()` - Import complete diagram JSON
 
-See `apps/backend/src/drawdb/drawdb-client.service.ts` for full command list.
+See `apps/backend/src/drawdb/drawdb-client.service.ts` and `apps/gui/src/hooks/useRemoteControl.js` for full command list.
 
 ### Frontend Data Model
 
@@ -253,6 +258,15 @@ See `apps/backend/src/drawdb/drawdb-client.service.ts` for full command list.
 
 - `id`, `title`, `content` (Lexical editor state), `x`, `y`, `width`, `height`
 
+**Enums (PostgreSQL):**
+
+- `id`, `name`, `values[]` - Array of allowed enum values
+
+**Types (PostgreSQL):**
+
+- `id`, `name`, `fields[]` - Array of field objects with `name` and `type`
+- `comment` - Optional description
+
 ### Environment Variables
 
 **GUI:**
@@ -263,9 +277,18 @@ See `apps/backend/src/drawdb/drawdb-client.service.ts` for full command list.
 
 - `PORT` - HTTP server port (default: 3000)
 - `HOST` - HTTP server host (default: 127.0.0.1)
-- `MCP_SERVER_NAME` - MCP server name (default: drawdb-mcp-server)
-- `MCP_SERVER_VERSION` - MCP server version (default: 0.1.0)
+- `MCP_SERVER_NAME` - MCP server name (default: drawdb-mcp-server-dev)
+- `MCP_SERVER_VERSION` - MCP server version (default: from package.json)
 - `LOG_LEVEL` - Logger level (default: info)
+
+**CLI Arguments** (HTTP mode only):
+
+```bash
+node dist/main-http.js --port 3000 --host 127.0.0.1
+```
+
+- `--port <number>` - Override PORT environment variable
+- `--host <string>` - Override HOST environment variable
 
 ## Development Tips
 
@@ -312,10 +335,37 @@ function MyComponent() {
 ### Common Gotchas
 
 - **WebSocket connection fails**: Check that `VITE_REMOTE_CONTROL_ENABLED=true` and backend is running
-- **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService`)
+- **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService:16`)
 - **Docker nginx issues**: Nginx runs as non-root user `nodejs:nodejs`, requires proper permissions
 - **Build failures**: Run `pnpm clean` then `pnpm install` to reset
 - **Turborepo cache issues**: Delete `.turbo` directory to clear cache
+- **Area/Note deletion**: Areas and notes use numeric array indices internally but are looked up by `name`/`title` for MCP operations
+- **Field IDs**: All entities (tables, fields, relationships) use `nanoid()` for ID generation
+
+## CI/CD and Deployment
+
+### GitHub Actions
+
+**Docker Image Publishing** (`.github/workflows/docker-publish.yml`):
+
+- Triggers on version tags (`v*`)
+- Builds multi-platform images (linux/amd64, linux/arm64)
+- Publishes to GitHub Container Registry (ghcr.io)
+- Creates tags: `latest`, `vX.Y.Z`, `vX.Y`, `vX`
+
+**Release Process:**
+
+1. Update version in `apps/backend/package.json`
+2. Commit changes
+3. Create git tag: `git tag -a v1.1.2 -m "Release message"`
+4. Push tag: `git push origin v1.1.2`
+5. GitHub Actions automatically builds and publishes Docker image
+
+### Version Management
+
+- Backend version: `apps/backend/package.json` (currently 1.1.2)
+- GUI version: `apps/gui/package.json` (currently 1.0.0)
+- Root package: `package.json` (workspace root)
 
 ## Git Workflow
 
@@ -324,3 +374,4 @@ function MyComponent() {
   - `768d638` - Converted to Turborepo monorepo with MCP server
   - `cef2d67` - Added GHCR support and CI/CD
   - `db9950e` - Restructured README to Docker-first approach
+  - `62dee54` - Version 1.1.2 (current)
