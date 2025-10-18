@@ -15,7 +15,7 @@ export class DeleteNoteTool {
     description:
       'Delete a sticky note from the diagram. This will remove the note annotation from the canvas.',
     parameters: z.object({
-      noteId: z.string().describe('Title of the note to delete (notes are identified by their title property)'),
+      noteId: z.string().describe('ID of the note to delete'),
     }),
   })
   async deleteNote(input: any, context: Context) {

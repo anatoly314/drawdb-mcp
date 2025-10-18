@@ -223,24 +223,26 @@ export function useRemoteControl(enabled = false) {
           break;
 
         case "deleteArea":
-          // Areas use numeric array indices, so find by name or numeric ID
-          const areaToDelete = areas.areas.find((a) => a.name === params.id || a.id === parseInt(params.id, 10));
-          if (areaToDelete) {
-            areas.deleteArea(areaToDelete.id, params.addToHistory ?? true);
-            result = { success: true, message: "Area deleted" };
-          } else {
-            throw new Error(`Area with id "${params.id}" not found`);
+          {
+            const areaToDelete = areas.areas.find((a) => a.id === parseInt(params.id, 10));
+            if (areaToDelete) {
+              areas.deleteArea(areaToDelete.id, params.addToHistory ?? true);
+              result = { success: true, message: "Area deleted" };
+            } else {
+              throw new Error(`Area with id "${params.id}" not found`);
+            }
           }
           break;
 
         case "updateArea":
-          // Areas use numeric array indices, so find by name or numeric ID
-          const areaToUpdate = areas.areas.find((a) => a.name === params.id || a.id === parseInt(params.id, 10));
-          if (areaToUpdate) {
-            areas.updateArea(areaToUpdate.id, params.updates);
-            result = { success: true, message: "Area updated" };
-          } else {
-            throw new Error(`Area with id "${params.id}" not found`);
+          {
+            const areaToUpdate = areas.areas.find((a) => a.id === parseInt(params.id, 10));
+            if (areaToUpdate) {
+              areas.updateArea(areaToUpdate.id, params.updates);
+              result = { success: true, message: "Area updated" };
+            } else {
+              throw new Error(`Area with id "${params.id}" not found`);
+            }
           }
           break;
 
@@ -251,26 +253,27 @@ export function useRemoteControl(enabled = false) {
           break;
 
         case "deleteNote":
-          // Notes use numeric array indices, so find by title or numeric ID
-          const noteToDelete = notes.notes.find((n) => n.title === params.id || n.id === parseInt(params.id, 10));
-          if (noteToDelete) {
-            notes.deleteNote(noteToDelete.id, params.addToHistory ?? true);
-            result = { success: true, message: "Note deleted" };
-          } else {
-            throw new Error(`Note with id "${params.id}" not found`);
+          {
+            const noteToDelete = notes.notes.find((n) => n.id === parseInt(params.id, 10));
+            if (noteToDelete) {
+              notes.deleteNote(noteToDelete.id, params.addToHistory ?? true);
+              result = { success: true, message: "Note deleted" };
+            } else {
+              throw new Error(`Note with id "${params.id}" not found`);
+            }
           }
           break;
 
         case "updateNote":
-          // Notes use numeric array indices, so find by title or numeric ID
-          const noteToUpdate = notes.notes.find((n) => n.title === params.id || n.id === parseInt(params.id, 10));
-          if (noteToUpdate) {
-            notes.updateNote(noteToUpdate.id, params.updates);
-            result = { success: true, message: "Note updated" };
-          } else {
-            throw new Error(`Note with id "${params.id}" not found`);
+          {
+            const noteToUpdate = notes.notes.find((n) => n.id === parseInt(params.id, 10));
+            if (noteToUpdate) {
+              notes.updateNote(noteToUpdate.id, params.updates);
+              result = { success: true, message: "Note updated" };
+            } else {
+              throw new Error(`Note with id "${params.id}" not found`);
+            }
           }
-
           break;
 
         // Enum operations

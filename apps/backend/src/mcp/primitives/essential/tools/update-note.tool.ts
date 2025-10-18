@@ -15,7 +15,7 @@ export class UpdateNoteTool {
     description:
       'Update properties of an existing sticky note in the diagram. Can modify title, content, position, size, or color.',
     parameters: z.object({
-      noteId: z.string().describe('Title of the note to update (notes are identified by their title property)'),
+      noteId: z.string().describe('ID of the note to update'),
       title: z.string().optional().describe('New note title'),
       content: z.string().optional().describe('New note content/text'),
       x: z.number().optional().describe('New X coordinate on canvas'),

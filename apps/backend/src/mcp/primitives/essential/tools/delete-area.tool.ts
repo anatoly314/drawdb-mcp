@@ -15,7 +15,7 @@ export class DeleteAreaTool {
     description:
       'Delete a rectangular area from the diagram. Removes the area grouping but does not affect the tables within it.',
     parameters: z.object({
-      areaId: z.string().describe('Name of the area to delete (areas are identified by their name property)'),
+      areaId: z.string().describe('ID of the area to delete'),
     }),
   })
   async deleteArea(input: any, context: Context) {
