@@ -16,6 +16,7 @@ export class AddNoteTool {
     description:
       'Add a sticky note to the diagram for annotations, comments, or documentation. Useful for explaining design decisions.',
     parameters: z.object({
+      title: z.string().describe('Note title (used as identifier for updates/deletes)'),
       content: z.string().describe('Note content/text'),
       x: z.number().optional().describe('X coordinate on canvas (optional, defaults to 100)'),
       y: z.number().optional().describe('Y coordinate on canvas (optional, defaults to 100)'),
@@ -37,6 +38,7 @@ export class AddNoteTool {
       const noteId = nanoid();
       const noteData = {
         id: noteId,
+        title: input.title,
         content: input.content,
         x: input.x ?? 100,
         y: input.y ?? 100,
