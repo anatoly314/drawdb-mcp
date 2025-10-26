@@ -15,6 +15,7 @@ export function useRemoteControl(enabled = false) {
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
   const reconnectAttemptsRef = useRef(0);
+  const pingIntervalRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
 
   const diagram = useContext(DiagramContext);
@@ -40,6 +41,10 @@ export function useRemoteControl(enabled = false) {
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
         reconnectTimeoutRef.current = null;
+      }
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+        pingIntervalRef.current = null;
       }
       setIsConnected(false);
       return;
@@ -77,11 +82,26 @@ export function useRemoteControl(enabled = false) {
         } else {
           Toast.success("AI Assistant connected");
         }
+
+        // Start heartbeat ping every 30 seconds to keep connection alive
+        pingIntervalRef.current = setInterval(() => {
+          if (wsRef.current?.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify({ type: "ping" }));
+            console.log("[RemoteControl] Sent ping");
+          }
+        }, 30000); // 30 seconds
       };
 
       ws.onmessage = (event) => {
         try {
           const message = JSON.parse(event.data);
+
+          // Handle pong response
+          if (message.type === "pong") {
+            console.log("[RemoteControl] Received pong");
+            return;
+          }
+
           handleCommand(message);
         } catch (error) {
           console.error("[RemoteControl] Failed to parse message:", error);
@@ -97,6 +117,12 @@ export function useRemoteControl(enabled = false) {
         console.log("[RemoteControl] Disconnected from backend", event.code, event.reason);
         setIsConnected(false);
         wsRef.current = null;
+
+        // Clear ping interval
+        if (pingIntervalRef.current) {
+          clearInterval(pingIntervalRef.current);
+          pingIntervalRef.current = null;
+        }
 
         // Only attempt to reconnect if enabled and haven't exceeded max attempts
         if (enabled && reconnectAttemptsRef.current < maxReconnectAttempts) {
@@ -138,6 +164,10 @@ export function useRemoteControl(enabled = false) {
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
         reconnectTimeoutRef.current = null;
+      }
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+        pingIntervalRef.current = null;
       }
       setIsConnected(false);
     };

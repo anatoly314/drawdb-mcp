@@ -92,6 +92,7 @@ export default function ControlPanel({
   title,
   setTitle,
   lastSaved,
+  aiAssistantConnected,
 }) {
   const [modal, setModal] = useState(MODAL.NONE);
   const [sidesheet, setSidesheet] = useState(SIDESHEET.NONE);
@@ -2039,6 +2040,21 @@ export default function ControlPanel({
                 >
                   {getState()}
                 </Tag>
+              )}
+              {aiAssistantConnected !== null && (
+                <Tooltip content={aiAssistantConnected ? "AI Assistant connected and ready" : "AI Assistant disconnected"} position="bottom">
+                  <Tag
+                    size="small"
+                    color={aiAssistantConnected ? "green" : "red"}
+                    prefixIcon={
+                      <span style={{ fontSize: '10px' }}>
+                        {aiAssistantConnected ? '●' : '○'}
+                      </span>
+                    }
+                  >
+                    {aiAssistantConnected ? "AI Connected" : "AI Disconnected"}
+                  </Tag>
+                </Tooltip>
               )}
             </div>
           </div>

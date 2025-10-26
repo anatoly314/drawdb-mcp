@@ -45,6 +45,16 @@ pnpm clean          # Clean all build artifacts and node_modules
 pnpm backend:inspector  # Launch MCP Inspector for testing tools (STDIO mode)
 ```
 
+**Backend-specific commands** (when working in apps/backend):
+
+```bash
+npm run inspector:stdio        # Run MCP inspector for STDIO mode
+npm run inspector:stdio:debug  # Run STDIO inspector with debugger on port 9229
+npm run inspector:http         # Run MCP inspector for HTTP mode
+npm run start:debug:stdio      # STDIO mode with debugger
+npm run start:debug:http       # HTTP mode with debugger
+```
+
 ### Docker
 
 **Run from GHCR:**
@@ -128,9 +138,13 @@ This is a **pnpm workspaces + Turborepo** monorepo (converted from standalone ap
 - Frontend connects to backend via WebSocket at `/remote-control`
 - Enabled when `VITE_REMOTE_CONTROL_ENABLED=true` (automatically set in Docker builds)
 - WebSocket auto-detects URL from browser (supports both direct access and nginx proxy)
-- Commands are handled by contexts, responses sent back to backend
-- Automatic reconnection with exponential backoff (max 10 attempts, up to 30s delay)
-- Connection status displayed via Toast notifications
+  - Auto-detection: `ws://localhost:5173/remote-control` (dev) or `ws://localhost:8080/remote-control` (Docker)
+  - Protocol switches to `wss://` for HTTPS connections
+- Commands are handled by contexts (`DiagramContext`, `AreasContext`, `NotesContext`, etc.)
+- Automatic reconnection with exponential backoff (max 10 attempts, up to 30s delay with jitter)
+- Connection status displayed via Toast notifications ("AI Assistant connected/disconnected")
+- All commands processed through `useRemoteControl.js:152` switch statement
+- Command timeout: 30 seconds (configured in `DrawDBClientService:15`)
 
 ### Backend (apps/backend)
 
@@ -217,7 +231,7 @@ Example: `apps/backend/src/mcp/primitives/essential/tools/add-table.tool.ts`
 
 **Available Commands:**
 
-- `getDiagram()` - Get full diagram state
+- `getDiagram()` - Get full diagram state (all entities)
 - `addTable()`, `updateTable()`, `deleteTable()` - Table operations
 - `addField()`, `updateField()`, `deleteField()` - Field operations
 - `addRelationship()`, `updateRelationship()`, `deleteRelationship()` - Relationship operations
@@ -225,9 +239,10 @@ Example: `apps/backend/src/mcp/primitives/essential/tools/add-table.tool.ts`
 - `addNote()`, `updateNote()`, `deleteNote()` - Note operations
 - `addEnum()`, `updateEnum()`, `deleteEnum()` - PostgreSQL ENUM type operations
 - `addType()`, `updateType()`, `deleteType()` - PostgreSQL composite type operations
-- `getTables()`, `getTable()`, `getRelationships()`, `getAreas()`, `getNotes()`, `getEnums()`, `getTypes()` - Query operations
-- `setDatabase()` - Set database type (MySQL, PostgreSQL, SQLite, etc.)
-- `importDiagram()` - Import complete diagram JSON
+- `getTables()`, `getTable()`, `getRelationships()`, `getAreas()`, `getNotes()`, `getEnums()`, `getTypes()` - Query operations (read-only)
+- `setDatabase()` - Set database type (MySQL, PostgreSQL, SQLite, MSSQL, MariaDB)
+- `importDiagram()` - Import complete diagram JSON (replaces current diagram)
+- `exportDiagram()` - Export diagram to SQL, JSON, or other formats (available via MCP tool)
 
 See `apps/backend/src/drawdb/drawdb-client.service.ts` and `apps/gui/src/hooks/useRemoteControl.js` for full command list.
 
@@ -292,6 +307,51 @@ node dist/main-http.js --port 3000 --host 127.0.0.1
 
 ## Development Tips
 
+### Available MCP Tools
+
+The backend exposes the following MCP tools (located in `apps/backend/src/mcp/primitives/essential/tools/`):
+
+**Table Tools:**
+- `add-table` - Create new table with fields
+- `update-table` - Modify table properties (name, color, position, comment)
+- `delete-table` - Remove table from diagram
+- `get-table` - Retrieve single table by ID or name
+
+**Field Tools:**
+- `add-field` - Add field to existing table
+- `update-field` - Modify field properties (type, constraints, etc.)
+- `delete-field` - Remove field from table
+
+**Relationship Tools:**
+- `add-relationship` - Create relationship between tables
+- `update-relationship` - Modify relationship properties
+- `delete-relationship` - Remove relationship
+
+**Area Tools:**
+- `add-area` - Create grouping area for tables
+- `update-area` - Modify area properties (name, size, color, position)
+- `delete-area` - Remove area
+
+**Note Tools:**
+- `add-note` - Create text note with Lexical editor content
+- `update-note` - Modify note content or properties
+- `delete-note` - Remove note
+
+**PostgreSQL Type Tools:**
+- `add-enum` - Create ENUM type with values
+- `update-enum` - Modify ENUM values
+- `delete-enum` - Remove ENUM type
+- `add-type` - Create composite type with fields
+- `update-type` - Modify composite type
+- `delete-type` - Remove composite type
+
+**Diagram Tools:**
+- `get-diagram` - Retrieve entire diagram state (all entities)
+- `import-diagram` - Replace diagram with JSON data
+- `export-diagram` - Export to SQL, JSON, or other formats
+
+Each tool validates input using Zod schemas and communicates with the frontend via WebSocket.
+
 ### Adding a New MCP Tool
 
 1. Create `apps/backend/src/mcp/primitives/essential/tools/your-tool.tool.ts`
@@ -305,7 +365,13 @@ node dist/main-http.js --port 3000 --host 127.0.0.1
 1. Start backend: `pnpm backend:dev`
 2. Start frontend: `pnpm gui:dev`
 3. Open browser console, check for "DrawDB client connected" in backend logs
-4. Use MCP Inspector to test tools: `pnpm backend:inspector` (requires separate STDIO mode)
+4. Use MCP Inspector to test tools: `pnpm backend:inspector` (STDIO mode)
+
+**For debugging with breakpoints:**
+
+1. Run `npm run inspector:stdio:debug` in `apps/backend` directory
+2. Attach your IDE debugger to port 9229
+3. Inspector pauses at startup waiting for debugger attachment
 
 ### Debugging Docker Build
 
@@ -335,12 +401,14 @@ function MyComponent() {
 ### Common Gotchas
 
 - **WebSocket connection fails**: Check that `VITE_REMOTE_CONTROL_ENABLED=true` and backend is running
-- **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService:16`)
+- **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService:15`)
 - **Docker nginx issues**: Nginx runs as non-root user `nodejs:nodejs`, requires proper permissions
 - **Build failures**: Run `pnpm clean` then `pnpm install` to reset
 - **Turborepo cache issues**: Delete `.turbo` directory to clear cache
-- **Area/Note deletion**: Areas and notes use numeric array indices internally but are looked up by `name`/`title` for MCP operations
-- **Field IDs**: All entities (tables, fields, relationships) use `nanoid()` for ID generation
+- **Area/Note lookup**: Areas and notes use numeric IDs internally but MCP tools look them up by `name`/`title`. When deleting, the ID is converted to integer for array lookup (`parseInt(params.id, 10)`)
+- **Entity IDs**: All entities (tables, fields, relationships, enums, types) use `nanoid()` for unique ID generation (imported from `nanoid` package)
+- **Remote control enabled check**: Frontend checks `import.meta.env.VITE_REMOTE_CONTROL_ENABLED` to enable WebSocket connection (see `useRemoteControl.js:34`)
+- **Command ID format**: Backend generates unique command IDs using `cmd_${timestamp}_${random}` pattern for request/response matching
 
 ## CI/CD and Deployment
 
@@ -363,9 +431,9 @@ function MyComponent() {
 
 ### Version Management
 
-- Backend version: `apps/backend/package.json` (currently 1.1.2)
+- Backend version: `apps/backend/package.json` (currently 1.1.4)
 - GUI version: `apps/gui/package.json` (currently 1.0.0)
-- Root package: `package.json` (workspace root)
+- Root package: `package.json` (workspace root, 1.0.0)
 
 ## Git Workflow
 

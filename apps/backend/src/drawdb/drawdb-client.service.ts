@@ -24,7 +24,17 @@ export class DrawDBClientService {
     // Setup message handler
     ws.on('message', (data: string) => {
       try {
-        const response: DrawDBResponse = JSON.parse(data);
+        const message = JSON.parse(data);
+
+        // Handle ping/pong heartbeat
+        if (message.type === 'ping') {
+          this.logger.debug('Received ping, sending pong');
+          ws.send(JSON.stringify({ type: 'pong' }));
+          return;
+        }
+
+        // Handle normal command responses
+        const response: DrawDBResponse = message;
         this.handleResponse(response);
       } catch (error) {
         this.logger.error('Failed to parse message from DrawDB client:', error);

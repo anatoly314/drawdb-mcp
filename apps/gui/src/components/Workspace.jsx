@@ -72,7 +72,7 @@ export default function WorkSpace() {
 
   // Enable remote control if VITE_REMOTE_CONTROL_ENABLED is set
   const remoteControlEnabled = import.meta.env.VITE_REMOTE_CONTROL_ENABLED === "true";
-  useRemoteControl(remoteControlEnabled);
+  const { isConnected: aiAssistantConnected } = useRemoteControl(remoteControlEnabled);
   const handleResize = (e) => {
     if (!resize) return;
     const w = isRtl(i18n.language) ? window.innerWidth - e.clientX : e.clientX;
@@ -436,6 +436,7 @@ export default function WorkSpace() {
           setTitle={setTitle}
           lastSaved={lastSaved}
           setLastSaved={setLastSaved}
+          aiAssistantConnected={remoteControlEnabled ? aiAssistantConnected : null}
         />
       </IdContext.Provider>
       <div
