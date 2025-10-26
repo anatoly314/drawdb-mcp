@@ -124,6 +124,17 @@ export function useRemoteControl(enabled = false) {
           pingIntervalRef.current = null;
         }
 
+        // Check if connection was replaced by another session
+        const wasReplaced = event.code === 1000 && event.reason === "Replaced by new connection";
+
+        if (wasReplaced) {
+          // Connection taken over by another tab/window - don't reconnect
+          console.log("[RemoteControl] Connection taken over by another session");
+          Toast.warning("AI Assistant disconnected - connection taken over by another tab/window");
+          reconnectAttemptsRef.current = maxReconnectAttempts; // Prevent reconnection
+          return;
+        }
+
         // Only attempt to reconnect if enabled and haven't exceeded max attempts
         if (enabled && reconnectAttemptsRef.current < maxReconnectAttempts) {
           reconnectAttemptsRef.current++;

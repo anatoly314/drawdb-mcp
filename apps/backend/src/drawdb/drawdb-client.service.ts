@@ -8,6 +8,7 @@ import { DrawDBCommand, DrawDBResponse } from './drawdb.types';
 export class DrawDBClientService {
   private readonly logger = new Logger(DrawDBClientService.name);
   private ws: any = null;
+  private isSettingConnection = false; // Lock to prevent race conditions
   private pendingRequests = new Map<
     string,
     { resolve: (value: any) => void; reject: (error: Error) => void; timeout: NodeJS.Timeout }
@@ -16,42 +17,93 @@ export class DrawDBClientService {
 
   /**
    * Set the WebSocket connection
+   * Closes any existing connection to ensure only one GUI is active at a time
+   * Uses a lock to prevent race conditions from simultaneous connections
    */
-  setConnection(ws: any) {
-    this.ws = ws;
-    this.logger.log('DrawDB client connected');
+  async setConnection(ws: any) {
+    // Wait if another connection is being set up (prevents race condition)
+    let waitCount = 0;
+    while (this.isSettingConnection && waitCount < 20) {
+      // Wait max 2 seconds (20 * 100ms)
+      this.logger.warn(
+        `Connection setup already in progress, waiting... (${waitCount + 1}/20)`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      waitCount++;
+    }
 
-    // Setup message handler
-    ws.on('message', (data: string) => {
-      try {
-        const message = JSON.parse(data);
+    if (this.isSettingConnection) {
+      this.logger.error('Connection setup timeout - forcing connection replacement');
+      this.isSettingConnection = false; // Force unlock
+    }
 
-        // Handle ping/pong heartbeat
-        if (message.type === 'ping') {
-          this.logger.debug('Received ping, sending pong');
-          ws.send(JSON.stringify({ type: 'pong' }));
-          return;
+    // Set lock
+    this.isSettingConnection = true;
+
+    try {
+      // Close existing connection if present
+      if (this.ws) {
+        const oldWs = this.ws;
+        const isOpen = oldWs.readyState === 1; // WebSocket.OPEN = 1
+
+        if (isOpen) {
+          this.logger.log(
+            'Closing previous DrawDB client connection - new client connecting',
+          );
+
+          // Remove event handlers from old connection to prevent interference
+          oldWs.removeAllListeners();
+
+          // Close the old connection
+          oldWs.close(1000, 'Replaced by new connection');
+
+          // Wait a tiny bit for close to propagate
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        } else {
+          this.logger.debug(
+            `Previous connection already closed (state: ${oldWs.readyState})`,
+          );
         }
-
-        // Handle normal command responses
-        const response: DrawDBResponse = message;
-        this.handleResponse(response);
-      } catch (error) {
-        this.logger.error('Failed to parse message from DrawDB client:', error);
       }
-    });
 
-    // Setup close handler
-    ws.on('close', () => {
-      this.logger.log('DrawDB client disconnected');
-      this.ws = null;
-      // Reject all pending requests
-      this.pendingRequests.forEach(({ reject, timeout }) => {
-        clearTimeout(timeout);
-        reject(new Error('DrawDB client disconnected'));
+      this.ws = ws;
+      this.logger.log('DrawDB client connected');
+
+      // Setup message handler
+      ws.on('message', (data: string) => {
+        try {
+          const message = JSON.parse(data);
+
+          // Handle ping/pong heartbeat
+          if (message.type === 'ping') {
+            this.logger.debug('Received ping, sending pong');
+            ws.send(JSON.stringify({ type: 'pong' }));
+            return;
+          }
+
+          // Handle normal command responses
+          const response: DrawDBResponse = message;
+          this.handleResponse(response);
+        } catch (error) {
+          this.logger.error('Failed to parse message from DrawDB client:', error);
+        }
       });
-      this.pendingRequests.clear();
-    });
+
+      // Setup close handler
+      ws.on('close', () => {
+        this.logger.log('DrawDB client disconnected');
+        this.ws = null;
+        // Reject all pending requests
+        this.pendingRequests.forEach(({ reject, timeout }) => {
+          clearTimeout(timeout);
+          reject(new Error('DrawDB client disconnected'));
+        });
+        this.pendingRequests.clear();
+      });
+    } finally {
+      // Release lock
+      this.isSettingConnection = false;
+    }
   }
 
   /**

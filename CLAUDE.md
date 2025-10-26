@@ -140,11 +140,17 @@ This is a **pnpm workspaces + Turborepo** monorepo (converted from standalone ap
 - WebSocket auto-detects URL from browser (supports both direct access and nginx proxy)
   - Auto-detection: `ws://localhost:5173/remote-control` (dev) or `ws://localhost:8080/remote-control` (Docker)
   - Protocol switches to `wss://` for HTTPS connections
+- **Single Active Connection**: Only one GUI can control the diagram at a time
+  - When a new GUI connects, the previous connection is gracefully closed
+  - Old GUI shows "AI Assistant disconnected - connection taken over by another tab/window"
+  - Prevents confusion from multiple tabs trying to control the same backend
 - Commands are handled by contexts (`DiagramContext`, `AreasContext`, `NotesContext`, etc.)
 - Automatic reconnection with exponential backoff (max 10 attempts, up to 30s delay with jitter)
-- Connection status displayed via Toast notifications ("AI Assistant connected/disconnected")
+  - Exception: Won't reconnect if connection was replaced by another session
+- Connection status displayed via Toast notifications and persistent status badge
 - All commands processed through `useRemoteControl.js:152` switch statement
 - Command timeout: 30 seconds (configured in `DrawDBClientService:15`)
+- Heartbeat: Frontend sends ping every 30 seconds to keep connection alive
 
 ### Backend (apps/backend)
 
@@ -402,6 +408,8 @@ function MyComponent() {
 
 - **WebSocket connection fails**: Check that `VITE_REMOTE_CONTROL_ENABLED=true` and backend is running
 - **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService:15`)
+- **Multiple tabs/windows**: Only one GUI can be connected at a time. Opening a new tab will disconnect the previous one with message "connection taken over by another tab/window"
+- **Connection replaced**: If you see "connection taken over", another tab/window is now active. Close it or refresh this tab to reconnect
 - **Docker nginx issues**: Nginx runs as non-root user `nodejs:nodejs`, requires proper permissions
 - **Build failures**: Run `pnpm clean` then `pnpm install` to reset
 - **Turborepo cache issues**: Delete `.turbo` directory to clear cache
@@ -431,7 +439,7 @@ function MyComponent() {
 
 ### Version Management
 
-- Backend version: `apps/backend/package.json` (currently 1.1.4)
+- Backend version: `apps/backend/package.json` (currently 1.1.5)
 - GUI version: `apps/gui/package.json` (currently 1.0.0)
 - Root package: `package.json` (workspace root, 1.0.0)
 

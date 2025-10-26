@@ -26,11 +26,12 @@ export class DrawDBGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
-  handleConnection(client: any) {
+  async handleConnection(client: any) {
     this.logger.log('DrawDB client attempting to connect...');
 
     // Set the client connection in the service
-    this.drawdbClient.setConnection(client);
+    // This is async to properly handle connection replacement and prevent race conditions
+    await this.drawdbClient.setConnection(client);
   }
 
   handleDisconnect(client: any) {
