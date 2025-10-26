@@ -158,7 +158,7 @@ export default function ControlPanel({
 
     if (a.action === Action.ADD) {
       if (a.element === ObjectType.TABLE) {
-        deleteTable(a.id, false);
+        deleteTable(a.data.table.id, false);
       } else if (a.element === ObjectType.AREA) {
         deleteArea(areas[areas.length - 1].id, false);
       } else if (a.element === ObjectType.NOTE) {
@@ -192,7 +192,7 @@ export default function ControlPanel({
     } else if (a.action === Action.DELETE) {
       if (a.element === ObjectType.TABLE) {
         a.data.relationship.forEach((x) => addRelationship(x, false));
-        addTable(a.data.table, false);
+        addTable(a.data, false);
       } else if (a.element === ObjectType.RELATIONSHIP) {
         addRelationship(a.data, false);
       } else if (a.element === ObjectType.NOTE) {
@@ -327,7 +327,7 @@ export default function ControlPanel({
 
     if (a.action === Action.ADD) {
       if (a.element === ObjectType.TABLE) {
-        addTable(null, false);
+        addTable(a.data, false);
       } else if (a.element === ObjectType.AREA) {
         addArea(null, false);
       } else if (a.element === ObjectType.NOTE) {
