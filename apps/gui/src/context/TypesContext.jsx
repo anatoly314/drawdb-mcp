@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { useUndoRedo } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
@@ -12,21 +12,24 @@ export default function TypesContextProvider({ children }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
   const addType = (data, addToHistory = true) => {
+    let createdType;
     if (data) {
       setTypes((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp;
       });
+      createdType = data;
     } else {
-      setTypes((prev) => [
-        ...prev,
-        {
+      setTypes((prev) => {
+        createdType = {
+          id: prev.length,
           name: `type_${prev.length}`,
           fields: [],
           comment: "",
-        },
-      ]);
+        };
+        return [...prev, createdType];
+      });
     }
     if (addToHistory) {
       setUndoStack((prev) => [
@@ -39,6 +42,7 @@ export default function TypesContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
+    return createdType;
   };
 
   const deleteType = (id, addToHistory = true) => {
@@ -61,11 +65,11 @@ export default function TypesContextProvider({ children }) {
     setTypes((prev) => prev.filter((e, i) => i !== id));
   };
 
-  const updateType = (id, values) => {
+  const updateType = useCallback((id, values) => {
     setTypes((prev) =>
       prev.map((e, i) => (i === id ? { ...e, ...values } : e)),
     );
-  };
+  }, []);
 
   return (
     <TypesContext.Provider

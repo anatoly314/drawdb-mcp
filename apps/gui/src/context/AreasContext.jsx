@@ -1,5 +1,5 @@
 import { Toast } from "@douyinfe/semi-ui";
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
 import { useSelect, useTransform, useUndoRedo } from "../hooks";
@@ -14,18 +14,19 @@ export default function AreasContextProvider({ children }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
   const addArea = (data, addToHistory = true) => {
+    let createdArea;
     if (data) {
       setAreas((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp.map((t, i) => ({ ...t, id: i }));
       });
+      createdArea = data;
     } else {
       const width = 200;
       const height = 200;
-      setAreas((prev) => [
-        ...prev,
-        {
+      setAreas((prev) => {
+        createdArea = {
           id: prev.length,
           name: `area_${prev.length}`,
           x: transform.pan.x - width / 2,
@@ -34,8 +35,9 @@ export default function AreasContextProvider({ children }) {
           height,
           color: defaultBlue,
           locked: false,
-        },
-      ]);
+        };
+        return [...prev, createdArea];
+      });
     }
     if (addToHistory) {
       setUndoStack((prev) => [
@@ -48,6 +50,7 @@ export default function AreasContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
+    return createdArea;
   };
 
   const deleteArea = (id, addToHistory = true) => {
@@ -77,7 +80,7 @@ export default function AreasContextProvider({ children }) {
     }
   };
 
-  const updateArea = (id, values) => {
+  const updateArea = useCallback((id, values) => {
     setAreas((prev) =>
       prev.map((t) => {
         if (t.id === id) {
@@ -89,7 +92,7 @@ export default function AreasContextProvider({ children }) {
         return t;
       }),
     );
-  };
+  }, []);
 
   return (
     <AreasContext.Provider

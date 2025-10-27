@@ -3,7 +3,6 @@ import { Tool } from '@rekog/mcp-nest';
 import type { Context } from '@rekog/mcp-nest';
 import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
-import { nanoid } from 'nanoid';
 
 @Injectable()
 export class AddNoteTool {
@@ -35,30 +34,32 @@ export class AddNoteTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      const noteId = nanoid();
-      const noteData = {
-        id: noteId,
-        title: input.title,
-        content: input.content,
-        x: input.x ?? 100,
-        y: input.y ?? 100,
-        color: input.color || '#ffd93d',
-        width: input.width ?? 240,
-        height: input.height ?? 120,
-      };
+      // Step 1: Create default note (frontend generates ID automatically)
+      const createdNote = await this.drawdbClient.addNote(null, true);
 
       await context.reportProgress({ progress: 50, total: 100 });
 
-      await this.drawdbClient.addNote(noteData, true);
+      // Step 2: Update the note with custom properties
+      const updates = {
+        title: input.title,
+        content: input.content,
+        x: input.x ?? createdNote.x,
+        y: input.y ?? createdNote.y,
+        color: input.color || createdNote.color,
+        width: input.width ?? createdNote.width,
+        height: input.height ?? createdNote.height,
+      };
+
+      await this.drawdbClient.updateNote(createdNote.id.toString(), updates);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Note added successfully`);
+      this.logger.log(`Note added successfully with ID: ${createdNote.id}`);
 
       return {
         success: true,
         message: 'Note added successfully',
-        noteId,
+        noteId: createdNote.id,
       };
     } catch (error) {
       this.logger.error('Failed to add note', error);

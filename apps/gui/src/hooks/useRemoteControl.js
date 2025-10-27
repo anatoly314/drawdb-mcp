@@ -201,9 +201,7 @@ export function useRemoteControl(enabled = false) {
       switch (command) {
         // Table operations
         case "addTable": {
-          diagram.addTable(params.data, params.addToHistory ?? true);
-          // Return the newly created table (last one in the array)
-          const newTable = diagram.tables[diagram.tables.length - 1];
+          const newTable = diagram.addTable(params.data, params.addToHistory ?? true);
           result = { success: true, message: "Table added", data: newTable };
           break;
         }
@@ -261,10 +259,11 @@ export function useRemoteControl(enabled = false) {
           break;
 
         // Area operations
-        case "addArea":
-          areas.addArea(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Area added" };
+        case "addArea": {
+          const newArea = areas.addArea(params.data, params.addToHistory ?? true);
+          result = { success: true, message: "Area added", data: newArea };
           break;
+        }
 
         case "deleteArea":
           {
@@ -291,10 +290,11 @@ export function useRemoteControl(enabled = false) {
           break;
 
         // Note operations
-        case "addNote":
-          notes.addNote(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Note added" };
+        case "addNote": {
+          const newNote = notes.addNote(params.data, params.addToHistory ?? true);
+          result = { success: true, message: "Note added", data: newNote };
           break;
+        }
 
         case "deleteNote":
           {
@@ -321,36 +321,54 @@ export function useRemoteControl(enabled = false) {
           break;
 
         // Enum operations
-        case "addEnum":
-          enums.addEnum(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Enum added" };
+        case "addEnum": {
+          const newEnum = enums.addEnum(params.data, params.addToHistory ?? true);
+          result = { success: true, message: "Enum added", data: newEnum };
           break;
+        }
 
-        case "deleteEnum":
-          enums.deleteEnum(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Enum deleted" };
+        case "deleteEnum": {
+          const enumToDelete = enums.enums.find((e, i) => i === parseInt(params.id, 10));
+          if (enumToDelete) {
+            enums.deleteEnum(parseInt(params.id, 10), params.addToHistory ?? true);
+            result = { success: true, message: "Enum deleted" };
+          } else {
+            throw new Error(`Enum with id "${params.id}" not found`);
+          }
           break;
+        }
 
-        case "updateEnum":
-          enums.updateEnum(params.id, params.updates);
+        case "updateEnum": {
+          // No need to validate - updateEnum uses functional updates so it works even immediately after creation
+          enums.updateEnum(parseInt(params.id, 10), params.updates);
           result = { success: true, message: "Enum updated" };
           break;
+        }
 
         // Type operations
-        case "addType":
-          types.addType(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Type added" };
+        case "addType": {
+          const newType = types.addType(params.data, params.addToHistory ?? true);
+          result = { success: true, message: "Type added", data: newType };
           break;
+        }
 
-        case "deleteType":
-          types.deleteType(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Type deleted" };
+        case "deleteType": {
+          const typeToDelete = types.types.find((t, i) => i === parseInt(params.id, 10));
+          if (typeToDelete) {
+            types.deleteType(parseInt(params.id, 10), params.addToHistory ?? true);
+            result = { success: true, message: "Type deleted" };
+          } else {
+            throw new Error(`Type with id "${params.id}" not found`);
+          }
           break;
+        }
 
-        case "updateType":
-          types.updateType(params.id, params.updates);
+        case "updateType": {
+          // No need to validate - updateType uses functional updates so it works even immediately after creation
+          types.updateType(parseInt(params.id, 10), params.updates);
           result = { success: true, message: "Type updated" };
           break;
+        }
 
         // Database operations
         case "setDatabase":

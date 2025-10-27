@@ -3,7 +3,6 @@ import { Tool } from '@rekog/mcp-nest';
 import type { Context } from '@rekog/mcp-nest';
 import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
-import { nanoid } from 'nanoid';
 
 @Injectable()
 export class AddAreaTool {
@@ -34,29 +33,31 @@ export class AddAreaTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      const areaId = nanoid();
-      const areaData = {
-        id: areaId,
-        name: input.name,
-        x: input.x ?? 50,
-        y: input.y ?? 50,
-        width: input.width ?? 400,
-        height: input.height ?? 300,
-        color: input.color || '#eb9f34',
-      };
+      // Step 1: Create default area (frontend generates ID automatically)
+      const createdArea = await this.drawdbClient.addArea(null, true);
 
       await context.reportProgress({ progress: 50, total: 100 });
 
-      await this.drawdbClient.addArea(areaData, true);
+      // Step 2: Update the area with custom properties
+      const updates = {
+        name: input.name,
+        x: input.x ?? createdArea.x,
+        y: input.y ?? createdArea.y,
+        width: input.width ?? createdArea.width,
+        height: input.height ?? createdArea.height,
+        color: input.color || createdArea.color,
+      };
+
+      await this.drawdbClient.updateArea(createdArea.id.toString(), updates);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Area "${input.name}" added successfully`);
+      this.logger.log(`Area "${input.name}" added successfully with ID: ${createdArea.id}`);
 
       return {
         success: true,
         message: `Area "${input.name}" added successfully`,
-        areaId,
+        areaId: createdArea.id,
       };
     } catch (error) {
       this.logger.error('Failed to add area', error);

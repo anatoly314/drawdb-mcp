@@ -52,6 +52,10 @@ export class AddTableTool {
       // Step 1: Create default table (frontend generates ID automatically)
       const createdTable = await this.drawdbClient.addTable(null, true);
 
+      if (!createdTable || !createdTable.id) {
+        throw new Error('Failed to create table: invalid response from frontend');
+      }
+
       await context.reportProgress({ progress: 40, total: 100 });
 
       // Step 2: Prepare custom fields with generated IDs
@@ -64,7 +68,7 @@ export class AddTableTool {
               check: field.check || '',
               comment: field.comment || '',
             }))
-          : createdTable.fields; // Keep default fields if none provided
+          : createdTable.fields || []; // Keep default fields if none provided
 
       // Step 3: Update the table with custom properties
       const updates = {
@@ -82,11 +86,22 @@ export class AddTableTool {
 
       this.logger.log(`Table "${input.name}" added successfully`);
 
+      // Validate all fields have IDs before returning
+      const fieldIds = fields
+        .filter((f: any) => f && f.id)
+        .map((f: any) => ({ name: f.name, id: f.id }));
+
+      if (fieldIds.length !== fields.length) {
+        this.logger.warn(
+          `Warning: Some fields are missing IDs. Expected ${fields.length}, got ${fieldIds.length}`,
+        );
+      }
+
       return {
         success: true,
         message: `Table "${input.name}" added successfully`,
         tableId: createdTable.id,
-        fieldIds: fields.map((f: any) => ({ name: f.name, id: f.id })),
+        fieldIds,
       };
     } catch (error) {
       this.logger.error('Failed to add table', error);

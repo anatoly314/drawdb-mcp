@@ -3,7 +3,6 @@ import { Tool } from '@rekog/mcp-nest';
 import type { Context } from '@rekog/mcp-nest';
 import { z } from 'zod';
 import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
-import { nanoid } from 'nanoid';
 
 @Injectable()
 export class AddEnumTool {
@@ -32,28 +31,33 @@ export class AddEnumTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      const enumId = nanoid();
-      const enumData = {
-        id: enumId,
+      // Step 1: Create default enum (frontend generates ID automatically)
+      const createdEnum = await this.drawdbClient.sendCommand('addEnum', {
+        data: null,
+        addToHistory: true,
+      });
+
+      await context.reportProgress({ progress: 50, total: 100 });
+
+      // Step 2: Update the enum with custom properties
+      const updates = {
         name: input.name,
         values: input.values || [],
       };
 
-      await context.reportProgress({ progress: 50, total: 100 });
-
-      await this.drawdbClient.sendCommand('addEnum', {
-        data: enumData,
-        addToHistory: true,
+      await this.drawdbClient.sendCommand('updateEnum', {
+        id: createdEnum.id.toString(),
+        updates,
       });
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log(`Enum "${input.name}" added successfully`);
+      this.logger.log(`Enum "${input.name}" added successfully with ID: ${createdEnum.id}`);
 
       return {
         success: true,
         message: `Enum "${input.name}" added successfully with ${input.values.length} values`,
-        enumId,
+        enumId: createdEnum.id,
         name: input.name,
         values: input.values,
       };

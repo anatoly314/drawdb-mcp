@@ -120,3 +120,12 @@ docker run -p 8080:80 -p 3000:3000 drawdb-mcp:local
 ```
 
 The Docker image includes both frontend and backend. WebSocket is proxied through Nginx.
+
+### Updating to New Versions
+
+When updating to a new version (whether via Docker or local development), **you must perform a hard refresh in your browser** to clear the cached frontend JavaScript:
+
+- **Windows/Linux**: `Ctrl + Shift + R` or `Ctrl + F5`
+- **macOS**: `Cmd + Shift + R`
+
+Without a hard refresh, the browser may continue using the old cached frontend code even though the backend has been updated, which can cause errors or unexpected behavior.

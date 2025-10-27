@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import { Action, ObjectType, defaultNoteTheme, noteWidth } from "../data/constants";
 import { useUndoRedo, useTransform, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
@@ -14,17 +14,18 @@ export default function NotesContextProvider({ children }) {
   const { selectedElement, setSelectedElement } = useSelect();
 
   const addNote = (data, addToHistory = true) => {
+    let createdNote;
     if (data) {
       setNotes((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp.map((t, i) => ({ ...t, id: i }));
       });
+      createdNote = data;
     } else {
       const height = 88;
-      setNotes((prev) => [
-        ...prev,
-        {
+      setNotes((prev) => {
+        createdNote = {
           id: prev.length,
           x: transform.pan.x,
           y: transform.pan.y - height / 2,
@@ -34,8 +35,9 @@ export default function NotesContextProvider({ children }) {
           color: defaultNoteTheme,
           height,
           width: noteWidth,
-        },
-      ]);
+        };
+        return [...prev, createdNote];
+      });
     }
     if (addToHistory) {
       setUndoStack((prev) => [
@@ -48,6 +50,7 @@ export default function NotesContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
+    return createdNote;
   };
 
   const deleteNote = (id, addToHistory = true) => {
@@ -77,7 +80,7 @@ export default function NotesContextProvider({ children }) {
     }
   };
 
-  const updateNote = (id, values) => {
+  const updateNote = useCallback((id, values) => {
     setNotes((prev) =>
       prev.map((t) => {
         if (t.id === id) {
@@ -89,7 +92,7 @@ export default function NotesContextProvider({ children }) {
         return t;
       }),
     );
-  };
+  }, []);
 
   return (
     <NotesContext.Provider

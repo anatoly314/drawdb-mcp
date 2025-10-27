@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
@@ -12,20 +12,23 @@ export default function EnumsContextProvider({ children }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
   const addEnum = (data, addToHistory = true) => {
+    let createdEnum;
     if (data) {
       setEnums((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp;
       });
+      createdEnum = data;
     } else {
-      setEnums((prev) => [
-        ...prev,
-        {
+      setEnums((prev) => {
+        createdEnum = {
+          id: prev.length,
           name: `enum_${prev.length}`,
           values: [],
-        },
-      ]);
+        };
+        return [...prev, createdEnum];
+      });
     }
     if (addToHistory) {
       setUndoStack((prev) => [
@@ -38,6 +41,7 @@ export default function EnumsContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
+    return createdEnum;
   };
 
   const deleteEnum = (id, addToHistory = true) => {
@@ -60,11 +64,11 @@ export default function EnumsContextProvider({ children }) {
     setEnums((prev) => prev.filter((_, i) => i !== id));
   };
 
-  const updateEnum = (id, values) => {
+  const updateEnum = useCallback((id, values) => {
     setEnums((prev) =>
       prev.map((e, i) => (i === id ? { ...e, ...values } : e)),
     );
-  };
+  }, []);
 
   return (
     <EnumsContext.Provider

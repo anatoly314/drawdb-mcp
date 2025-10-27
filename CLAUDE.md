@@ -410,10 +410,11 @@ function MyComponent() {
 - **MCP tools timeout**: Default timeout is 30s (configured in `DrawDBClientService:15`)
 - **Multiple tabs/windows**: Only one GUI can be connected at a time. Opening a new tab will disconnect the previous one with message "connection taken over by another tab/window"
 - **Connection replaced**: If you see "connection taken over", another tab/window is now active. Close it or refresh this tab to reconnect
+- **After updating versions**: **MUST perform hard refresh** (Ctrl+Shift+R / Cmd+Shift+R) to clear cached frontend JavaScript. Without hard refresh, browser may use old cached code even with new backend, causing errors
 - **Docker nginx issues**: Nginx runs as non-root user `nodejs:nodejs`, requires proper permissions
 - **Build failures**: Run `pnpm clean` then `pnpm install` to reset
 - **Turborepo cache issues**: Delete `.turbo` directory to clear cache
-- **Area/Note lookup**: Areas and notes use numeric IDs internally but MCP tools look them up by `name`/`title`. When deleting, the ID is converted to integer for array lookup (`parseInt(params.id, 10)`)
+- **Area/Note IDs**: Areas and notes use numeric array indices (0, 1, 2...) as IDs, unlike tables which use `nanoid()`. IDs are reassigned on every change via `.map((t, i) => ({ ...t, id: i }))`. MCP tools now return these numeric IDs correctly from `addArea`/`addNote` responses. Update/delete operations convert string IDs to integers for lookup (`parseInt(params.id, 10)`)
 - **Entity IDs**: All entities (tables, fields, relationships, enums, types) use `nanoid()` for unique ID generation (imported from `nanoid` package)
 - **Remote control enabled check**: Frontend checks `import.meta.env.VITE_REMOTE_CONTROL_ENABLED` to enable WebSocket connection (see `useRemoteControl.js:34`)
 - **Command ID format**: Backend generates unique command IDs using `cmd_${timestamp}_${random}` pattern for request/response matching
