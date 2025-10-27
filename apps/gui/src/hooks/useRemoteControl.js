@@ -200,10 +200,13 @@ export function useRemoteControl(enabled = false) {
 
       switch (command) {
         // Table operations
-        case "addTable":
+        case "addTable": {
           diagram.addTable(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Table added" };
+          // Return the newly created table (last one in the array)
+          const newTable = diagram.tables[diagram.tables.length - 1];
+          result = { success: true, message: "Table added", data: newTable };
           break;
+        }
 
         case "deleteTable":
           diagram.deleteTable(params.id, params.addToHistory ?? true);

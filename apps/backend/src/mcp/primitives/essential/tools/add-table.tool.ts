@@ -49,8 +49,12 @@ export class AddTableTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      // Generate IDs for table and fields
-      const tableId = nanoid();
+      // Step 1: Create default table (frontend generates ID automatically)
+      const createdTable = await this.drawdbClient.addTable(null, true);
+
+      await context.reportProgress({ progress: 40, total: 100 });
+
+      // Step 2: Prepare custom fields with generated IDs
       const fields =
         input.fields && input.fields.length > 0
           ? input.fields.map((field: any) => ({
@@ -60,36 +64,19 @@ export class AddTableTool {
               check: field.check || '',
               comment: field.comment || '',
             }))
-          : [
-              {
-                id: nanoid(),
-                name: 'id',
-                type: 'INTEGER',
-                primary: true,
-                unique: true,
-                notNull: true,
-                increment: true,
-                default: '',
-                check: '',
-                comment: '',
-              },
-            ];
+          : createdTable.fields; // Keep default fields if none provided
 
-      const tableData = {
-        id: tableId,
+      // Step 3: Update the table with custom properties
+      const updates = {
         name: input.name,
-        x: input.x ?? 100,
-        y: input.y ?? 100,
-        locked: false,
+        x: input.x ?? createdTable.x,
+        y: input.y ?? createdTable.y,
         fields,
         comment: input.comment || '',
-        indices: [],
-        color: input.color || '#175e7a',
+        color: input.color || createdTable.color,
       };
 
-      await context.reportProgress({ progress: 50, total: 100 });
-
-      await this.drawdbClient.addTable(tableData, true);
+      await this.drawdbClient.updateTable(createdTable.id, updates);
 
       await context.reportProgress({ progress: 100, total: 100 });
 
@@ -98,7 +85,7 @@ export class AddTableTool {
       return {
         success: true,
         message: `Table "${input.name}" added successfully`,
-        tableId,
+        tableId: createdTable.id,
         fieldIds: fields.map((f: any) => ({ name: f.name, id: f.id })),
       };
     } catch (error) {

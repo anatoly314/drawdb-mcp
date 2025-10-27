@@ -48,6 +48,7 @@ export default function DiagramContextProvider({ children }) {
         temp.splice(data.index, 0, data.table);
         return temp;
       });
+      return data.table; // Return restored table for undo/redo
     } else {
       setTables((prev) => [...prev, newTable]);
     }
@@ -63,6 +64,7 @@ export default function DiagramContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
+    return newTable; // Return newly created table
   };
 
   const deleteTable = (id, addToHistory = true) => {

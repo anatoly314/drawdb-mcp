@@ -116,7 +116,7 @@ This is a **pnpm workspaces + Turborepo** monorepo (converted from standalone ap
 
 - React Context API with multiple specialized contexts:
   - `DiagramContext` - Main diagram state (tables, relationships)
-  - `TablesContext`, `AreasContext`, `NotesContext`, `EnumsContext`, `TypesContext` - Entity management
+  - `AreasContext`, `NotesContext`, `EnumsContext`, `TypesContext` - Entity management
   - `CanvasContext` - Canvas rendering and interactions
   - `UndoRedoContext` - Undo/redo history
   - `SettingsContext` - User preferences
@@ -448,6 +448,6 @@ function MyComponent() {
 - Main branch: `main`
 - Recent major changes:
   - `768d638` - Converted to Turborepo monorepo with MCP server
-  - `cef2d67` - Added GHCR support and CI/CD
-  - `db9950e` - Restructured README to Docker-first approach
-  - `62dee54` - Version 1.1.2 (current)
+  - `666ece2` - Merged upstream drawdb-io/drawdb main branch
+  - `32e7811` - Enforced single active GUI connection with race condition handling
+  - `a9bde62` - Added persistent AI connection indicator and WebSocket heartbeat
