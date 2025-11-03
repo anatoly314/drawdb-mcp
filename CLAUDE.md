@@ -440,7 +440,7 @@ function MyComponent() {
 
 ### Version Management
 
-- Backend version: `apps/backend/package.json` (currently 1.1.6)
+- Backend version: `apps/backend/package.json` (currently 1.1.8)
 - GUI version: `apps/gui/package.json` (currently 1.0.0)
 - Root package: `package.json` (workspace root, 1.0.0)
 
