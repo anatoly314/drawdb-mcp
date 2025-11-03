@@ -25,6 +25,9 @@ import { DeleteTypeTool } from './tools/delete-type.tool';
 import { ExportDiagramTool } from './tools/export-diagram.tool';
 import { ImportDiagramTool } from './tools/import-diagram.tool';
 import { GetTableTool } from './tools/get-table.tool';
+import { ExportSQLTool } from './tools/export-sql.tool';
+import { ExportDBMLTool } from './tools/export-dbml.tool';
+import { ImportDBMLTool } from './tools/import-dbml.tool';
 
 const MCP_PRIMITIVES = [
   AddTableTool,
@@ -52,6 +55,9 @@ const MCP_PRIMITIVES = [
   DeleteTypeTool,
   ExportDiagramTool,
   ImportDiagramTool,
+  ExportSQLTool,
+  ExportDBMLTool,
+  ImportDBMLTool,
 ];
 
 /**
@@ -95,3 +101,6 @@ export * from './tools/delete-type.tool';
 export * from './tools/export-diagram.tool';
 export * from './tools/import-diagram.tool';
 export * from './tools/get-table.tool';
+export * from './tools/export-sql.tool';
+export * from './tools/export-dbml.tool';
+export * from './tools/import-dbml.tool';

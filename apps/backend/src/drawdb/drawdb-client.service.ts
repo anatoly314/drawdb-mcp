@@ -316,4 +316,25 @@ export class DrawDBClientService {
   async importDiagram(diagram: any, clearCurrent = true) {
     return this.sendCommand('importDiagram', { diagram, clearCurrent });
   }
+
+  /**
+   * Export diagram as SQL DDL statements
+   */
+  async exportSQL() {
+    return this.sendCommand('exportSQL');
+  }
+
+  /**
+   * Export diagram as DBML (Database Markup Language)
+   */
+  async exportDBML() {
+    return this.sendCommand('exportDBML');
+  }
+
+  /**
+   * Import diagram from DBML (Database Markup Language)
+   */
+  async importDBML(dbml: string, clearCurrent = true) {
+    return this.sendCommand('importDBML', { dbml, clearCurrent });
+  }
 }

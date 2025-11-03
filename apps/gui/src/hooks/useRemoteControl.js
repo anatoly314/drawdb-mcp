@@ -5,6 +5,9 @@ import { NotesContext } from "../context/NotesContext";
 import { EnumsContext } from "../context/EnumsContext";
 import { TypesContext } from "../context/TypesContext";
 import { Toast } from "@douyinfe/semi-ui";
+import { exportSQL } from "../utils/exportSQL";
+import { toDBML } from "../utils/exportAs/dbml";
+import { fromDBML } from "../utils/importFrom/dbml";
 
 /**
  * Hook that enables remote control of the diagram editor via WebSocket
@@ -471,6 +474,93 @@ export function useRemoteControl(enabled = false) {
             }
 
             result = { success: true, message: "Diagram imported" };
+          }
+          break;
+
+        // Export operations
+        case "exportSQL":
+          {
+            const currentDiagram = {
+              database: diagram.database,
+              tables: diagram.tables,
+              relationships: diagram.relationships,
+              enums: enums.enums,
+              types: types.types,
+            };
+            const sql = exportSQL(currentDiagram);
+            result = {
+              success: true,
+              message: "SQL exported",
+              data: {
+                sql,
+                database: diagram.database,
+              },
+            };
+          }
+          break;
+
+        case "exportDBML":
+          {
+            const currentDiagram = {
+              database: diagram.database,
+              tables: diagram.tables,
+              relationships: diagram.relationships,
+              enums: enums.enums,
+              types: types.types,
+            };
+            const dbml = toDBML(currentDiagram);
+            result = {
+              success: true,
+              message: "DBML exported",
+              data: {
+                dbml,
+              },
+            };
+          }
+          break;
+
+        // Import operations
+        case "importDBML":
+          {
+            try {
+              const parsed = fromDBML(params.dbml);
+
+              // Clear current diagram if requested
+              if (params.clearCurrent !== false) {
+                diagram.setTables([]);
+                diagram.setRelationships([]);
+                areas.setAreas([]);
+                notes.setNotes([]);
+                enums.setEnums([]);
+                types.setTypes([]);
+              }
+
+              // Import parsed DBML data
+              if (parsed.database) {
+                diagram.setDatabase(parsed.database);
+              }
+              if (parsed.tables) {
+                diagram.setTables(parsed.tables);
+              }
+              if (parsed.relationships) {
+                diagram.setRelationships(parsed.relationships);
+              }
+              if (parsed.enums) {
+                enums.setEnums(parsed.enums);
+              }
+
+              result = {
+                success: true,
+                message: "DBML imported",
+                imported: {
+                  tableCount: parsed.tables?.length || 0,
+                  relationshipCount: parsed.relationships?.length || 0,
+                  enumCount: parsed.enums?.length || 0,
+                },
+              };
+            } catch (error) {
+              throw new Error(`DBML import failed: ${error.message}`);
+            }
           }
           break;
 
