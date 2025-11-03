@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { DrawDBModule } from '../../../drawdb';
+import { DrawDBModule } from '@/drawdb';
 import { AddTableTool } from './tools/add-table.tool';
 import { UpdateTableTool } from './tools/update-table.tool';
 import { DeleteTableTool } from './tools/delete-table.tool';

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Tool } from '@rekog/mcp-nest';
 import type { Context } from '@rekog/mcp-nest';
 import { z } from 'zod';
-import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
+import { DrawDBClientService } from '@/drawdb';
 
 @Injectable()
 export class UpdateTableTool {
