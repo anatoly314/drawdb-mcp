@@ -552,10 +552,12 @@ export function useRemoteControl(enabled = false) {
               result = {
                 success: true,
                 message: "DBML imported",
-                imported: {
-                  tableCount: parsed.tables?.length || 0,
-                  relationshipCount: parsed.relationships?.length || 0,
-                  enumCount: parsed.enums?.length || 0,
+                data: {
+                  imported: {
+                    tableCount: parsed.tables?.length || 0,
+                    relationshipCount: parsed.relationships?.length || 0,
+                    enumCount: parsed.enums?.length || 0,
+                  },
                 },
               };
             } catch (error) {
