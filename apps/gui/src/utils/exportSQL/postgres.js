@@ -2,7 +2,7 @@ import { escapeQuotes, exportFieldComment, parseDefault } from "./shared";
 import { dbToTypes } from "../../data/datatypes";
 
 export function toPostgres(diagram) {
-  const enumStatements = diagram.enums
+  const enumStatements = (diagram.enums || [])
     .map(
       (e) =>
         `CREATE TYPE "${e.name}" AS ENUM (\n${e.values
@@ -11,7 +11,7 @@ export function toPostgres(diagram) {
     )
     .join("\n");
 
-  const typeStatements = diagram.types
+  const typeStatements = (diagram.types || [])
     .map(
       (type) =>
         `CREATE TYPE ${type.name} AS (\n${type.fields
@@ -24,7 +24,7 @@ export function toPostgres(diagram) {
     )
     .join("\n");
 
-  const tableStatements = diagram.tables
+  const tableStatements = (diagram.tables || [])
     .map((table) => {
       const inheritsClause =
         Array.isArray(table.inherits) && table.inherits.length > 0
@@ -72,7 +72,7 @@ export function toPostgres(diagram) {
           .filter(Boolean),
       ].join("\n");
 
-      const indexStatements = table.indices
+      const indexStatements = (table.indices || [])
         .map(
           (i) =>
             `CREATE ${i.unique ? "UNIQUE " : ""}INDEX "${i.name}"\nON "${table.name}" (${i.fields
@@ -85,7 +85,7 @@ export function toPostgres(diagram) {
     })
     .join("\n\n");
 
-  const foreignKeyStatements = diagram.references
+  const foreignKeyStatements = (diagram.references || diagram.relationships || [])
     .map((r) => {
       const startTable = diagram.tables.find((t) => t.id === r.startTableId);
       const endTable = diagram.tables.find((t) => t.id === r.endTableId);

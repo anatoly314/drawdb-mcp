@@ -354,7 +354,14 @@ The backend exposes the following MCP tools (located in `apps/backend/src/mcp/pr
 **Diagram Tools:**
 - `get-diagram` - Retrieve entire diagram state (all entities)
 - `import-diagram` - Replace diagram with JSON data
-- `export-diagram` - Export to SQL, JSON, or other formats
+- `export-diagram` - Export complete diagram as JSON
+
+**Export/Import Tools:**
+- `export-sql` - Export diagram as SQL DDL for current database type (PostgreSQL, MySQL, SQLite, MariaDB, MSSQL, Oracle)
+- `export-dbml` - Export diagram as DBML (Database Markup Language - human-readable, database-agnostic)
+- `import-dbml` - Import database schema from DBML format
+
+**Note:** SQL export requires a specific database type to be set. The "generic" database type will return an empty string. DBML export/import works with any database type.
 
 Each tool validates input using Zod schemas and communicates with the frontend via WebSocket.
 

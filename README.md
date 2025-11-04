@@ -129,3 +129,27 @@ When updating to a new version (whether via Docker or local development), **you 
 - **macOS**: `Cmd + Shift + R`
 
 Without a hard refresh, the browser may continue using the old cached frontend code even though the backend has been updated, which can cause errors or unexpected behavior.
+
+## Features
+
+### Export & Import
+
+The MCP server provides tools for exporting and importing database diagrams in multiple formats:
+
+**Export Formats:**
+- **SQL DDL**: Export database-specific SQL statements (PostgreSQL, MySQL, SQLite, MariaDB, MSSQL, Oracle)
+- **DBML**: Export to Database Markup Language (human-readable, database-agnostic format)
+- **JSON**: Export complete diagram state for backup/restore
+
+**Import Formats:**
+- **DBML**: Import database schemas from DBML format
+- **JSON**: Import complete diagram state
+
+**Available MCP Tools:**
+- `export_sql` - Export diagram as SQL DDL for current database type
+- `export_dbml` - Export diagram as DBML
+- `import_dbml` - Import database schema from DBML
+- `export_diagram` - Export complete diagram as JSON
+- `import_diagram` - Import complete diagram from JSON
+
+See [CLAUDE.md](./CLAUDE.md) for complete list of available MCP tools and their usage.
