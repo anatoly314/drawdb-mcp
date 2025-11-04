@@ -2056,6 +2056,13 @@ export default function ControlPanel({
                   </Tag>
                 </Tooltip>
               )}
+              {import.meta.env.VITE_APP_VERSION && (
+                <Tooltip content="DrawDB MCP Server Version" position="bottom">
+                  <Tag size="small" color="blue">
+                    v{import.meta.env.VITE_APP_VERSION}
+                  </Tag>
+                </Tooltip>
+              )}
             </div>
           </div>
         </div>
