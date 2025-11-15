@@ -47,17 +47,18 @@ export function toOracleSQL(diagram) {
     )
     .join("\n")}\n${diagram.references
     .map((r) => {
-      const { name: startName, fields: startFields } = diagram.tables.find(
-        (t) => t.id === r.startTableId,
-      );
-      const { name: endName, fields: endFields } = diagram.tables.find(
-        (t) => t.id === r.endTableId,
-      );
-      return `ALTER TABLE "${startName}"\nADD CONSTRAINT "${r.name}" FOREIGN KEY ("${
-        startFields.find((f) => f.id === r.startFieldId).name
-      }") REFERENCES "${endName}" ("${
-        endFields.find((f) => f.id === r.endFieldId).name
-      }")\nON UPDATE ${r.updateConstraint.toUpperCase()} ON DELETE ${r.deleteConstraint.toUpperCase()};`;
+      const startTable = diagram.tables.find((t) => t.id === r.startTableId);
+      const endTable = diagram.tables.find((t) => t.id === r.endTableId);
+
+      if (!startTable || !endTable) return null;
+
+      const startField = startTable.fields.find((f) => f.id === r.startFieldId);
+      const endField = endTable.fields.find((f) => f.id === r.endFieldId);
+
+      if (!startField || !endField) return null;
+
+      return `ALTER TABLE "${startTable.name}"\nADD CONSTRAINT "${r.name}" FOREIGN KEY ("${startField.name}") REFERENCES "${endTable.name}" ("${endField.name}")\nON UPDATE ${r.updateConstraint.toUpperCase()} ON DELETE ${r.deleteConstraint.toUpperCase()};`;
     })
+    .filter((sql) => sql !== null)
     .join("\n")}`;
 }

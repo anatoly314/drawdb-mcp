@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Model Context Protocol server for DrawDB - enables AI assistants to create and modify database diagrams via WebSocket",
   "author": "Anatoly Tarnavsky",
   "private": true,

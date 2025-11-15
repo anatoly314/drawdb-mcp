@@ -100,19 +100,31 @@ function processComment(comment) {
 
 export function toDBML(diagram) {
   const generateRelString = (rel) => {
-    const { fields: startTableFields, name: startTableName } =
-      diagram.tables.find((t) => t.id === rel.startTableId);
-    const { name: startFieldName } = startTableFields.find(
-      (f) => f.id === rel.startFieldId,
-    );
-    const { fields: endTableFields, name: endTableName } = diagram.tables.find(
-      (t) => t.id === rel.endTableId,
-    );
-    const { name: endFieldName } = endTableFields.find(
-      (f) => f.id === rel.endFieldId,
-    );
+    const startTable = diagram.tables.find((t) => t.id === rel.startTableId);
+    if (!startTable) {
+      console.warn(`Relationship "${rel.name}" references non-existent start table: ${rel.startTableId}`);
+      return null;
+    }
 
-    return `Ref ${quoteIdentifier(rel.name)} {\n\t${quoteIdentifier(startTableName)}.${quoteIdentifier(startFieldName)} ${cardinality(rel)} ${quoteIdentifier(endTableName)}.${quoteIdentifier(endFieldName)} [ delete: ${rel.deleteConstraint.toLowerCase()}, update: ${rel.updateConstraint.toLowerCase()} ]\n}`;
+    const startField = startTable.fields.find((f) => f.id === rel.startFieldId);
+    if (!startField) {
+      console.warn(`Relationship "${rel.name}" references non-existent start field: ${rel.startFieldId}`);
+      return null;
+    }
+
+    const endTable = diagram.tables.find((t) => t.id === rel.endTableId);
+    if (!endTable) {
+      console.warn(`Relationship "${rel.name}" references non-existent end table: ${rel.endTableId}`);
+      return null;
+    }
+
+    const endField = endTable.fields.find((f) => f.id === rel.endFieldId);
+    if (!endField) {
+      console.warn(`Relationship "${rel.name}" references non-existent end field: ${rel.endFieldId}`);
+      return null;
+    }
+
+    return `Ref ${quoteIdentifier(rel.name)} {\n\t${quoteIdentifier(startTable.name)}.${quoteIdentifier(startField.name)} ${cardinality(rel)} ${quoteIdentifier(endTable.name)}.${quoteIdentifier(endField.name)} [ delete: ${rel.deleteConstraint.toLowerCase()}, update: ${rel.updateConstraint.toLowerCase()} ]\n}`;
   };
 
   let enumDefinitions = "";
@@ -171,5 +183,6 @@ export function toDBML(diagram) {
     )
     .join("\n\n")}\n\n${diagram.relationships
     .map((rel) => generateRelString(rel))
+    .filter((relStr) => relStr !== null)
     .join("\n\n")}`;
 }
