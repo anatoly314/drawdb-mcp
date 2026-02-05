@@ -135,7 +135,11 @@ export default function Canvas() {
         x: table.x,
         y: table.y,
         width: settings.tableWidth,
-        height: getTableHeight(table),
+        height: getTableHeight(
+          table,
+          settings.tableWidth,
+          settings.showComments,
+        ),
       };
       if (shouldAddElement(tableRect, element)) {
         elements.push(element);

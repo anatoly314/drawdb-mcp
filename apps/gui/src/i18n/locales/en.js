@@ -281,6 +281,7 @@ const en = {
     see_all: "See all",
     insert_sql: "Insert SQL",
     upload_file: "Upload file",
+    show_comments: "Show comments",
   },
 };
 
