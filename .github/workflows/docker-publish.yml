@@ -63,4 +63,33 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ github.ref_name }}
-        run: gh release create "$TAG_NAME" --generate-notes --latest
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          VERSION="${TAG_NAME#v}"
+          AUTO_NOTES="$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${REPO}/releases/generate-notes" \
+            -f tag_name="${TAG_NAME}" \
+            --jq .body || true)"
+          cat > release-notes.md <<EOF
+          ## Docker image
+
+          \`\`\`bash
+          docker pull ghcr.io/${REPO}:${VERSION}
+          \`\`\`
+
+          Run:
+
+          \`\`\`bash
+          docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 --restart unless-stopped ghcr.io/${REPO}:${VERSION}
+          \`\`\`
+
+          See the [README](https://github.com/${REPO}/blob/main/README.md) for advanced usage.
+
+          ---
+
+          ${AUTO_NOTES}
+          EOF
+          gh release create "$TAG_NAME" --notes-file release-notes.md --latest
