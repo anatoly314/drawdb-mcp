@@ -17,6 +17,15 @@ export default function DiagramContextProvider({ children }) {
   const { selectedElement, setSelectedElement } = useSelect();
 
   const addTable = (data, addToHistory = true) => {
+    if (data) {
+      setTables((prev) => {
+        const temp = prev.slice();
+        temp.splice(data.index, 0, data.table);
+        return temp;
+      });
+      return data.table;
+    }
+
     const id = nanoid();
     const newTable = {
       id,
@@ -42,21 +51,16 @@ export default function DiagramContextProvider({ children }) {
       indices: [],
       color: defaultBlue,
     };
-    if (data) {
-      setTables((prev) => {
-        const temp = prev.slice();
-        temp.splice(data.index, 0, data.table);
-        return temp;
-      });
-      return data.table; // Return restored table for undo/redo
-    } else {
-      setTables((prev) => [...prev, newTable]);
-    }
+    let insertedIndex;
+    setTables((prev) => {
+      insertedIndex = prev.length;
+      return [...prev, newTable];
+    });
     if (addToHistory) {
       setUndoStack((prev) => [
         ...prev,
         {
-          data: data || { table: newTable, index: tables.length - 1 },
+          data: { table: newTable, index: insertedIndex },
           action: Action.ADD,
           element: ObjectType.TABLE,
           message: t("add_table"),
@@ -64,7 +68,7 @@ export default function DiagramContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
-    return newTable; // Return newly created table
+    return newTable;
   };
 
   const deleteTable = (id, addToHistory = true) => {
@@ -177,22 +181,24 @@ export default function DiagramContextProvider({ children }) {
 
   const addRelationship = (data, addToHistory = true) => {
     if (addToHistory) {
+      let insertedIndex;
       setRelationships((prev) => {
-        setUndoStack((prevUndo) => [
-          ...prevUndo,
-          {
-            action: Action.ADD,
-            element: ObjectType.RELATIONSHIP,
-            data: {
-              relationship: data,
-              index: prevUndo.length,
-            },
-            message: t("add_relationship"),
-          },
-        ]);
-        setRedoStack([]);
+        insertedIndex = prev.length;
         return [...prev, data];
       });
+      setUndoStack((prev) => [
+        ...prev,
+        {
+          action: Action.ADD,
+          element: ObjectType.RELATIONSHIP,
+          data: {
+            relationship: data,
+            index: insertedIndex,
+          },
+          message: t("add_relationship"),
+        },
+      ]);
+      setRedoStack([]);
     } else {
       setRelationships((prev) => {
         const temp = prev.slice();

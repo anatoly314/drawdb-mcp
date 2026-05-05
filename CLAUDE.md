@@ -268,7 +268,7 @@ For step-through debugging: `npm run inspector:stdio:debug` in `apps/backend`, t
 - **Docker nginx**: runs as non-root user `nodejs:nodejs`, requires proper permissions on mounted volumes.
 - **Build failures**: `pnpm clean && pnpm install` to reset.
 - **Turborepo cache issues**: delete `.turbo/`.
-- **Area/Note IDs are array indices, not nanoids**: Unlike tables/fields/relationships/enums/types (which use `nanoid()`), areas and notes use numeric array indices (0, 1, 2...) as IDs, reassigned on every change via `.map((t, i) => ({ ...t, id: i }))`. MCP tools return numeric IDs from `addArea`/`addNote`. Update/delete operations convert string IDs to integers for lookup (`parseInt(params.id, 10)`). This is the single most common source of "ID not found" bugs in this codebase.
+- **Entity IDs**: Tables/fields/relationships use `nanoid()`. Areas/notes/enums/types use numeric array indices (0, 1, 2...) reassigned on every change (areas/notes via `.map((t, i) => ({ ...t, id: i }))`; enums/types via `nextIdRef.current` initialized from `.length`). MCP tools return numeric IDs from `addArea`/`addNote`/`addEnum`/`addType`. Update/delete operations convert string IDs to integers for lookup (`parseInt(params.id, 10)`). This is the single most common source of "ID not found" bugs in this codebase.
 - **Command ID format**: Backend generates `cmd_${timestamp}_${random}` for request/response matching.
 
 ## Documentation

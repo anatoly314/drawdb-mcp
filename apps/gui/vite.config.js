@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { readFileSync } from 'fs'
-import { resolve } from 'path'
 
 // Read backend version at build time
 const backendPackageJson = JSON.parse(
-  readFileSync(resolve(__dirname, '../backend/package.json'), 'utf-8')
+  readFileSync(new URL('../backend/package.json', import.meta.url), 'utf-8')
 )
 
 // https://vitejs.dev/config/
