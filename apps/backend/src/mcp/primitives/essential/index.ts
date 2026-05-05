@@ -28,6 +28,7 @@ import { GetTableTool } from './tools/get-table.tool';
 import { ExportSQLTool } from './tools/export-sql.tool';
 import { ExportDBMLTool } from './tools/export-dbml.tool';
 import { ImportDBMLTool } from './tools/import-dbml.tool';
+import { SetDatabaseTool } from './tools/set-database.tool';
 
 const MCP_PRIMITIVES = [
   AddTableTool,
@@ -58,6 +59,7 @@ const MCP_PRIMITIVES = [
   ExportSQLTool,
   ExportDBMLTool,
   ImportDBMLTool,
+  SetDatabaseTool,
 ];
 
 /**
@@ -104,3 +106,4 @@ export * from './tools/get-table.tool';
 export * from './tools/export-sql.tool';
 export * from './tools/export-dbml.tool';
 export * from './tools/import-dbml.tool';
+export * from './tools/set-database.tool';
