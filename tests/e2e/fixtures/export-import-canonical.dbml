@@ -1,0 +1,14 @@
+Table users [headercolor: #175e7a] {
+	id serial [ pk, not null ]
+	email varchar [ not null, unique ]
+}
+
+Table posts [headercolor: #175e7a] {
+	id serial [ pk, not null ]
+	user_id integer [ not null ]
+	title varchar [ not null ]
+}
+
+Ref fk_posts_user {
+	posts.user_id > users.id [ delete: no action, update: no action ]
+}

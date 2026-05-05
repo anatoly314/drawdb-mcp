@@ -1,0 +1,92 @@
+{
+  "database": "postgresql",
+  "tables": [
+    {
+      "id": "tbl_users_001",
+      "name": "users",
+      "x": 100,
+      "y": 100,
+      "color": "#175e7a",
+      "comment": "",
+      "fields": [
+        {
+          "id": "fld_users_id",
+          "name": "id",
+          "type": "SERIAL",
+          "primary": true,
+          "unique": false,
+          "notNull": true,
+          "increment": true,
+          "default": "",
+          "check": "",
+          "comment": ""
+        },
+        {
+          "id": "fld_users_email",
+          "name": "email",
+          "type": "VARCHAR",
+          "primary": false,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "default": "",
+          "check": "",
+          "comment": ""
+        }
+      ],
+      "indices": []
+    },
+    {
+      "id": "tbl_posts_001",
+      "name": "posts",
+      "x": 400,
+      "y": 100,
+      "color": "#175e7a",
+      "comment": "",
+      "fields": [
+        {
+          "id": "fld_posts_id",
+          "name": "id",
+          "type": "SERIAL",
+          "primary": true,
+          "unique": false,
+          "notNull": true,
+          "increment": true,
+          "default": "",
+          "check": "",
+          "comment": ""
+        },
+        {
+          "id": "fld_posts_user_id",
+          "name": "user_id",
+          "type": "INTEGER",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "default": "",
+          "check": "",
+          "comment": ""
+        }
+      ],
+      "indices": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_posts_user",
+      "name": "fk_posts_user",
+      "startTableId": "tbl_posts_001",
+      "startFieldId": "fld_posts_user_id",
+      "endTableId": "tbl_users_001",
+      "endFieldId": "fld_users_id",
+      "cardinality": "many_to_one",
+      "updateConstraint": "No action",
+      "deleteConstraint": "No action"
+    }
+  ],
+  "areas": [],
+  "notes": [],
+  "enums": [],
+  "types": []
+}

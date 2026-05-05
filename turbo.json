@@ -19,9 +19,16 @@
     },
     "type-check": {},
     "test": {
-      "dependsOn": ["build"],
+      "cache": false,
       "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx", "specs/**/*.ts", "helpers/**/*.ts", "setup/**/*.ts", "fixtures/**"],
+      "passThroughEnv": ["UPDATE_FIXTURES", "CI", "DRAWDB_E2E_IMAGE"]
+    },
+    "test:ci": {
+      "cache": false,
+      "outputs": ["coverage/**"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx", "specs/**/*.ts", "helpers/**/*.ts", "setup/**/*.ts", "fixtures/**"],
+      "passThroughEnv": ["UPDATE_FIXTURES", "CI", "DRAWDB_E2E_IMAGE"]
     }
   }
 }

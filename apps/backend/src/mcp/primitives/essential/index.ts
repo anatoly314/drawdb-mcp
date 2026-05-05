@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { McpModule } from '@rekog/mcp-nest';
 import { DrawDBModule } from '@/drawdb';
 import { AddTableTool } from './tools/add-table.tool';
 import { UpdateTableTool } from './tools/update-table.tool';
@@ -67,17 +68,16 @@ const MCP_PRIMITIVES = [
  */
 @Module({})
 export class McpPrimitivesDrawDBModule {
-  static forRoot(): DynamicModule {
+  static forRoot(serverName: string): DynamicModule {
     return {
       module: McpPrimitivesDrawDBModule,
-      imports: [DrawDBModule],
+      imports: [DrawDBModule, McpModule.forFeature(MCP_PRIMITIVES, serverName)],
       providers: [...MCP_PRIMITIVES],
       exports: [DrawDBModule, ...MCP_PRIMITIVES],
     };
   }
 }
 
-// Export tools
 export * from './tools/add-table.tool';
 export * from './tools/update-table.tool';
 export * from './tools/delete-table.tool';

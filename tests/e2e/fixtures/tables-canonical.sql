@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS "users" (
+	"id" SERIAL NOT NULL,
+	"email" VARCHAR NOT NULL UNIQUE,
+	"created_at" TIMESTAMP NOT NULL,
+	PRIMARY KEY("id")
+);

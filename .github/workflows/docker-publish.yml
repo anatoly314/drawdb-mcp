@@ -14,7 +14,11 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  e2e:
+    uses: ./.github/workflows/e2e.yml
+
   build-and-push:
+    needs: e2e
     runs-on: ubuntu-latest
     permissions:
       contents: write

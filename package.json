@@ -4,7 +4,8 @@
   "private": true,
   "description": "DrawDB - Free, simple, and intuitive database design tool and SQL generator",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "tests/e2e"
   ],
   "scripts": {
     "build": "turbo run build",
@@ -14,7 +15,9 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "gui:dev": "turbo run dev --filter=gui",
     "backend:dev": "turbo run dev --filter=backend",
-    "backend:inspector": "turbo run inspector:stdio --filter=backend"
+    "backend:inspector": "turbo run inspector:stdio --filter=backend",
+    "e2e": "turbo run test --filter=@drawdb-mcp/e2e",
+    "e2e:ci": "turbo run test:ci --filter=@drawdb-mcp/e2e"
   },
   "devDependencies": {
     "prettier": "^3.0.3",

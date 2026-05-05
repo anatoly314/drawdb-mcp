@@ -214,7 +214,7 @@ Each tool is an injectable NestJS service decorated with `@McpTool()`, validates
 Source of truth lives in the GUI code. The shapes you'll most commonly touch:
 
 - **Tables** and **Fields**: `apps/gui/src/data/` and the table-related components/contexts. Fields carry standard SQL constraint flags (`primary`, `unique`, `notNull`, `increment`, `default`, `comment`).
-- **Relationships**: `cardinality` is one of `One to one`, `One to many`, `Many to one`, plus `update`/`delete` constraints.
+- **Relationships**: `cardinality` is one of `one_to_one`, `one_to_many`, `many_to_one`, plus `update`/`delete` constraints.
 - **Areas / Notes**: positional with `x`, `y`, `width`, `height`. Notes use Lexical editor state for `content`.
 - **Enums / Types**: PostgreSQL-only entities.
 

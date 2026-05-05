@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS "products" (
+	"id" SERIAL NOT NULL,
+	"name" VARCHAR NOT NULL,
+	"price" NUMERIC NOT NULL,
+	"active" BOOLEAN NOT NULL DEFAULT true,
+	PRIMARY KEY("id")
+);

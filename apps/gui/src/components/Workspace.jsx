@@ -183,11 +183,8 @@ export default function WorkSpace() {
         .last()
         .then((d) => {
           if (d) {
-            if (d.database) {
-              setDatabase(d.database);
-            } else {
-              setDatabase(DB.GENERIC);
-            }
+            const dbType = d.database || DB.GENERIC;
+            setDatabase(dbType);
             setId(d.id);
             setGistId(d.gistId);
             setLoadedFromGistId(d.loadedFromGistId);
@@ -198,10 +195,10 @@ export default function WorkSpace() {
             setAreas(d.areas);
             setTasks(d.todos ?? []);
             setTransform({ pan: d.pan, zoom: d.zoom });
-            if (databases[database].hasTypes) {
+            if (databases[dbType].hasTypes) {
               setTypes(d.types ?? []);
             }
-            if (databases[database].hasEnums) {
+            if (databases[dbType].hasEnums) {
               setEnums(d.enums ?? []);
             }
             window.name = `d ${d.id}`;
@@ -220,11 +217,8 @@ export default function WorkSpace() {
         .get(id)
         .then((diagram) => {
           if (diagram) {
-            if (diagram.database) {
-              setDatabase(diagram.database);
-            } else {
-              setDatabase(DB.GENERIC);
-            }
+            const dbType = diagram.database || DB.GENERIC;
+            setDatabase(dbType);
             setId(diagram.id);
             setGistId(diagram.gistId);
             setLoadedFromGistId(diagram.loadedFromGistId);
@@ -240,10 +234,10 @@ export default function WorkSpace() {
             });
             setUndoStack([]);
             setRedoStack([]);
-            if (databases[database].hasTypes) {
+            if (databases[dbType].hasTypes) {
               setTypes(diagram.types ?? []);
             }
-            if (databases[database].hasEnums) {
+            if (databases[dbType].hasEnums) {
               setEnums(diagram.enums ?? []);
             }
             window.name = `d ${diagram.id}`;
@@ -261,11 +255,8 @@ export default function WorkSpace() {
         .get(id)
         .then((diagram) => {
           if (diagram) {
-            if (diagram.database) {
-              setDatabase(diagram.database);
-            } else {
-              setDatabase(DB.GENERIC);
-            }
+            const dbType = diagram.database || DB.GENERIC;
+            setDatabase(dbType);
             setId(diagram.id);
             setTitle(diagram.title);
             setTables(diagram.tables);
@@ -279,10 +270,10 @@ export default function WorkSpace() {
             });
             setUndoStack([]);
             setRedoStack([]);
-            if (databases[database].hasTypes) {
+            if (databases[dbType].hasTypes) {
               setTypes(diagram.types ?? []);
             }
-            if (databases[database].hasEnums) {
+            if (databases[dbType].hasEnums) {
               setEnums(diagram.enums ?? []);
             }
           } else {
@@ -370,7 +361,6 @@ export default function WorkSpace() {
     setTypes,
     setTasks,
     setDatabase,
-    database,
     setEnums,
     selectedDb,
     setSaveState,

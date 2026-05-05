@@ -5,6 +5,7 @@ import { NotesContext } from "../context/NotesContext";
 import { EnumsContext } from "../context/EnumsContext";
 import { TypesContext } from "../context/TypesContext";
 import { Toast } from "@douyinfe/semi-ui";
+import { DB } from "../data/constants";
 import { exportSQL } from "../utils/exportSQL";
 import { toDBML } from "../utils/exportAs/dbml";
 import { fromDBML } from "../utils/importFrom/dbml";
@@ -439,38 +440,42 @@ export function useRemoteControl(enabled = false) {
         case "importDiagram":
           {
             const importedDiagram = params.diagram;
+            const clear = params.clearCurrent !== false;
 
-            // Clear current diagram if requested
-            if (params.clearCurrent !== false) {
-              diagram.setTables([]);
-              diagram.setRelationships([]);
-              areas.setAreas([]);
-              notes.setNotes([]);
-              enums.setEnums([]);
-              types.setTypes([]);
-            }
-
-            // Load new diagram
-            if (importedDiagram.database) {
-              diagram.setDatabase(importedDiagram.database);
-            }
-            if (importedDiagram.tables) {
-              diagram.setTables(importedDiagram.tables);
-            }
-            if (importedDiagram.relationships) {
-              diagram.setRelationships(importedDiagram.relationships);
-            }
-            if (importedDiagram.areas) {
-              areas.setAreas(importedDiagram.areas);
-            }
-            if (importedDiagram.notes) {
-              notes.setNotes(importedDiagram.notes);
-            }
-            if (importedDiagram.enums) {
-              enums.setEnums(importedDiagram.enums);
-            }
-            if (importedDiagram.types) {
-              types.setTypes(importedDiagram.types);
+            // Replace each entity collection in a single setter call.
+            // When clearing, missing fields default to empty arrays so the
+            // previous diagram is fully replaced (not merged). When not
+            // clearing, missing fields preserve existing state.
+            if (clear) {
+              diagram.setDatabase(importedDiagram.database ?? DB.GENERIC);
+              diagram.setTables(importedDiagram.tables ?? []);
+              diagram.setRelationships(importedDiagram.relationships ?? []);
+              areas.setAreas(importedDiagram.areas ?? []);
+              notes.setNotes(importedDiagram.notes ?? []);
+              enums.setEnums(importedDiagram.enums ?? []);
+              types.setTypes(importedDiagram.types ?? []);
+            } else {
+              if (importedDiagram.database !== undefined) {
+                diagram.setDatabase(importedDiagram.database);
+              }
+              if (importedDiagram.tables !== undefined) {
+                diagram.setTables(importedDiagram.tables);
+              }
+              if (importedDiagram.relationships !== undefined) {
+                diagram.setRelationships(importedDiagram.relationships);
+              }
+              if (importedDiagram.areas !== undefined) {
+                areas.setAreas(importedDiagram.areas);
+              }
+              if (importedDiagram.notes !== undefined) {
+                notes.setNotes(importedDiagram.notes);
+              }
+              if (importedDiagram.enums !== undefined) {
+                enums.setEnums(importedDiagram.enums);
+              }
+              if (importedDiagram.types !== undefined) {
+                types.setTypes(importedDiagram.types);
+              }
             }
 
             result = { success: true, message: "Diagram imported" };
@@ -524,29 +529,32 @@ export function useRemoteControl(enabled = false) {
           {
             try {
               const parsed = fromDBML(params.dbml);
+              const clear = params.clearCurrent !== false;
 
-              // Clear current diagram if requested
-              if (params.clearCurrent !== false) {
-                diagram.setTables([]);
-                diagram.setRelationships([]);
+              // Mirror importDiagram semantics: when clearing, replace every
+              // collection (and database) in a single setter call so previous
+              // state cannot leak through.
+              if (clear) {
+                diagram.setDatabase(parsed.database ?? DB.GENERIC);
+                diagram.setTables(parsed.tables ?? []);
+                diagram.setRelationships(parsed.relationships ?? []);
                 areas.setAreas([]);
                 notes.setNotes([]);
-                enums.setEnums([]);
+                enums.setEnums(parsed.enums ?? []);
                 types.setTypes([]);
-              }
-
-              // Import parsed DBML data
-              if (parsed.database) {
-                diagram.setDatabase(parsed.database);
-              }
-              if (parsed.tables) {
-                diagram.setTables(parsed.tables);
-              }
-              if (parsed.relationships) {
-                diagram.setRelationships(parsed.relationships);
-              }
-              if (parsed.enums) {
-                enums.setEnums(parsed.enums);
+              } else {
+                if (parsed.database !== undefined) {
+                  diagram.setDatabase(parsed.database);
+                }
+                if (parsed.tables !== undefined) {
+                  diagram.setTables(parsed.tables);
+                }
+                if (parsed.relationships !== undefined) {
+                  diagram.setRelationships(parsed.relationships);
+                }
+                if (parsed.enums !== undefined) {
+                  enums.setEnums(parsed.enums);
+                }
               }
 
               result = {

@@ -27,14 +27,14 @@
     "inspector:http": "./node_modules/.bin/mcp-inspector --config mcp-inspector-config.json --server http-server"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.18.2",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@nestjs/common": "^11.1.6",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
     "@nestjs/platform-ws": "^11.1.6",
     "@nestjs/websockets": "^11.1.6",
-    "@rekog/mcp-nest": "^1.8.3",
+    "@rekog/mcp-nest": "^1.9.9",
     "commander": "^14.0.1",
     "nanoid": "^5.0.9",
     "pino": "^10.0.0",
