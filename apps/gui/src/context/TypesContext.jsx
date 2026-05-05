@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useRef, useEffect } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { useUndoRedo } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
@@ -11,25 +11,34 @@ export default function TypesContextProvider({ children }) {
   const [types, setTypes] = useState([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
+  // Tracks the next available numeric ID without reading inside setters.
+  // Synced from state on every commit so external mutations (import, etc.)
+  // don't cause ID collisions.
+  const nextIdRef = useRef(0);
+  useEffect(() => {
+    nextIdRef.current = types.length;
+  }, [types]);
+
   const addType = (data, addToHistory = true) => {
     let createdType;
     if (data) {
+      createdType = data;
+      nextIdRef.current += 1;
       setTypes((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp;
       });
-      createdType = data;
     } else {
-      setTypes((prev) => {
-        createdType = {
-          id: prev.length,
-          name: `type_${prev.length}`,
-          fields: [],
-          comment: "",
-        };
-        return [...prev, createdType];
-      });
+      const id = nextIdRef.current;
+      nextIdRef.current = id + 1;
+      createdType = {
+        id,
+        name: `type_${id}`,
+        fields: [],
+        comment: "",
+      };
+      setTypes((prev) => [...prev, createdType]);
     }
     if (addToHistory) {
       setUndoStack((prev) => [

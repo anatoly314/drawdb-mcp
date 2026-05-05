@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useRef, useEffect } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
@@ -11,24 +11,33 @@ export default function EnumsContextProvider({ children }) {
   const [enums, setEnums] = useState([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
+  // Tracks the next available numeric ID without reading inside setters.
+  // Synced from state on every commit so external mutations (import, etc.)
+  // don't cause ID collisions.
+  const nextIdRef = useRef(0);
+  useEffect(() => {
+    nextIdRef.current = enums.length;
+  }, [enums]);
+
   const addEnum = (data, addToHistory = true) => {
     let createdEnum;
     if (data) {
+      createdEnum = data;
+      nextIdRef.current += 1;
       setEnums((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp;
       });
-      createdEnum = data;
     } else {
-      setEnums((prev) => {
-        createdEnum = {
-          id: prev.length,
-          name: `enum_${prev.length}`,
-          values: [],
-        };
-        return [...prev, createdEnum];
-      });
+      const id = nextIdRef.current;
+      nextIdRef.current = id + 1;
+      createdEnum = {
+        id,
+        name: `enum_${id}`,
+        values: [],
+      };
+      setEnums((prev) => [...prev, createdEnum]);
     }
     if (addToHistory) {
       setUndoStack((prev) => [

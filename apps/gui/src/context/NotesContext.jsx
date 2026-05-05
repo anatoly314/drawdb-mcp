@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useRef, useEffect } from "react";
 import { Action, ObjectType, defaultNoteTheme, noteWidth } from "../data/constants";
 import { useUndoRedo, useTransform, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
@@ -13,31 +13,40 @@ export default function NotesContextProvider({ children }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
 
+  // Tracks the next available numeric ID without reading inside setters.
+  // Synced from state on every commit so external mutations (import, delete)
+  // don't cause ID collisions.
+  const nextIdRef = useRef(0);
+  useEffect(() => {
+    nextIdRef.current = notes.length;
+  }, [notes]);
+
   const addNote = (data, addToHistory = true) => {
     let createdNote;
     if (data) {
+      createdNote = data;
+      nextIdRef.current += 1;
       setNotes((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp.map((t, i) => ({ ...t, id: i }));
       });
-      createdNote = data;
     } else {
       const height = 88;
-      setNotes((prev) => {
-        createdNote = {
-          id: prev.length,
-          x: transform.pan.x,
-          y: transform.pan.y - height / 2,
-          title: `note_${prev.length}`,
-          content: "",
-          locked: false,
-          color: defaultNoteTheme,
-          height,
-          width: noteWidth,
-        };
-        return [...prev, createdNote];
-      });
+      const id = nextIdRef.current;
+      nextIdRef.current = id + 1;
+      createdNote = {
+        id,
+        x: transform.pan.x,
+        y: transform.pan.y - height / 2,
+        title: `note_${id}`,
+        content: "",
+        locked: false,
+        color: defaultNoteTheme,
+        height,
+        width: noteWidth,
+      };
+      setNotes((prev) => [...prev, createdNote]);
     }
     if (addToHistory) {
       setUndoStack((prev) => [

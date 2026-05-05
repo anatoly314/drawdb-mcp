@@ -1,5 +1,5 @@
 import { Toast } from "@douyinfe/semi-ui";
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
 import { useSelect, useTransform, useUndoRedo } from "../hooks";
@@ -13,31 +13,40 @@ export default function AreasContextProvider({ children }) {
   const { selectedElement, setSelectedElement } = useSelect();
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
+  // Tracks the next available numeric ID without reading inside setters.
+  // Synced from state on every commit so external mutations (import, delete)
+  // don't cause ID collisions.
+  const nextIdRef = useRef(0);
+  useEffect(() => {
+    nextIdRef.current = areas.length;
+  }, [areas]);
+
   const addArea = (data, addToHistory = true) => {
     let createdArea;
     if (data) {
+      createdArea = data;
+      nextIdRef.current += 1;
       setAreas((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp.map((t, i) => ({ ...t, id: i }));
       });
-      createdArea = data;
     } else {
       const width = 200;
       const height = 200;
-      setAreas((prev) => {
-        createdArea = {
-          id: prev.length,
-          name: `area_${prev.length}`,
-          x: transform.pan.x - width / 2,
-          y: transform.pan.y - height / 2,
-          width,
-          height,
-          color: defaultBlue,
-          locked: false,
-        };
-        return [...prev, createdArea];
-      });
+      const id = nextIdRef.current;
+      nextIdRef.current = id + 1;
+      createdArea = {
+        id,
+        name: `area_${id}`,
+        x: transform.pan.x - width / 2,
+        y: transform.pan.y - height / 2,
+        width,
+        height,
+        color: defaultBlue,
+        locked: false,
+      };
+      setAreas((prev) => [...prev, createdArea]);
     }
     if (addToHistory) {
       setUndoStack((prev) => [
