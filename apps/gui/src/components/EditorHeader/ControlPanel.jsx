@@ -103,6 +103,14 @@ export default function ControlPanel({
     filename: `${title}_${new Date().toISOString()}`,
     extension: "",
   });
+
+  const openExportModal = (modalType) => {
+    setExportData((prev) => ({
+      ...prev,
+      filename: `${title}_${new Date().toISOString()}`,
+    }));
+    setModal(modalType);
+  };
   const [importFrom, setImportFrom] = useState(IMPORT_FROM.JSON);
   const { saveState, setSaveState } = useSaveState();
   const { layout, setLayout } = useLayout();
@@ -985,7 +993,7 @@ export default function ControlPanel({
             {
               name: "MySQL",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToMySQL({
                   tables: tables,
                   references: relationships,
@@ -1002,7 +1010,7 @@ export default function ControlPanel({
             {
               name: "PostgreSQL",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToPostgreSQL({
                   tables: tables,
                   references: relationships,
@@ -1019,7 +1027,7 @@ export default function ControlPanel({
             {
               name: "SQLite",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToSQLite({
                   tables: tables,
                   references: relationships,
@@ -1036,7 +1044,7 @@ export default function ControlPanel({
             {
               name: "MariaDB",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToMariaDB({
                   tables: tables,
                   references: relationships,
@@ -1053,7 +1061,7 @@ export default function ControlPanel({
             {
               name: "MSSQL",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToSQLServer({
                   tables: tables,
                   references: relationships,
@@ -1071,7 +1079,7 @@ export default function ControlPanel({
               label: "Beta",
               name: "Oracle",
               function: () => {
-                setModal(MODAL.CODE);
+                openExportModal(MODAL.CODE);
                 const src = jsonToOracleSQL({
                   tables: tables,
                   references: relationships,
@@ -1089,7 +1097,7 @@ export default function ControlPanel({
         }),
         function: () => {
           if (database === DB.GENERIC) return;
-          setModal(MODAL.CODE);
+          openExportModal(MODAL.CODE);
           const src = exportSQL({
             tables: tables,
             references: relationships,
@@ -1118,7 +1126,7 @@ export default function ControlPanel({
                   extension: "png",
                 }));
               });
-              setModal(MODAL.IMG);
+              openExportModal(MODAL.IMG);
             },
           },
           {
@@ -1133,7 +1141,7 @@ export default function ControlPanel({
                   }));
                 },
               );
-              setModal(MODAL.IMG);
+              openExportModal(MODAL.IMG);
             },
           },
           {
@@ -1149,13 +1157,13 @@ export default function ControlPanel({
                   }));
                 },
               );
-              setModal(MODAL.IMG);
+              openExportModal(MODAL.IMG);
             },
           },
           {
             name: "JSON",
             function: () => {
-              setModal(MODAL.CODE);
+              openExportModal(MODAL.CODE);
               const result = JSON.stringify(
                 {
                   tables: tables,
@@ -1180,7 +1188,7 @@ export default function ControlPanel({
           {
             name: "DBML",
             function: () => {
-              setModal(MODAL.CODE);
+              openExportModal(MODAL.CODE);
               const result = toDBML({
                 tables,
                 relationships,
@@ -1198,6 +1206,7 @@ export default function ControlPanel({
             name: "PDF",
             function: () => {
               const canvas = document.getElementById("canvas");
+              const filename = `${title}_${new Date().toISOString()}`;
               toJpeg(canvas).then(function (dataUrl) {
                 const doc = new jsPDF("l", "px", [
                   canvas.offsetWidth,
@@ -1211,14 +1220,14 @@ export default function ControlPanel({
                   canvas.offsetWidth,
                   canvas.offsetHeight,
                 );
-                doc.save(`${exportData.filename}.pdf`);
+                doc.save(`${filename}.pdf`);
               });
             },
           },
           {
             name: "Mermaid",
             function: () => {
-              setModal(MODAL.CODE);
+              openExportModal(MODAL.CODE);
               const result = jsonToMermaid({
                 tables: tables,
                 relationships: relationships,
@@ -1237,7 +1246,7 @@ export default function ControlPanel({
           {
             name: "Markdown",
             function: () => {
-              setModal(MODAL.CODE);
+              openExportModal(MODAL.CODE);
               const result = jsonToDocumentation({
                 tables: tables,
                 relationships: relationships,
