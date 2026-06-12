@@ -6,7 +6,12 @@ import { nanoid } from "nanoid";
  * Safe to call with null/undefined - always returns an array.
  */
 export function ensureEnumIds(enums) {
-  return (enums ?? []).map((e) => (e.id ? e : { ...e, id: nanoid() }));
+  // Legacy diagrams store numeric ids (0, 1, 2…); only a string id is stable
+  // and addressable over MCP (params arrive as JSON strings), so regenerate
+  // anything that isn't already a string.
+  return (enums ?? []).map((e) =>
+    typeof e.id === "string" ? e : { ...e, id: nanoid() },
+  );
 }
 
 /**
@@ -17,11 +22,14 @@ export function ensureEnumIds(enums) {
 export function ensureTypeIds(types) {
   return (types ?? []).map((t) => {
     const fields = t.fields ?? [];
-    if (t.id && fields.every((f) => f.id)) return t;
+    if (typeof t.id === "string" && fields.every((f) => typeof f.id === "string"))
+      return t;
     return {
       ...t,
-      id: t.id ?? nanoid(),
-      fields: fields.map((f) => (f.id ? f : { ...f, id: nanoid() })),
+      id: typeof t.id === "string" ? t.id : nanoid(),
+      fields: fields.map((f) =>
+        typeof f.id === "string" ? f : { ...f, id: nanoid() },
+      ),
     };
   });
 }

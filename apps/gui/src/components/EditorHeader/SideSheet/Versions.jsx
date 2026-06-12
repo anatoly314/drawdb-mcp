@@ -24,6 +24,7 @@ import {
 } from "../../../hooks";
 import { databases } from "../../../data/databases";
 import { loadCache, saveCache } from "../../../utils/cache";
+import { ensureEnumIds, ensureTypeIds } from "../../../utils/ensureIds";
 
 const LIMIT = 10;
 
@@ -98,11 +99,11 @@ export default function Versions({ open, title, setTitle }) {
         setTitle(parsedDiagram.title);
 
         if (databases[database].hasTypes) {
-          setTypes(parsedDiagram.types);
+          setTypes(ensureTypeIds(parsedDiagram.types));
         }
 
         if (databases[database].hasEnums) {
-          setEnums(parsedDiagram.enums);
+          setEnums(ensureEnumIds(parsedDiagram.enums));
         }
       } catch (e) {
         Toast.error(t("failed_to_load_diagram"));
