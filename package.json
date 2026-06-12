@@ -20,7 +20,7 @@
     "e2e:ci": "turbo run test:ci --filter=@drawdb-mcp/e2e"
   },
   "devDependencies": {
-    "prettier": "^3.0.3",
+    "prettier": "^3.8.4",
     "turbo": "latest"
   },
   "engines": {
