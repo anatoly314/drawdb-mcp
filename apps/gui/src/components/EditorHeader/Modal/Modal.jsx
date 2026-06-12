@@ -214,7 +214,7 @@ export default function Modal({
   };
 
   const createNewDiagram = (id) => {
-    const newWindow = window.open("/editor");
+    const newWindow = window.open("/");
     newWindow.name = "lt " + id;
   };
 

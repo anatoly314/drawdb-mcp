@@ -55,7 +55,7 @@ jobs:
       - name: Run e2e tests
         env:
           DRAWDB_E2E_IMAGE: drawdb-mcp:e2e-${{ github.sha }}
-        run: pnpm e2e:ci
+        run: pnpm test:e2e:ci
 
       - name: Upload container logs on failure
         if: failure()

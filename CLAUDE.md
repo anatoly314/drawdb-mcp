@@ -17,10 +17,10 @@ Run it against a locally-built image:
 
 ```bash
 docker build -t drawdb-mcp:local .
-DRAWDB_E2E_IMAGE=drawdb-mcp:local pnpm e2e:ci   # or pnpm e2e
+DRAWDB_E2E_IMAGE=drawdb-mcp:local pnpm test:e2e:ci   # or pnpm test:e2e
 ```
 
-It needs the Docker image and Playwright chromium (`pnpm --filter @drawdb-mcp/e2e exec playwright install chromium --with-deps`). CI (`.github/workflows/e2e.yml`) builds `drawdb-mcp:e2e-<sha>` and runs `pnpm e2e:ci`. The e2e suite is the real acceptance gate for any change touching the MCP layer or entity contexts — build/lint/type-check alone miss MCP-layer runtime failures. For quick spot-checks, exercise the apps through the MCP Inspector or the GUI.
+It needs the Docker image and Playwright chromium (`pnpm --filter @drawdb-mcp/e2e exec playwright install chromium --with-deps`). CI (`.github/workflows/e2e.yml`) builds `drawdb-mcp:e2e-<sha>` and runs `pnpm test:e2e:ci`. The e2e suite is the real acceptance gate for any change touching the MCP layer or entity contexts — build/lint/type-check alone miss MCP-layer runtime failures. For quick spot-checks, exercise the apps through the MCP Inspector or the GUI.
 
 ## Essential Commands
 

@@ -807,7 +807,7 @@ export default function ControlPanel({
       },
       new_window: {
         function: () => {
-          const newWindow = window.open("/editor", "_blank");
+          const newWindow = window.open("/", "_blank");
           newWindow.name = window.name;
         },
       },

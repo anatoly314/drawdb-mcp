@@ -24,6 +24,12 @@ export class AddTableTool {
           z.object({
             name: z.string(),
             type: z.string(),
+            size: z
+              .union([z.number(), z.string()])
+              .optional()
+              .describe(
+                "Length/size for sized types like VARCHAR or CHAR (e.g. 255). Optional — when omitted, the type's standard default size is applied.",
+              ),
             primary: z.boolean().optional().default(false),
             unique: z.boolean().optional().default(false),
             notNull: z.boolean().optional().default(false),

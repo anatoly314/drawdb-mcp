@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
+  "ui": "stream",
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
@@ -21,13 +21,31 @@
     "test": {
       "cache": false,
       "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx", "specs/**/*.ts", "helpers/**/*.ts", "setup/**/*.ts", "fixtures/**"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx",
+        "specs/**/*.ts",
+        "helpers/**/*.ts",
+        "setup/**/*.ts",
+        "fixtures/**"
+      ],
       "passThroughEnv": ["UPDATE_FIXTURES", "CI", "DRAWDB_E2E_IMAGE"]
     },
     "test:ci": {
       "cache": false,
       "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx", "specs/**/*.ts", "helpers/**/*.ts", "setup/**/*.ts", "fixtures/**"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx",
+        "specs/**/*.ts",
+        "helpers/**/*.ts",
+        "setup/**/*.ts",
+        "fixtures/**"
+      ],
       "passThroughEnv": ["UPDATE_FIXTURES", "CI", "DRAWDB_E2E_IMAGE"]
     }
   }

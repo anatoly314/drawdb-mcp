@@ -22,12 +22,12 @@ export default function Templates() {
   };
 
   const editTemplate = (id) => {
-    const newWindow = window.open("/editor", "_blank");
+    const newWindow = window.open("/", "_blank");
     newWindow.name = "t " + id;
   };
 
   const forkTemplate = (id) => {
-    const newWindow = window.open("/editor", "_blank");
+    const newWindow = window.open("/", "_blank");
     newWindow.name = "lt " + id;
   };
 

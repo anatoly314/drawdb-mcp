@@ -11,7 +11,7 @@ const WS_WAIT_TIMEOUT_MS = 30_000;
 export async function openGui(guiUrl: string): Promise<GuiSession> {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto(`${guiUrl}/editor`, {
+  await page.goto(`${guiUrl}/`, {
     timeout: GOTO_TIMEOUT_MS,
     waitUntil: 'domcontentloaded',
   });

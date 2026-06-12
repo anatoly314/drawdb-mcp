@@ -41,7 +41,7 @@ process.on('SIGHUP', () => shutdown(0));
     browser = await chromium.connect(wsEndpoint);
     context = await browser.newContext();
     page = await context.newPage();
-    await page.goto(`${guiUrl}/editor`, {
+    await page.goto(`${guiUrl}/`, {
       timeout: 30000,
       waitUntil: 'domcontentloaded',
     });

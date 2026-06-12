@@ -19,6 +19,12 @@ export class UpdateFieldTool {
       fieldId: z.string().describe('ID of the field to update'),
       name: z.string().optional().describe('New field name'),
       type: z.string().optional().describe('New field data type'),
+      size: z
+        .union([z.number(), z.string()])
+        .optional()
+        .describe(
+          "Length/size for sized types like VARCHAR or CHAR (e.g. 255). Optional — when omitted, the type's standard default size is applied.",
+        ),
       primary: z.boolean().optional().describe('New primary key status'),
       unique: z.boolean().optional().describe('New unique constraint status'),
       notNull: z.boolean().optional().describe('New NOT NULL constraint status'),
@@ -41,6 +47,7 @@ export class UpdateFieldTool {
       const updates: Record<string, any> = {};
       if (input.name !== undefined) updates.name = input.name;
       if (input.type !== undefined) updates.type = input.type;
+      if (input.size !== undefined) updates.size = input.size;
       if (input.primary !== undefined) updates.primary = input.primary;
       if (input.unique !== undefined) updates.unique = input.unique;
       if (input.notNull !== undefined) updates.notNull = input.notNull;

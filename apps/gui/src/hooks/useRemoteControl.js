@@ -6,11 +6,39 @@ import { EnumsContext } from "../context/EnumsContext";
 import { TypesContext } from "../context/TypesContext";
 import { Toast } from "@douyinfe/semi-ui";
 import { DB } from "../data/constants";
+import { dbToTypes } from "../data/datatypes";
 import { exportSQL } from "../utils/exportSQL";
 import { toDBML } from "../utils/exportAs/dbml";
 import { fromDBML } from "../utils/importFrom/dbml";
 import { ensureEnumIds, ensureTypeIds } from "../utils/ensureIds";
 import { nanoid } from "nanoid";
+
+/**
+ * Backfill type-driven defaults on a field created/retyped through the MCP
+ * layer, mirroring what the GUI does in TableField.jsx on type change.
+ *
+ * The GUI sets `size` from the datatype's `defaultSize` whenever a field's
+ * type is chosen; MCP-created fields skip that path, leaving VARCHAR (and
+ * other sized types) with `size === undefined`. That trips the GUI validator
+ * (checkDefault: `field.default.length <= field.size`) and can emit invalid
+ * DDL for MySQL/MariaDB.
+ *
+ * Only `defaultSize` is backfilled, and only when the caller did not provide a
+ * usable size. If the type isn't found for the current database, the field is
+ * returned untouched (no crash). Type keys are uppercase, matching the GUI.
+ */
+function withTypeDefaults(field, database) {
+  if (!field || typeof field.type !== "string") return field;
+  const typeInfo = dbToTypes[database] && dbToTypes[database][field.type];
+  if (!typeInfo) return field;
+
+  const hasSize =
+    field.size !== undefined && field.size !== null && field.size !== "";
+  if (typeInfo.defaultSize !== undefined && !hasSize) {
+    return { ...field, size: typeInfo.defaultSize };
+  }
+  return field;
+}
 
 /**
  * Hook that enables remote control of the diagram editor via WebSocket
@@ -54,7 +82,15 @@ export function useRemoteControl(enabled = false) {
       switch (command) {
         // Table operations
         case "addTable": {
-          const newTable = diagram.addTable(params.data, params.addToHistory ?? true);
+          const tableData = Array.isArray(params.data?.fields)
+            ? {
+                ...params.data,
+                fields: params.data.fields.map((f) =>
+                  withTypeDefaults(f, diagram.database),
+                ),
+              }
+            : params.data;
+          const newTable = diagram.addTable(tableData, params.addToHistory ?? true);
           result = { success: true, message: "Table added", data: newTable };
           break;
         }
@@ -74,16 +110,26 @@ export function useRemoteControl(enabled = false) {
             const table = diagram.tables.find((t) => t.id === params.tableId);
             if (!table) throw new Error(`Table ${params.tableId} not found`);
             diagram.updateTable(params.tableId, {
-              fields: [...table.fields, params.field],
+              fields: [
+                ...table.fields,
+                withTypeDefaults(params.field, diagram.database),
+              ],
             });
             result = { success: true, message: "Field added" };
           }
           break;
 
-        case "updateField":
-          diagram.updateField(params.tableId, params.fieldId, params.updates);
+        case "updateField": {
+          // When a field is retyped, mirror the GUI and backfill the new
+          // type's defaultSize unless the same update sets a size explicitly.
+          const updates =
+            params.updates && typeof params.updates.type === "string"
+              ? withTypeDefaults(params.updates, diagram.database)
+              : params.updates;
+          diagram.updateField(params.tableId, params.fieldId, updates);
           result = { success: true, message: "Field updated" };
           break;
+        }
 
         case "deleteField":
           {

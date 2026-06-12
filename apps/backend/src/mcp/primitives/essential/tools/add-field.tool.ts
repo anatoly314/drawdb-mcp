@@ -19,6 +19,12 @@ export class AddFieldTool {
       tableId: z.string().describe('ID of the table to add the field to'),
       name: z.string().describe('Field name'),
       type: z.string().describe('Field data type (e.g., INTEGER, VARCHAR, TEXT)'),
+      size: z
+        .union([z.number(), z.string()])
+        .optional()
+        .describe(
+          "Length/size for sized types like VARCHAR or CHAR (e.g. 255). Optional — when omitted, the type's standard default size is applied.",
+        ),
       primary: z.boolean().optional().default(false).describe('Is primary key'),
       unique: z.boolean().optional().default(false).describe('Has unique constraint'),
       notNull: z.boolean().optional().default(false).describe('Has NOT NULL constraint'),
@@ -43,6 +49,7 @@ export class AddFieldTool {
         id: fieldId,
         name: input.name,
         type: input.type,
+        ...(input.size !== undefined && { size: input.size }),
         primary: input.primary || false,
         unique: input.unique || false,
         notNull: input.notNull || false,
