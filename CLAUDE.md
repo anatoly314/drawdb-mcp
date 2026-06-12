@@ -11,7 +11,16 @@ DrawDB is a database entity relationship diagram editor with AI integration via 
 
 The backend runs a WebSocket server that the frontend connects to for real-time diagram manipulation. AI assistants like Claude can control the diagram editor through MCP tools over HTTP.
 
-**No automated tests exist** in either app. Don't waste time looking for `npm test` — there is no test infrastructure. Verify changes by running the apps and exercising them through the MCP Inspector or the GUI.
+**Tests:** There are **no unit tests** in `apps/gui` or `apps/backend` — don't look for `npm test` inside the apps. There **is** an end-to-end suite (added in v1.3.0) at `tests/e2e/` (Jest, package `@drawdb-mcp/e2e`) with 9 specs that drive the MCP tools against a fully-running Docker stack: `tables`, `fields`, `relationships`, `areas`, `notes`, `enums`, `types`, `diagram`, `export-import`.
+
+Run it against a locally-built image:
+
+```bash
+docker build -t drawdb-mcp:local .
+DRAWDB_E2E_IMAGE=drawdb-mcp:local pnpm e2e:ci   # or pnpm e2e
+```
+
+It needs the Docker image and Playwright chromium (`pnpm --filter @drawdb-mcp/e2e exec playwright install chromium --with-deps`). CI (`.github/workflows/e2e.yml`) builds `drawdb-mcp:e2e-<sha>` and runs `pnpm e2e:ci`. The e2e suite is the real acceptance gate for any change touching the MCP layer or entity contexts — build/lint/type-check alone miss MCP-layer runtime failures. For quick spot-checks, exercise the apps through the MCP Inspector or the GUI.
 
 ## Essential Commands
 
