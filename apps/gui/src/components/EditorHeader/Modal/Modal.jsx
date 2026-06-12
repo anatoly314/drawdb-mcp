@@ -26,6 +26,7 @@ import {
 } from "../../../hooks";
 import { isRtl } from "../../../i18n/utils/rtl";
 import { importSQL } from "../../../utils/importSQL";
+import { ensureEnumIds, ensureTypeIds } from "../../../utils/ensureIds";
 import {
   getModalTitle,
   getModalWidth,
@@ -97,10 +98,10 @@ export default function Modal({
       setTitle(importData.title);
     }
     if (databases[database].hasEnums && importData.enums) {
-      setEnums(importData.enums);
+      setEnums(ensureEnumIds(importData.enums));
     }
     if (databases[database].hasTypes && importData.types) {
-      setTypes(importData.types);
+      setTypes(ensureTypeIds(importData.types));
     }
   };
 
@@ -109,11 +110,8 @@ export default function Modal({
       .get(id)
       .then((diagram) => {
         if (diagram) {
-          if (diagram.database) {
-            setDatabase(diagram.database);
-          } else {
-            setDatabase(DB.GENERIC);
-          }
+          const dbType = diagram.database || DB.GENERIC;
+          setDatabase(dbType);
           setDiagramId(diagram.id);
           setTitle(diagram.name);
           setTables(diagram.tables);
@@ -128,11 +126,11 @@ export default function Modal({
           });
           setUndoStack([]);
           setRedoStack([]);
-          if (databases[database].hasTypes) {
-            setTypes(diagram.types ?? []);
+          if (databases[dbType].hasTypes) {
+            setTypes(ensureTypeIds(diagram.types));
           }
-          if (databases[database].hasEnums) {
-            setEnums(diagram.enums ?? []);
+          if (databases[dbType].hasEnums) {
+            setEnums(ensureEnumIds(diagram.enums));
           }
           window.name = `d ${diagram.id}`;
           setSaveState(State.SAVING);
@@ -182,8 +180,10 @@ export default function Modal({
       if (importSource.overwrite) {
         setTables(diagramData.tables);
         setRelationships(diagramData.relationships);
-        if (databases[database].hasTypes) setTypes(diagramData.types ?? []);
-        if (databases[database].hasEnums) setEnums(diagramData.enums ?? []);
+        if (databases[database].hasTypes)
+          setTypes(ensureTypeIds(diagramData.types));
+        if (databases[database].hasEnums)
+          setEnums(ensureEnumIds(diagramData.enums));
         setTransform((prev) => ({ ...prev, pan: { x: 0, y: 0 } }));
         setNotes([]);
         setAreas([]);
@@ -196,9 +196,9 @@ export default function Modal({
           })),
         );
         if (databases[database].hasTypes && diagramData.types.length)
-          setTypes((prev) => [...prev, ...diagramData.types]);
+          setTypes((prev) => [...prev, ...ensureTypeIds(diagramData.types)]);
         if (databases[database].hasEnums && diagramData.enums.length)
-          setEnums((prev) => [...prev, ...diagramData.enums]);
+          setEnums((prev) => [...prev, ...ensureEnumIds(diagramData.enums)]);
       }
 
       setUndoStack([]);

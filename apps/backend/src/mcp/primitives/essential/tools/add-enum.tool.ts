@@ -31,7 +31,7 @@ export class AddEnumTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      // Step 1: Create default enum (frontend generates ID automatically)
+      // Step 1: Create default enum (frontend generates a nanoid string ID)
       const createdEnum = await this.drawdbClient.sendCommand('addEnum', {
         data: null,
         addToHistory: true,
@@ -46,7 +46,7 @@ export class AddEnumTool {
       };
 
       await this.drawdbClient.sendCommand('updateEnum', {
-        id: createdEnum.id.toString(),
+        id: createdEnum.id,
         updates,
       });
 

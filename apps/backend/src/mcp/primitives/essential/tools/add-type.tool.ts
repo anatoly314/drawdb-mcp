@@ -38,7 +38,7 @@ export class AddTypeTool {
 
       await context.reportProgress({ progress: 10, total: 100 });
 
-      // Step 1: Create default type (frontend generates ID automatically)
+      // Step 1: Create default type (frontend generates a nanoid string ID)
       const createdType = await this.drawdbClient.sendCommand('addType', {
         data: null,
         addToHistory: true,
@@ -54,7 +54,7 @@ export class AddTypeTool {
       };
 
       await this.drawdbClient.sendCommand('updateType', {
-        id: createdType.id.toString(),
+        id: createdType.id,
         updates,
       });
 

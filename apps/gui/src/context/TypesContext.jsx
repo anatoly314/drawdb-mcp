@@ -1,8 +1,9 @@
-import { createContext, useState, useCallback, useRef, useEffect } from "react";
+import { createContext, useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { useUndoRedo } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
+import { nanoid } from "nanoid";
 
 export const TypesContext = createContext(null);
 
@@ -11,30 +12,22 @@ export default function TypesContextProvider({ children }) {
   const [types, setTypes] = useState([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
-  // Tracks the next available numeric ID without reading inside setters.
-  // Synced from state on every commit so external mutations (import, etc.)
-  // don't cause ID collisions.
-  const nextIdRef = useRef(0);
-  useEffect(() => {
-    nextIdRef.current = types.length;
-  }, [types]);
-
+  // `data`, when provided, is an undo/redo restore payload of the shape
+  // { index, type } - the type object (with its original nanoid id) is
+  // re-inserted at its original position.
   const addType = (data, addToHistory = true) => {
     let createdType;
     if (data) {
-      createdType = data;
-      nextIdRef.current += 1;
+      createdType = data.type;
       setTypes((prev) => {
         const temp = prev.slice();
-        temp.splice(data.id, 0, data);
+        temp.splice(data.index, 0, data.type);
         return temp;
       });
     } else {
-      const id = nextIdRef.current;
-      nextIdRef.current = id + 1;
       createdType = {
-        id,
-        name: `type_${id}`,
+        id: nanoid(),
+        name: `type_${types.length}`,
         fields: [],
         comment: "",
       };
@@ -46,6 +39,10 @@ export default function TypesContextProvider({ children }) {
         {
           action: Action.ADD,
           element: ObjectType.TYPE,
+          data: {
+            index: data?.index ?? types.length,
+            type: createdType,
+          },
           message: t("add_type"),
         },
       ]);
@@ -54,7 +51,13 @@ export default function TypesContextProvider({ children }) {
     return createdType;
   };
 
+  // `id` is normally a nanoid string. Numeric ids are still accepted for
+  // legacy index-based callers (e.g. TypeField edits) - same shim upstream
+  // keeps. TODO(upstream #710): remove index support once all callers pass ids.
   const deleteType = (id, addToHistory = true) => {
+    const deletedTypeIndex = types.findIndex((e, i) =>
+      typeof id === "number" ? i === id : e.id === id,
+    );
     if (addToHistory) {
       Toast.success(t("type_deleted"));
       setUndoStack((prev) => [
@@ -62,21 +65,28 @@ export default function TypesContextProvider({ children }) {
         {
           action: Action.DELETE,
           element: ObjectType.TYPE,
-          id: id,
-          data: types[id],
+          data: {
+            index: deletedTypeIndex,
+            type: types[deletedTypeIndex],
+          },
           message: t("delete_type", {
-            typeName: types[id].name,
+            typeName: types[deletedTypeIndex].name,
           }),
         },
       ]);
       setRedoStack([]);
     }
-    setTypes((prev) => prev.filter((e, i) => i !== id));
+    setTypes((prev) =>
+      prev.filter((e, i) => (typeof id === "number" ? i !== id : e.id !== id)),
+    );
   };
 
   const updateType = useCallback((id, values) => {
     setTypes((prev) =>
-      prev.map((e, i) => (i === id ? { ...e, ...values } : e)),
+      prev.map((item, index) => {
+        const isMatch = typeof id === "number" ? index === id : item.id === id;
+        return isMatch ? { ...item, ...values } : item;
+      }),
     );
   }, []);
 

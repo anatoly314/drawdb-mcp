@@ -40,7 +40,7 @@ export default function Searchbar() {
           element: ObjectType.TYPE,
         }));
         document
-          .getElementById(`scroll_type_${i}`)
+          .getElementById(`scroll_type_${types[i].id ?? i}`)
           .scrollIntoView({ behavior: "smooth" });
       }}
       className="w-full"

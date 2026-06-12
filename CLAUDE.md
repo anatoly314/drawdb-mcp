@@ -268,7 +268,7 @@ For step-through debugging: `npm run inspector:stdio:debug` in `apps/backend`, t
 - **Docker nginx**: runs as non-root user `nodejs:nodejs`, requires proper permissions on mounted volumes.
 - **Build failures**: `pnpm clean && pnpm install` to reset.
 - **Turborepo cache issues**: delete `.turbo/`.
-- **Entity IDs**: Tables/fields/relationships use `nanoid()`. Areas/notes/enums/types use numeric array indices (0, 1, 2...) reassigned on every change (areas/notes via `.map((t, i) => ({ ...t, id: i }))`; enums/types via `nextIdRef.current` initialized from `.length`). MCP tools return numeric IDs from `addArea`/`addNote`/`addEnum`/`addType`. Update/delete operations convert string IDs to integers for lookup (`parseInt(params.id, 10)`). This is the single most common source of "ID not found" bugs in this codebase.
+- **Entity IDs**: Tables/fields/relationships/enums/types use `nanoid()` string IDs (enums/types since the port of upstream #710/#713; legacy diagrams get IDs back-filled on load/import via `apps/gui/src/utils/ensureIds.js`). Areas/notes still use numeric array indices (0, 1, 2...) reassigned on every change (`.map((t, i) => ({ ...t, id: i }))`); their MCP handlers still do `parseInt(params.id, 10)`. Enum/type MCP handlers look up by string ID (`e.id === params.id`) - never parseInt those. `updateType`/`deleteType` in `TypesContext` keep a dual-mode shim (numeric = index, string = id) because `TypeField.jsx` still passes indices, same as upstream. The areas/notes index model remains the most common source of "ID not found" bugs.
 - **Command ID format**: Backend generates `cmd_${timestamp}_${random}` for request/response matching.
 
 ## Documentation

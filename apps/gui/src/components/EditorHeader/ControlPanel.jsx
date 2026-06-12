@@ -81,6 +81,7 @@ import { IdContext } from "../Workspace";
 import { socials } from "../../data/socials";
 import { toDBML } from "../../utils/exportAs/dbml";
 import { exportSavedData } from "../../utils/exportSavedData";
+import { ensureEnumIds, ensureTypeIds } from "../../utils/ensureIds";
 import { nanoid } from "nanoid";
 import { getTableHeight } from "../../utils/utils";
 import { deleteFromCache, STORAGE_KEY } from "../../utils/cache";
@@ -174,9 +175,9 @@ export default function ControlPanel({
       } else if (a.element === ObjectType.RELATIONSHIP) {
         deleteRelationship(a.data.relationship.id, false);
       } else if (a.element === ObjectType.TYPE) {
-        deleteType(types.length - 1, false);
+        deleteType(a.data.type.id, false);
       } else if (a.element === ObjectType.ENUM) {
-        deleteEnum(enums.length - 1, false);
+        deleteEnum(a.data.enum.id, false);
       }
       setRedoStack((prev) => [...prev, a]);
     } else if (a.action === Action.MOVE) {
@@ -208,9 +209,9 @@ export default function ControlPanel({
       } else if (a.element === ObjectType.AREA) {
         addArea(a.data, false);
       } else if (a.element === ObjectType.TYPE) {
-        addType({ id: a.id, ...a.data }, false);
+        addType(a.data, false);
       } else if (a.element === ObjectType.ENUM) {
-        addEnum({ id: a.id, ...a.data }, false);
+        addEnum(a.data, false);
       }
       setRedoStack((prev) => [...prev, a]);
     } else if (a.action === Action.EDIT) {
@@ -267,9 +268,12 @@ export default function ControlPanel({
         updateRelationship(a.rid, a.undo);
       } else if (a.element === ObjectType.TYPE) {
         if (a.component === "field_add") {
+          const type = types.find((t, i) =>
+            typeof a.tid === "number" ? i === a.tid : t.id === a.tid,
+          );
           updateType(a.tid, {
-            fields: types[a.tid].fields.filter(
-              (_, i) => i !== types[a.tid].fields.length - 1,
+            fields: type.fields.filter((f, i) =>
+              f.id ? f.id !== a.data.field.id : i !== type.fields.length - 1,
             ),
           });
         }
@@ -343,9 +347,9 @@ export default function ControlPanel({
       } else if (a.element === ObjectType.RELATIONSHIP) {
         addRelationship(a.data, false);
       } else if (a.element === ObjectType.TYPE) {
-        addType(null, false);
+        addType(a.data, false);
       } else if (a.element === ObjectType.ENUM) {
-        addEnum(null, false);
+        addEnum(a.data, false);
       }
       setUndoStack((prev) => [...prev, a]);
     } else if (a.action === Action.MOVE) {
@@ -376,9 +380,9 @@ export default function ControlPanel({
       } else if (a.element === ObjectType.AREA) {
         deleteArea(a.data.id, false);
       } else if (a.element === ObjectType.TYPE) {
-        deleteType(a.id, false);
+        deleteType(a.data.type.id, false);
       } else if (a.element === ObjectType.ENUM) {
-        deleteEnum(a.id, false);
+        deleteEnum(a.data.enum.id, false);
       }
       setUndoStack((prev) => [...prev, a]);
     } else if (a.action === Action.EDIT) {
@@ -445,14 +449,11 @@ export default function ControlPanel({
         updateRelationship(a.rid, a.redo);
       } else if (a.element === ObjectType.TYPE) {
         if (a.component === "field_add") {
+          const type = types.find((t, i) =>
+            typeof a.tid === "number" ? i === a.tid : t.id === a.tid,
+          );
           updateType(a.tid, {
-            fields: [
-              ...types[a.tid].fields,
-              {
-                name: "",
-                type: "",
-              },
-            ],
+            fields: [...type.fields, a.data.field],
           });
         } else if (a.component === "field") {
           updateType(a.tid, {
@@ -766,11 +767,8 @@ export default function ControlPanel({
       .get(id)
       .then((diagram) => {
         if (diagram) {
-          if (diagram.database) {
-            setDatabase(diagram.database);
-          } else {
-            setDatabase(DB.GENERIC);
-          }
+          const dbType = diagram.database || DB.GENERIC;
+          setDatabase(dbType);
           setDiagramId(diagram.id);
           setTitle(diagram.name);
           setTables(diagram.tables);
@@ -785,11 +783,11 @@ export default function ControlPanel({
           });
           setUndoStack([]);
           setRedoStack([]);
-          if (databases[database].hasTypes) {
-            setTypes(diagram.types ?? []);
+          if (databases[dbType].hasTypes) {
+            setTypes(ensureTypeIds(diagram.types));
           }
-          if (databases[database].hasEnums) {
-            setEnums(diagram.enums ?? []);
+          if (databases[dbType].hasEnums) {
+            setEnums(ensureEnumIds(diagram.enums));
           }
           window.name = `d ${diagram.id}`;
         } else {

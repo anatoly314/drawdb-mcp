@@ -25,6 +25,7 @@ import { IconAlertTriangle } from "@douyinfe/semi-icons";
 import { useTranslation } from "react-i18next";
 import { databases } from "../data/databases";
 import { isRtl } from "../i18n/utils/rtl";
+import { ensureEnumIds, ensureTypeIds } from "../utils/ensureIds";
 import { useSearchParams } from "react-router-dom";
 import { get, SHARE_FILENAME } from "../api/gists";
 
@@ -198,10 +199,10 @@ export default function WorkSpace() {
             setTasks(d.todos ?? []);
             setTransform({ pan: d.pan, zoom: d.zoom });
             if (databases[dbType].hasTypes) {
-              setTypes(d.types ?? []);
+              setTypes(ensureTypeIds(d.types));
             }
             if (databases[dbType].hasEnums) {
-              setEnums(d.enums ?? []);
+              setEnums(ensureEnumIds(d.enums));
             }
             window.name = `d ${d.id}`;
           } else {
@@ -237,10 +238,10 @@ export default function WorkSpace() {
             setUndoStack([]);
             setRedoStack([]);
             if (databases[dbType].hasTypes) {
-              setTypes(diagram.types ?? []);
+              setTypes(ensureTypeIds(diagram.types));
             }
             if (databases[dbType].hasEnums) {
-              setEnums(diagram.enums ?? []);
+              setEnums(ensureEnumIds(diagram.enums));
             }
             window.name = `d ${diagram.id}`;
           } else {
@@ -273,10 +274,10 @@ export default function WorkSpace() {
             setUndoStack([]);
             setRedoStack([]);
             if (databases[dbType].hasTypes) {
-              setTypes(diagram.types ?? []);
+              setTypes(ensureTypeIds(diagram.types));
             }
             if (databases[dbType].hasEnums) {
-              setEnums(diagram.enums ?? []);
+              setEnums(ensureEnumIds(diagram.enums));
             }
           } else {
             if (selectedDb === "") setShowSelectDbModal(true);
@@ -304,10 +305,10 @@ export default function WorkSpace() {
         setAreas(parsedDiagram.subjectAreas);
         setTransform(parsedDiagram.transform);
         if (databases[parsedDiagram.database].hasTypes) {
-          setTypes(parsedDiagram.types ?? []);
+          setTypes(ensureTypeIds(parsedDiagram.types));
         }
         if (databases[parsedDiagram.database].hasEnums) {
-          setEnums(parsedDiagram.enums ?? []);
+          setEnums(ensureEnumIds(parsedDiagram.enums));
         }
       } catch (e) {
         console.log(e);

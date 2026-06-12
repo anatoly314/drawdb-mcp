@@ -9,6 +9,8 @@ import { DB } from "../data/constants";
 import { exportSQL } from "../utils/exportSQL";
 import { toDBML } from "../utils/exportAs/dbml";
 import { fromDBML } from "../utils/importFrom/dbml";
+import { ensureEnumIds, ensureTypeIds } from "../utils/ensureIds";
+import { nanoid } from "nanoid";
 
 /**
  * Hook that enables remote control of the diagram editor via WebSocket
@@ -179,9 +181,9 @@ export function useRemoteControl(enabled = false) {
         }
 
         case "deleteEnum": {
-          const enumToDelete = enums.enums.find((e, i) => i === parseInt(params.id, 10));
+          const enumToDelete = enums.enums.find((e) => e.id === params.id);
           if (enumToDelete) {
-            enums.deleteEnum(parseInt(params.id, 10), params.addToHistory ?? true);
+            enums.deleteEnum(enumToDelete.id, params.addToHistory ?? true);
             result = { success: true, message: "Enum deleted" };
           } else {
             throw new Error(`Enum with id "${params.id}" not found`);
@@ -191,7 +193,7 @@ export function useRemoteControl(enabled = false) {
 
         case "updateEnum": {
           // No need to validate - updateEnum uses functional updates so it works even immediately after creation
-          enums.updateEnum(parseInt(params.id, 10), params.updates);
+          enums.updateEnum(params.id, params.updates);
           result = { success: true, message: "Enum updated" };
           break;
         }
@@ -204,9 +206,9 @@ export function useRemoteControl(enabled = false) {
         }
 
         case "deleteType": {
-          const typeToDelete = types.types.find((t, i) => i === parseInt(params.id, 10));
+          const typeToDelete = types.types.find((t) => t.id === params.id);
           if (typeToDelete) {
-            types.deleteType(parseInt(params.id, 10), params.addToHistory ?? true);
+            types.deleteType(typeToDelete.id, params.addToHistory ?? true);
             result = { success: true, message: "Type deleted" };
           } else {
             throw new Error(`Type with id "${params.id}" not found`);
@@ -216,7 +218,16 @@ export function useRemoteControl(enabled = false) {
 
         case "updateType": {
           // No need to validate - updateType uses functional updates so it works even immediately after creation
-          types.updateType(parseInt(params.id, 10), params.updates);
+          // Back-fill nanoid ids on incoming type fields so they match the GUI data model
+          const updates = params.updates?.fields
+            ? {
+                ...params.updates,
+                fields: params.updates.fields.map((f) =>
+                  f.id ? f : { ...f, id: nanoid() },
+                ),
+              }
+            : params.updates;
+          types.updateType(params.id, updates);
           result = { success: true, message: "Type updated" };
           break;
         }
@@ -299,8 +310,10 @@ export function useRemoteControl(enabled = false) {
               diagram.setRelationships(importedDiagram.relationships ?? []);
               areas.setAreas(importedDiagram.areas ?? []);
               notes.setNotes(importedDiagram.notes ?? []);
-              enums.setEnums(importedDiagram.enums ?? []);
-              types.setTypes(importedDiagram.types ?? []);
+              // Imported enums/types may lack stable ids (legacy exports,
+              // hand-written JSON) - back-fill nanoids so id-based lookups work
+              enums.setEnums(ensureEnumIds(importedDiagram.enums));
+              types.setTypes(ensureTypeIds(importedDiagram.types));
             } else {
               if (importedDiagram.database !== undefined) {
                 diagram.setDatabase(importedDiagram.database);
@@ -318,10 +331,10 @@ export function useRemoteControl(enabled = false) {
                 notes.setNotes(importedDiagram.notes);
               }
               if (importedDiagram.enums !== undefined) {
-                enums.setEnums(importedDiagram.enums);
+                enums.setEnums(ensureEnumIds(importedDiagram.enums));
               }
               if (importedDiagram.types !== undefined) {
-                types.setTypes(importedDiagram.types);
+                types.setTypes(ensureTypeIds(importedDiagram.types));
               }
             }
 
@@ -387,7 +400,7 @@ export function useRemoteControl(enabled = false) {
                 diagram.setRelationships(parsed.relationships ?? []);
                 areas.setAreas([]);
                 notes.setNotes([]);
-                enums.setEnums(parsed.enums ?? []);
+                enums.setEnums(ensureEnumIds(parsed.enums));
                 types.setTypes([]);
               } else {
                 if (parsed.database !== undefined) {
@@ -400,7 +413,7 @@ export function useRemoteControl(enabled = false) {
                   diagram.setRelationships(parsed.relationships);
                 }
                 if (parsed.enums !== undefined) {
-                  enums.setEnums(parsed.enums);
+                  enums.setEnums(ensureEnumIds(parsed.enums));
                 }
               }
 

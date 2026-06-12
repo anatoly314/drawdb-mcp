@@ -1,8 +1,9 @@
-import { createContext, useState, useCallback, useRef, useEffect } from "react";
+import { createContext, useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 import { useUndoRedo } from "../hooks";
+import { nanoid } from "nanoid";
 
 export const EnumsContext = createContext(null);
 
@@ -11,30 +12,22 @@ export default function EnumsContextProvider({ children }) {
   const [enums, setEnums] = useState([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
-  // Tracks the next available numeric ID without reading inside setters.
-  // Synced from state on every commit so external mutations (import, etc.)
-  // don't cause ID collisions.
-  const nextIdRef = useRef(0);
-  useEffect(() => {
-    nextIdRef.current = enums.length;
-  }, [enums]);
-
+  // `data`, when provided, is an undo/redo restore payload of the shape
+  // { index, enum } - the enum object (with its original nanoid id) is
+  // re-inserted at its original position.
   const addEnum = (data, addToHistory = true) => {
     let createdEnum;
     if (data) {
-      createdEnum = data;
-      nextIdRef.current += 1;
+      createdEnum = data.enum;
       setEnums((prev) => {
         const temp = prev.slice();
-        temp.splice(data.id, 0, data);
+        temp.splice(data.index, 0, data.enum);
         return temp;
       });
     } else {
-      const id = nextIdRef.current;
-      nextIdRef.current = id + 1;
       createdEnum = {
-        id,
-        name: `enum_${id}`,
+        id: nanoid(),
+        name: `enum_${enums.length}`,
         values: [],
       };
       setEnums((prev) => [...prev, createdEnum]);
@@ -45,6 +38,10 @@ export default function EnumsContextProvider({ children }) {
         {
           action: Action.ADD,
           element: ObjectType.ENUM,
+          data: {
+            index: data?.index ?? enums.length,
+            enum: createdEnum,
+          },
           message: t("add_enum"),
         },
       ]);
@@ -54,6 +51,7 @@ export default function EnumsContextProvider({ children }) {
   };
 
   const deleteEnum = (id, addToHistory = true) => {
+    const enumIndex = enums.findIndex((e) => e.id === id);
     if (addToHistory) {
       Toast.success(t("enum_deleted"));
       setUndoStack((prev) => [
@@ -61,22 +59,22 @@ export default function EnumsContextProvider({ children }) {
         {
           action: Action.DELETE,
           element: ObjectType.ENUM,
-          id: id,
-          data: enums[id],
+          data: {
+            index: enumIndex,
+            enum: enums[enumIndex],
+          },
           message: t("delete_enum", {
-            enumName: enums[id].name,
+            enumName: enums[enumIndex].name,
           }),
         },
       ]);
       setRedoStack([]);
     }
-    setEnums((prev) => prev.filter((_, i) => i !== id));
+    setEnums((prev) => prev.filter((e) => e.id !== id));
   };
 
   const updateEnum = useCallback((id, values) => {
-    setEnums((prev) =>
-      prev.map((e, i) => (i === id ? { ...e, ...values } : e)),
-    );
+    setEnums((prev) => prev.map((e) => (e.id === id ? { ...e, ...values } : e)));
   }, []);
 
   return (
