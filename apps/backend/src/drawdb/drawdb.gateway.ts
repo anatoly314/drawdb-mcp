@@ -34,7 +34,7 @@ export class DrawDBGateway implements OnGatewayConnection, OnGatewayDisconnect {
     await this.drawdbClient.setConnection(client);
   }
 
-  handleDisconnect(client: any) {
+  handleDisconnect() {
     this.logger.log('DrawDB client disconnected');
   }
 }

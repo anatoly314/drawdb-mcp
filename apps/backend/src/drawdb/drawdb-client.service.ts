@@ -25,9 +25,7 @@ export class DrawDBClientService {
     let waitCount = 0;
     while (this.isSettingConnection && waitCount < 20) {
       // Wait max 2 seconds (20 * 100ms)
-      this.logger.warn(
-        `Connection setup already in progress, waiting... (${waitCount + 1}/20)`,
-      );
+      this.logger.warn(`Connection setup already in progress, waiting... (${waitCount + 1}/20)`);
       await new Promise((resolve) => setTimeout(resolve, 100));
       waitCount++;
     }
@@ -47,9 +45,7 @@ export class DrawDBClientService {
         const isOpen = oldWs.readyState === 1; // WebSocket.OPEN = 1
 
         if (isOpen) {
-          this.logger.log(
-            'Closing previous DrawDB client connection - new client connecting',
-          );
+          this.logger.log('Closing previous DrawDB client connection - new client connecting');
 
           // Remove event handlers from old connection to prevent interference
           oldWs.removeAllListeners();
@@ -60,9 +56,7 @@ export class DrawDBClientService {
           // Wait a tiny bit for close to propagate
           await new Promise((resolve) => setTimeout(resolve, 50));
         } else {
-          this.logger.debug(
-            `Previous connection already closed (state: ${oldWs.readyState})`,
-          );
+          this.logger.debug(`Previous connection already closed (state: ${oldWs.readyState})`);
         }
       }
 

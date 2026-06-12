@@ -16,15 +16,7 @@ export class SetDatabaseTool {
       'Set the database dialect for the diagram. This controls SQL export output and which features are available (e.g. enums and composite types are PostgreSQL-only). Choose "postgresql" for the richest feature set (enums, composite types, advanced constraints), "mysql" or "mariadb" for typical web stacks, "sqlite" for embedded/local databases, "transactsql" for Microsoft SQL Server, "oraclesql" for Oracle, or "generic" for a database-agnostic diagram (note: "generic" produces an empty SQL export).',
     parameters: z.object({
       database: z
-        .enum([
-          'mysql',
-          'postgresql',
-          'transactsql',
-          'sqlite',
-          'mariadb',
-          'oraclesql',
-          'generic',
-        ])
+        .enum(['mysql', 'postgresql', 'transactsql', 'sqlite', 'mariadb', 'oraclesql', 'generic'])
         .describe('Database dialect to use for the diagram'),
     }),
   })
