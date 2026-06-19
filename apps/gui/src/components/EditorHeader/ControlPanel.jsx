@@ -1575,17 +1575,17 @@ export default function ControlPanel({
     },
     help: {
       docs: {
-        function: () => window.open(`${socials.docs}`, "_blank"),
+        function: () => window.open("/docs", "_blank"),
         shortcut: "Ctrl+H",
       },
       shortcuts: {
-        function: () => window.open(`${socials.docs}/shortcuts`, "_blank"),
-      },
-      ask_on_discord: {
-        function: () => window.open(socials.discord, "_blank"),
+        function: () => window.open("/docs#shortcuts", "_blank"),
       },
       report_bug: {
-        function: () => window.open("/bug-report", "_blank"),
+        function: () => window.open(`${socials.github}/issues`, "_blank"),
+      },
+      about: {
+        function: () => window.open("/about", "_blank"),
       },
     },
   };
@@ -1615,7 +1615,7 @@ export default function ControlPanel({
   });
   useHotkeys("mod+alt+c", copyAsImage, { preventDefault: true });
   useHotkeys("enter", resetView, { preventDefault: true });
-  useHotkeys("mod+h", () => window.open(socials.docs, "_blank"), {
+  useHotkeys("mod+h", () => window.open("/docs", "_blank"), {
     preventDefault: true,
   });
   useHotkeys("mod+alt+w", fitWindow, { preventDefault: true });

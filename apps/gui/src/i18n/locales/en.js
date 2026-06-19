@@ -254,6 +254,7 @@ const en = {
       "* Sharing this link will not create a live real-time collaboration session.",
     show_relationship_labels: "Show relationship labels",
     docs: "Docs",
+    about: "About",
     supported_types: "Supported file types:",
     bulk_update: "Bulk update",
     multiselect: "Multiselect",
