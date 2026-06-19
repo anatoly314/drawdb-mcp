@@ -5,6 +5,10 @@
 
 This fork of [DrawDB](https://github.com/drawdb-io/drawdb) extends the original with **AI assistant integration** via Model Context Protocol (MCP). AI assistants like Claude can now create, modify, and manage database diagrams programmatically through a WebSocket API.
 
+## Relationship to Upstream DrawDB
+
+This project began as a fork of DrawDB but has since diverged substantially and is intentionally **not** kept in sync with upstream. Selected fixes and features are occasionally cherry-picked from the parent project, but the two will continue to drift apart as drawdb-mcp evolves on its own. DrawDB remains a separate, actively maintained project, and full credit goes to its authors — see [drawdb-io/drawdb](https://github.com/drawdb-io/drawdb).
+
 ### Demo Video
 
 [![DrawDB MCP Integration Demo](https://img.youtube.com/vi/O1PnbgKI0K0/0.jpg)](https://youtu.be/O1PnbgKI0K0)
@@ -13,7 +17,7 @@ Watch how to design database schemas using natural language with Claude AI.
 
 **Architecture:**
 
-- **apps/gui**: Original React-based DrawDB frontend
+- **apps/gui**: React-based frontend derived from DrawDB
 - **apps/backend**: NestJS MCP server that enables AI assistants to control the diagram editor
 - Built with [Turborepo](https://turbo.build/repo) and [pnpm workspaces](https://pnpm.io/workspaces)
 
@@ -153,3 +157,9 @@ The MCP server provides tools for exporting and importing database diagrams in m
 - `import_diagram` - Import complete diagram from JSON
 
 See [CLAUDE.md](./CLAUDE.md) for complete list of available MCP tools and their usage.
+
+## License & Credits
+
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**, inherited and retained from upstream DrawDB. See the [LICENSE](./LICENSE) file for the full text.
+
+Built on top of [DrawDB](https://github.com/drawdb-io/drawdb) by the DrawDB authors and contributors. Huge thanks to the original project for the foundation this fork is built on.
