@@ -1,3 +1,7 @@
+// Inject React 19's createRoot into Semi's internals so its imperative
+// components (Modal, Toast, Notification) render. Must run before any Semi
+// component is used. See https://semi.design/en-US/ecosystem/react19
+import "@douyinfe/semi-ui/react19-adapter";
 import ReactDOM from "react-dom/client";
 import { LocaleProvider } from "@douyinfe/semi-ui";
 import { Analytics } from "@vercel/analytics/react";
