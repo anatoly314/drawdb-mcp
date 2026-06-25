@@ -25,7 +25,7 @@ RUN pnpm build
 FROM node:20-alpine
 
 # Label for GitHub Container Registry
-LABEL org.opencontainers.image.source=https://github.com/anatoly314/drawdb
+LABEL org.opencontainers.image.source=https://github.com/anatoly-lab/drawdb-mcp
 LABEL org.opencontainers.image.description="DrawDB - Database design and diagramming tool with AI assistant"
 LABEL org.opencontainers.image.licenses=AGPL-3.0
 

@@ -4,7 +4,7 @@ DrawDB Docker images are automatically built and published to GitHub Container R
 
 ## Available Images
 
-Images are available at: `ghcr.io/anatoly314/drawdb`
+Images are available at: `ghcr.io/anatoly-lab/drawdb-mcp`
 
 ## Tags
 
@@ -26,7 +26,7 @@ docker run \
   -p 8080:80 \
   -p 3000:3000 \
   --restart unless-stopped \
-  ghcr.io/anatoly314/drawdb:latest
+  ghcr.io/anatoly-lab/drawdb-mcp:latest
 ```
 
 Then access:
@@ -41,7 +41,7 @@ version: "3.8"
 
 services:
   drawdb:
-    image: ghcr.io/anatoly314/drawdb:latest
+    image: ghcr.io/anatoly-lab/drawdb-mcp:latest
     container_name: drawdb
     ports:
       - "8080:80" # GUI and WebSocket (proxied through nginx)
@@ -89,7 +89,7 @@ The image uses Alpine Linux for minimal size and runs as a non-root user for sec
 
 After the first push, the package will be private by default. To make it public:
 
-1. Go to https://github.com/anatoly314/drawdb/packages
+1. Go to https://github.com/anatoly-lab/drawdb-mcp/packages
 2. Click on the package
 3. Click "Package settings"
 4. Scroll to "Danger Zone"
@@ -116,7 +116,7 @@ spec:
     spec:
       containers:
         - name: drawdb
-          image: ghcr.io/anatoly314/drawdb:latest
+          image: ghcr.io/anatoly-lab/drawdb-mcp:latest
           ports:
             - containerPort: 80
               name: http

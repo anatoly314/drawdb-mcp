@@ -72,7 +72,7 @@ npm run start:debug:http       # HTTP mode with debugger
 **Run from GHCR:**
 
 ```bash
-docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb-mcp:latest
+docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 ghcr.io/anatoly-lab/drawdb-mcp:latest
 # GUI: http://localhost:8080
 # MCP WebSocket: ws://localhost:3000/remote-control
 ```
@@ -298,7 +298,7 @@ Additional docs in `docs/`:
 
 - Triggers on version tags (`v*`)
 - Builds multi-platform images (linux/amd64, linux/arm64)
-- Publishes to `ghcr.io/anatoly314/drawdb-mcp`
+- Publishes to `ghcr.io/anatoly-lab/drawdb-mcp`
 - Creates tags: `latest`, `vX.Y.Z`, `vX.Y`, `vX`
 
 **Release Process:**

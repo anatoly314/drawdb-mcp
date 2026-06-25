@@ -33,7 +33,7 @@ docker run \
   -p 8080:80 \
   -p 3000:3000 \
   --restart unless-stopped \
-  ghcr.io/anatoly314/drawdb-mcp:latest
+  ghcr.io/anatoly-lab/drawdb-mcp:latest
 ```
 
 Then:
@@ -59,7 +59,7 @@ See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advan
 **Start both GUI and backend:**
 
 ```bash
-git clone https://github.com/anatoly314/drawdb-mcp
+git clone https://github.com/anatoly-lab/drawdb-mcp
 cd drawdb-mcp
 pnpm install
 pnpm dev

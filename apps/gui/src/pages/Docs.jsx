@@ -27,7 +27,7 @@ export default function Docs() {
         <Title heading={4}>Run it</Title>
         <Paragraph>The quickest way is Docker:</Paragraph>
         <Code>
-          docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb-mcp:latest
+          docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 ghcr.io/anatoly-lab/drawdb-mcp:latest
         </Code>
         <Paragraph>
           The GUI is served at <Text code>http://localhost:8080</Text> and the MCP server listens at{" "}
