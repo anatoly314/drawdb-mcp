@@ -35,25 +35,15 @@ export function getJsonType(f) {
 export function generateSchema(type) {
   return `{\n\t\t\t"$schema": "http://json-schema.org/draft-04/schema#",\n\t\t\t"type": "object",\n\t\t\t"properties": {\n\t\t\t\t${type.fields
     .map((f) => `"${f.name}" : ${getJsonType(f)}`)
-    .join(
-      ",\n\t\t\t\t",
-    )}\n\t\t\t},\n\t\t\t"additionalProperties": false\n\t\t}`;
+    .join(",\n\t\t\t\t")}\n\t\t\t},\n\t\t\t"additionalProperties": false\n\t\t}`;
 }
 
-export function getTypeString(
-  field,
-  currentDb,
-  dbms = DB.MYSQL,
-  baseType = false,
-) {
+export function getTypeString(field, currentDb, dbms = DB.MYSQL, baseType = false) {
   if (dbms === DB.MYSQL) {
     if (field.type === "UUID") {
       return `VARCHAR(36)`;
     }
-    if (
-      dbToTypes[currentDb][field.type].isSized ||
-      dbToTypes[currentDb][field.type].hasPrecision
-    ) {
+    if (dbToTypes[currentDb][field.type].isSized || dbToTypes[currentDb][field.type].hasPrecision) {
       return `${field.type}${field.size ? `(${field.size})` : ""}`;
     }
     if (field.type === "SET" || field.type === "ENUM") {
@@ -94,16 +84,12 @@ export function getTypeString(
             : field.type.toLowerCase();
       return `${type}(${field.size})`;
     }
-    if (
-      dbToTypes[currentDb][field.type].hasPrecision &&
-      field.size &&
-      field.size.trim() !== ""
-    ) {
+    if (dbToTypes[currentDb][field.type].hasPrecision && field.size && field.size.trim() !== "") {
       return `${field.type.toLowerCase()}${field.size ? `(${field.size})` : ""}`;
     }
     return field.type.toLowerCase();
   } else if (dbms === DB.MSSQL) {
-    let type = field.type;
+    let type;
     switch (field.type) {
       case "ENUM":
         return baseType
@@ -195,17 +181,12 @@ export function jsonToMySQL(obj) {
               }\` ${getTypeString(field, obj.database)}${field.notNull ? " NOT NULL" : ""}${
                 field.increment ? " AUTO_INCREMENT" : ""
               }${field.unique ? " UNIQUE" : ""}${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, obj.database)}`
-                  : ""
+                field.default !== "" ? ` DEFAULT ${parseDefault(field, obj.database)}` : ""
               }${
-                field.check === "" ||
-                !dbToTypes[obj.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                   ? !Object.keys(defaultTypes).includes(field.type)
                     ? ` CHECK(\n\t\tJSON_SCHEMA_VALID("${generateSchema(
-                        obj.types.find(
-                          (t) => t.name === field.type.toLowerCase(),
-                        ),
+                        obj.types.find((t) => t.name === field.type.toLowerCase()),
                       )}", \`${field.name}\`))`
                     : ""
                   : ` CHECK(${field.check})`
@@ -233,9 +214,7 @@ export function jsonToMySQL(obj) {
         (t) => t.id === r.startTableId,
       );
 
-      const { name: endName, fields: endFields } = obj.tables.find(
-        (t) => t.id === r.endTableId,
-      );
+      const { name: endName, fields: endFields } = obj.tables.find((t) => t.id === r.endTableId);
       return `ALTER TABLE \`${startName}\`\nADD FOREIGN KEY(\`${
         startFields.find((f) => f.id === r.startFieldId).name
       }\`) REFERENCES \`${endName}\`(\`${
@@ -250,10 +229,7 @@ export function jsonToPostgreSQL(obj) {
     const typeStatements = type.fields
       .filter((f) => f.type === "ENUM" || f.type === "SET")
       .map(
-        (f) =>
-          `CREATE TYPE "${f.name}_t" AS ENUM (${f.values
-            .map((v) => `'${v}'`)
-            .join(", ")});`,
+        (f) => `CREATE TYPE "${f.name}_t" AS ENUM (${f.values.map((v) => `'${v}'`).join(", ")});`,
       )
       .join("\n");
     if (typeStatements.length > 0) {
@@ -262,16 +238,12 @@ export function jsonToPostgreSQL(obj) {
         `${
           type.comment === "" ? "" : `/**\n${type.comment}\n*/\n`
         }CREATE TYPE ${type.name} AS (\n${type.fields
-          .map(
-            (f) => `\t${f.name} ${getTypeString(f, obj.database, DB.POSTGRES)}`,
-          )
+          .map((f) => `\t${f.name} ${getTypeString(f, obj.database, DB.POSTGRES)}`)
           .join("\n")}\n);`
       );
     } else {
       return `CREATE TYPE ${type.name} AS (\n${type.fields
-        .map(
-          (f) => `\t${f.name} ${getTypeString(f, obj.database, DB.POSTGRES)}`,
-        )
+        .map((f) => `\t${f.name} ${getTypeString(f, obj.database, DB.POSTGRES)}`)
         .join(",\n")}\n);\n${
         type.comment && type.comment.trim() != ""
           ? `\nCOMMENT ON TYPE ${type.name} IS '${escapeQuotes(type.comment)}';\n`
@@ -282,8 +254,7 @@ export function jsonToPostgreSQL(obj) {
     .map(
       (table) =>
         `${
-          table.fields.filter((f) => f.type === "ENUM" || f.type === "SET")
-            .length > 0
+          table.fields.filter((f) => f.type === "ENUM" || f.type === "SET").length > 0
             ? `${table.fields
                 .filter((f) => f.type === "ENUM" || f.type === "SET")
                 .map(
@@ -304,8 +275,7 @@ export function jsonToPostgreSQL(obj) {
               }${field.unique ? " UNIQUE" : ""}${
                 field.default !== "" ? ` DEFAULT ${parseDefault(field)}` : ""
               }${
-                field.check === "" ||
-                !dbToTypes[obj.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                   ? ""
                   : ` CHECK(${field.check})`
               }`,
@@ -326,9 +296,7 @@ export function jsonToPostgreSQL(obj) {
           .join("")}\n${table.indices
           .map(
             (i) =>
-              `CREATE ${i.unique ? "UNIQUE " : ""}INDEX "${
-                i.name
-              }"\nON "${table.name}" (${i.fields
+              `CREATE ${i.unique ? "UNIQUE " : ""}INDEX "${i.name}"\nON "${table.name}" (${i.fields
                 .map((f) => `"${f}"`)
                 .join(", ")});`,
           )
@@ -340,9 +308,7 @@ export function jsonToPostgreSQL(obj) {
         (t) => t.id === r.startTableId,
       );
 
-      const { name: endName, fields: endFields } = obj.tables.find(
-        (t) => t.id === r.endTableId,
-      );
+      const { name: endName, fields: endFields } = obj.tables.find((t) => t.id === r.endTableId);
       return `ALTER TABLE "${startName}"\nADD FOREIGN KEY("${
         startFields.find((f) => f.id === r.startFieldId).name
       }") REFERENCES "${endName}"("${
@@ -377,9 +343,7 @@ export function getSQLiteType(field) {
     case "VARBINARY":
       return "TEXT";
     case "ENUM":
-      return `TEXT CHECK("${field.name}" in (${field.values
-        .map((v) => `'${v}'`)
-        .join(", ")}))`;
+      return `TEXT CHECK("${field.name}" in (${field.values.map((v) => `'${v}'`).join(", ")}))`;
     default:
       return "BLOB";
   }
@@ -399,8 +363,7 @@ export function jsonToSQLite(obj) {
             }" ${getSQLiteType(field)}${field.notNull ? " NOT NULL" : ""}${
               field.unique ? " UNIQUE" : ""
             }${field.default !== "" ? ` DEFAULT ${parseDefault(field, obj.database)}` : ""}${
-              field.check === "" ||
-              !dbToTypes[obj.database][field.type].hasCheck
+              field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                 ? ""
                 : ` CHECK(${field.check})`
             }`,
@@ -417,9 +380,7 @@ export function jsonToSQLite(obj) {
           (i) =>
             `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS "${
               i.name
-            }"\nON "${table.name}" (${i.fields
-              .map((f) => `"${f}"`)
-              .join(", ")});`,
+            }"\nON "${table.name}" (${i.fields.map((f) => `"${f}"`).join(", ")});`,
         )
         .join("\n")}`;
     })
@@ -438,17 +399,12 @@ export function jsonToMariaDB(obj) {
               }\` ${getTypeString(field, obj.database, DB.MYSQL)}${field.notNull ? " NOT NULL" : ""}${
                 field.increment ? " AUTO_INCREMENT" : ""
               }${field.unique ? " UNIQUE" : ""}${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, obj.database)}`
-                  : ""
+                field.default !== "" ? ` DEFAULT ${parseDefault(field, obj.database)}` : ""
               }${
-                field.check === "" ||
-                !dbToTypes[obj.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                   ? !Object.keys(defaultTypes).includes(field.type)
                     ? ` CHECK(\n\t\tJSON_SCHEMA_VALID('${generateSchema(
-                        obj.types.find(
-                          (t) => t.name === field.type.toLowerCase(),
-                        ),
+                        obj.types.find((t) => t.name === field.type.toLowerCase()),
                       )}', \`${field.name}\`))`
                     : ""
                   : ` CHECK(${field.check})`
@@ -466,9 +422,7 @@ export function jsonToMariaDB(obj) {
             (i) =>
               `CREATE ${i.unique ? "UNIQUE " : ""}INDEX \`${
                 i.name
-              }\`\nON \`${table.name}\` (${i.fields
-                .map((f) => `\`${f}\``)
-                .join(", ")});`,
+              }\`\nON \`${table.name}\` (${i.fields.map((f) => `\`${f}\``).join(", ")});`,
           )
           .join("\n")}`}`,
     )
@@ -478,9 +432,7 @@ export function jsonToMariaDB(obj) {
         (t) => t.id === r.startTableId,
       );
 
-      const { name: endName, fields: endFields } = obj.tables.find(
-        (t) => t.id === r.endTableId,
-      );
+      const { name: endName, fields: endFields } = obj.tables.find((t) => t.id === r.endTableId);
       return `ALTER TABLE \`${startName}\`\nADD FOREIGN KEY(\`${
         startFields.find((f) => f.id === r.startFieldId).name
       }\`) REFERENCES \`${endName}\`(\`${
@@ -513,15 +465,10 @@ export function jsonToSQLServer(obj) {
                 field.name
               }] ${getTypeString(field, obj.database, DB.MSSQL)}${
                 field.notNull ? " NOT NULL" : ""
-              }${field.increment ? " IDENTITY" : ""}${
-                field.unique ? " UNIQUE" : ""
+              }${field.increment ? " IDENTITY" : ""}${field.unique ? " UNIQUE" : ""}${
+                field.default !== "" ? ` DEFAULT ${parseDefault(field, obj.database)}` : ""
               }${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, obj.database)}`
-                  : ""
-              }${
-                field.check === "" ||
-                !dbToTypes[obj.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                   ? ""
                   : ` CHECK(${field.check})`
               }`,
@@ -538,9 +485,7 @@ export function jsonToSQLServer(obj) {
             (i) =>
               `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX [${
                 i.name
-              }]\nON [${table.name}] (${i.fields
-                .map((f) => `[${f}]`)
-                .join(", ")});\nGO\n`,
+              }]\nON [${table.name}] (${i.fields.map((f) => `[${f}]`).join(", ")});\nGO\n`,
           )
           .join("")}`,
     )
@@ -550,9 +495,7 @@ export function jsonToSQLServer(obj) {
         (t) => t.id === r.startTableId,
       );
 
-      const { name: endName, fields: endFields } = obj.tables.find(
-        (t) => t.id === r.endTableId,
-      );
+      const { name: endName, fields: endFields } = obj.tables.find((t) => t.id === r.endTableId);
       return `ALTER TABLE [${startName}]\nADD FOREIGN KEY([${
         startFields.find((f) => f.id === r.startFieldId).name
       }]) REFERENCES [${endName}]([${
@@ -567,8 +510,7 @@ export function jsonToOracleSQL(obj) {
     .map(
       (table) =>
         `${
-          table.fields.filter((f) => f.type === "ENUM" || f.type === "SET")
-            .length > 0
+          table.fields.filter((f) => f.type === "ENUM" || f.type === "SET").length > 0
             ? `${table.fields
                 .filter((f) => f.type === "ENUM" || f.type === "SET")
                 .map(
@@ -590,13 +532,8 @@ export function jsonToOracleSQL(obj) {
                 field.notNull ? " NOT NULL" : ""
               }${field.increment ? " GENERATED ALWAYS AS IDENTITY" : ""}${
                 field.unique ? " UNIQUE" : ""
-              }${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, obj.database)}`
-                  : ""
-              }${
-                field.check === "" ||
-                !dbToTypes[obj.database][field.type].hasCheck
+              }${field.default !== "" ? ` DEFAULT ${parseDefault(field, obj.database)}` : ""}${
+                field.check === "" || !dbToTypes[obj.database][field.type].hasCheck
                   ? ""
                   : ` CHECK (${field.check})`
               }`,
@@ -623,14 +560,10 @@ export function jsonToOracleSQL(obj) {
         (t) => t.id === r.startTableId,
       );
 
-      const { name: endName, fields: endFields } = obj.tables.find(
-        (t) => t.id === r.endTableId,
-      );
+      const { name: endName, fields: endFields } = obj.tables.find((t) => t.id === r.endTableId);
       return `ALTER TABLE "${startName}"\nADD CONSTRAINT "${r.name}" FOREIGN KEY ("${
         startFields.find((f) => f.id === r.startFieldId).name
-      }") REFERENCES "${endName}"("${
-        endFields.find((f) => f.id === r.endFieldId).name
-      }");`;
+      }") REFERENCES "${endName}"("${endFields.find((f) => f.id === r.endFieldId).name}");`;
     })
     .join("\n")}`;
 }

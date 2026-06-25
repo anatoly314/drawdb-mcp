@@ -1,38 +1,7 @@
 import { useTransform } from "../hooks";
-import { createContext, useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useEventListener, useResizeObserver } from "usehooks-ts";
-
-export const CanvasContext = createContext({
-  canvas: {
-    screenSize: {
-      x: 0,
-      y: 0,
-    },
-    viewBox: new DOMRect(),
-  },
-  coords: {
-    toDiagramSpace(coords) {
-      return coords;
-    },
-    toScreenSpace(coords) {
-      return coords;
-    },
-  },
-  pointer: {
-    spaces: {
-      screen: {
-        x: 0,
-        y: 0,
-      },
-      diagram: {
-        x: 0,
-        y: 0,
-      },
-    },
-    style: "default",
-    setStyle() {},
-  },
-});
+import { CanvasContext } from "./CanvasContext";
 
 export function CanvasContextProvider({ children, ...attrs }) {
   const canvasWrapRef = useRef(null);
@@ -77,14 +46,7 @@ export function CanvasContextProvider({ children, ...attrs }) {
           ? (coord.y / screenSize.y) * viewBox.height + viewBox.top
           : undefined,
     }),
-    [
-      screenSize.x,
-      screenSize.y,
-      viewBox.height,
-      viewBox.left,
-      viewBox.top,
-      viewBox.width,
-    ],
+    [screenSize.x, screenSize.y, viewBox.height, viewBox.left, viewBox.top, viewBox.width],
   );
 
   const toScreenSpace = useCallback(
@@ -98,14 +60,7 @@ export function CanvasContextProvider({ children, ...attrs }) {
           ? ((coord.y - viewBox.top) / viewBox.height) * screenSize.y
           : undefined,
     }),
-    [
-      screenSize.x,
-      screenSize.y,
-      viewBox.height,
-      viewBox.left,
-      viewBox.top,
-      viewBox.width,
-    ],
+    [screenSize.x, screenSize.y, viewBox.height, viewBox.left, viewBox.top, viewBox.width],
   );
 
   const [pointerScreenCoords, setPointerScreenCoords] = useState({
@@ -163,5 +118,5 @@ export function CanvasContextProvider({ children, ...attrs }) {
         {children}
       </div>
     </CanvasContext.Provider>
-  )
+  );
 }

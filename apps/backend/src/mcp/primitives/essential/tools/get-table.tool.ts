@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class GetTableTool {
@@ -11,24 +11,24 @@ export class GetTableTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'get_table',
+    name: "get_table",
     description:
-      'Get detailed information about a specific table by ID or name. Returns table structure, fields, indices, and metadata.',
+      "Get detailed information about a specific table by ID or name. Returns table structure, fields, indices, and metadata.",
     parameters: z.object({
-      tableId: z.string().optional().describe('Table ID to look up'),
-      tableName: z.string().optional().describe('Table name to look up'),
+      tableId: z.string().optional().describe("Table ID to look up"),
+      tableName: z.string().optional().describe("Table name to look up"),
     }),
   })
   async getTable(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
       if (!input.tableId && !input.tableName) {
-        throw new Error('Either tableId or tableName must be provided');
+        throw new Error("Either tableId or tableName must be provided");
       }
 
       await context.reportProgress({ progress: 25, total: 100 });
@@ -55,7 +55,7 @@ export class GetTableTool {
         },
       };
     } catch (error) {
-      this.logger.error('Failed to get table', error);
+      this.logger.error("Failed to get table", error);
       throw error;
     }
   }

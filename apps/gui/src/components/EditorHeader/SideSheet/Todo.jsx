@@ -13,12 +13,7 @@ import {
   RadioGroup,
   Radio,
 } from "@douyinfe/semi-ui";
-import {
-  IconPlus,
-  IconMore,
-  IconDeleteStroked,
-  IconCaretdown,
-} from "@douyinfe/semi-icons";
+import { IconPlus, IconMore, IconDeleteStroked, IconCaretdown } from "@douyinfe/semi-icons";
 import { State } from "../../../data/constants";
 import { useTasks, useSaveState } from "../../../hooks";
 import { useTranslation } from "react-i18next";
@@ -125,11 +120,7 @@ export default function Todo() {
           }
           trigger="click"
         >
-          <Button
-            style={{ marginRight: "10px" }}
-            theme="borderless"
-            type="tertiary"
-          >
+          <Button style={{ marginRight: "10px" }} theme="borderless" type="tertiary">
             {t("sort_by")} <IconCaretdown />
           </Button>
         </Dropdown>
@@ -184,9 +175,7 @@ export default function Todo() {
                     <Popover
                       content={
                         <div className="p-2 popover-theme">
-                          <div className="mb-2 font-semibold">
-                            {t("priority")}:
-                          </div>
+                          <div className="mb-2 font-semibold">{t("priority")}:</div>
                           <RadioGroup
                             onChange={(e) => {
                               updateTask(i, { priority: e.target.value });
@@ -222,9 +211,7 @@ export default function Todo() {
                             block
                             style={{ marginTop: "12px" }}
                             onClick={() => {
-                              setTasks((prev) =>
-                                prev.filter((_, j) => i !== j),
-                              );
+                              setTasks((prev) => prev.filter((_, j) => i !== j));
                               setSaveState(State.SAVING);
                             }}
                           >
@@ -257,9 +244,7 @@ export default function Todo() {
                   <Col span={2}></Col>
                   <Col span={22}>
                     {t("priority")}:{" "}
-                    <Tag color={priorityColor(task.priority)}>
-                      {priorityLabel(task.priority)}
-                    </Tag>
+                    <Tag color={priorityColor(task.priority)}>{priorityLabel(task.priority)}</Tag>
                   </Col>
                 </Row>
               </div>

@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class ExportDiagramTool {
@@ -11,22 +11,22 @@ export class ExportDiagramTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'export_diagram',
+    name: "export_diagram",
     description:
-      'Export the complete diagram as JSON. Returns the full diagram structure that can be saved and later imported. Useful for persisting AI-created diagrams.',
+      "Export the complete diagram as JSON. Returns the full diagram structure that can be saved and later imported. Useful for persisting AI-created diagrams.",
     parameters: z.object({
       formatted: z
         .boolean()
         .optional()
         .default(false)
-        .describe('Pretty-print JSON with indentation (default: false for compact)'),
+        .describe("Pretty-print JSON with indentation (default: false for compact)"),
     }),
   })
   async exportDiagram(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -41,11 +41,11 @@ export class ExportDiagramTool {
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log('Diagram exported successfully');
+      this.logger.log("Diagram exported successfully");
 
       return {
         success: true,
-        message: 'Diagram exported successfully',
+        message: "Diagram exported successfully",
         json,
         summary: {
           database: diagram.database,
@@ -56,7 +56,7 @@ export class ExportDiagramTool {
         },
       };
     } catch (error) {
-      this.logger.error('Failed to export diagram', error);
+      this.logger.error("Failed to export diagram", error);
       throw error;
     }
   }

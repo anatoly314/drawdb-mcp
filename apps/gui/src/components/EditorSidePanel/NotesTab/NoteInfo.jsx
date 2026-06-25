@@ -51,11 +51,7 @@ export default function NoteInfo({ data, nid }) {
 
   return (
     <Collapse.Panel
-      header={
-        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-          {data.title}
-        </div>
-      }
+      header={<div className="overflow-hidden text-ellipsis whitespace-nowrap">{data.title}</div>}
       itemKey={`${data.id}`}
       id={`scroll_note_${data.id}`}
     >
@@ -100,9 +96,7 @@ export default function NoteInfo({ data, nid }) {
             const newHeight = textarea.scrollHeight + 16 + 20 + 4;
             updateNote(data.id, { height: newHeight, content: value });
           }}
-          onFocus={(e) =>
-            setEditField({ content: e.target.value, height: data.height })
-          }
+          onFocus={(e) => setEditField({ content: e.target.value, height: data.height })}
           onBlur={(e) => {
             if (e.target.value === editField.content) return;
             const textarea = document.getElementById(`note_${data.id}`);

@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateTypeTool {
@@ -11,29 +11,29 @@ export class UpdateTypeTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_type',
+    name: "update_type",
     description:
-      'Update properties of an existing custom composite TYPE. Can modify name, fields, or comment.',
+      "Update properties of an existing custom composite TYPE. Can modify name, fields, or comment.",
     parameters: z.object({
-      typeId: z.string().describe('ID of the type to update'),
-      name: z.string().optional().describe('New type name'),
+      typeId: z.string().describe("ID of the type to update"),
+      name: z.string().optional().describe("New type name"),
       fields: z
         .array(
           z.object({
-            name: z.string().describe('Field name'),
-            type: z.string().describe('Field data type'),
+            name: z.string().describe("Field name"),
+            type: z.string().describe("Field data type"),
           }),
         )
         .optional()
-        .describe('New array of fields for the composite type'),
-      comment: z.string().optional().describe('New comment/description for the type'),
+        .describe("New array of fields for the composite type"),
+      comment: z.string().optional().describe("New comment/description for the type"),
     }),
   })
   async updateType(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -44,7 +44,7 @@ export class UpdateTypeTool {
       if (input.fields !== undefined) updates.fields = input.fields;
       if (input.comment !== undefined) updates.comment = input.comment;
 
-      await this.drawdbClient.sendCommand('updateType', {
+      await this.drawdbClient.sendCommand("updateType", {
         id: input.typeId,
         updates,
       });
@@ -60,7 +60,7 @@ export class UpdateTypeTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update type', error);
+      this.logger.error("Failed to update type", error);
       throw error;
     }
   }

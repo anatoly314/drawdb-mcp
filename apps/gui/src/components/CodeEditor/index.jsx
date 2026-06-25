@@ -6,11 +6,7 @@ import { IconCopy } from "@douyinfe/semi-icons";
 import { setUpDBML } from "./setUpDBML";
 import "./styles.css";
 
-export default function CodeEditor({
-  showCopyButton,
-  extraControls,
-  ...props
-}) {
+export default function CodeEditor({ showCopyButton, extraControls, ...props }) {
   const { settings } = useSettings();
   const { database } = useDiagram();
   const { t } = useTranslation();
@@ -42,11 +38,7 @@ export default function CodeEditor({
       {showCopyButton && (
         <div className="absolute right-6 bottom-2 z-10 space-y-2">
           <div>{extraControls}</div>
-          <Button
-            icon={<IconCopy />}
-            onClick={copyCode}
-            className="inline-block"
-          />
+          <Button icon={<IconCopy />} onClick={copyCode} className="inline-block" />
         </div>
       )}
     </div>

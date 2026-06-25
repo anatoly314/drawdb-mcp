@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { Action, ObjectType } from "../../../data/constants";
-import {
-  Collapse,
-  Row,
-  Col,
-  Input,
-  TextArea,
-  Button,
-  Card,
-} from "@douyinfe/semi-ui";
+import { Collapse, Row, Col, Input, TextArea, Button, Card } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconPlus } from "@douyinfe/semi-icons";
 import { useUndoRedo, useTypes, useDiagram, useLayout } from "../../../hooks";
 import TypeField from "./TypeField";
@@ -29,11 +21,7 @@ export default function TypeInfo({ index, data }) {
   return (
     <div id={`scroll_type_${typeId}`}>
       <Collapse.Panel
-        header={
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-            {data.name}
-          </div>
-        }
+        header={<div className="overflow-hidden text-ellipsis whitespace-nowrap">{data.name}</div>}
         itemKey={`${index}`}
       >
         <div className="flex items-center mb-2.5">
@@ -106,9 +94,7 @@ export default function TypeInfo({ index, data }) {
                 readonly={layout.readOnly}
                 placeholder={t("comment")}
                 rows={1}
-                onChange={(value) =>
-                  updateType(typeId, { comment: value }, false)
-                }
+                onChange={(value) => updateType(typeId, { comment: value }, false)}
                 onFocus={(e) => setEditField({ comment: e.target.value })}
                 onBlur={(e) => {
                   if (e.target.value === editField.comment) return;

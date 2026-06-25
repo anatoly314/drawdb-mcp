@@ -98,8 +98,7 @@ const tr = {
     no_tables: "Tablo yok",
     no_tables_text: "Diagram oluşturmaya başlayın",
     no_relationships: "İlişki yok",
-    no_relationships_text:
-      "Alanları bağlamak ve ilişkiler oluşturmak için sürükleyin",
+    no_relationships_text: "Alanları bağlamak ve ilişkiler oluşturmak için sürükleyin",
     no_subject_areas: "Konu alanı yok",
     no_subject_areas_text: "Grup tablolarına konu alanları ekleyin!",
     no_notes: "Not yok",
@@ -157,13 +156,11 @@ const tr = {
     create: "Oluştur",
     confirm: "Onayla",
     last_modified: "Son değişiklik",
-    drag_and_drop_files:
-      "Dosyayı buraya sürükleyip bırakın veya yüklemek için tıklayın.",
+    drag_and_drop_files: "Dosyayı buraya sürükleyip bırakın veya yüklemek için tıklayın.",
     upload_sql_to_generate_diagrams:
       "Tablolarınızı ve sütunlarınızı otomatik olarak oluşturmak için bir sql dosyası yükleyin.",
     overwrite_existing_diagram: "Mevcut diyagramı üzerine yaz",
-    only_mysql_supported:
-      "*Şimdilik sadece MySQL veritabanları desteklenmektedir.",
+    only_mysql_supported: "*Şimdilik sadece MySQL veritabanları desteklenmektedir.",
     blank: "Boş",
     filename: "Dosya adı",
     table_w_no_name: "Adı olmayan tablo belirlendi",
@@ -178,10 +175,8 @@ const tr = {
       "'{{tableName}}' tablosunun '{{fieldName}}' alanı NULL DEĞİL ancak varsayılan olarak NULL",
     duplicate_fields:
       "Tablo '{{tableName}}' içinde '{{fieldName}}' adıyla yinelenen tablo alanları",
-    duplicate_index:
-      "'{{tableName}}' tablosunda '{{indexName}}' adına göre yinelenen dizin",
-    empty_index:
-      "'{{tableName}}' tablosundaki dizin hiçbir sütunu indexlemiyor",
+    duplicate_index: "'{{tableName}}' tablosunda '{{indexName}}' adına göre yinelenen dizin",
+    empty_index: "'{{tableName}}' tablosundaki dizin hiçbir sütunu indexlemiyor",
     no_primary_key: "'{{tableName}} tablosunun birincil anahtarı yok",
     type_with_no_name: "Adı olmayan bir tür bildirilmiş",
     duplicate_types: "'{{typeName}}' adına göre yinelenen türler",

@@ -23,18 +23,14 @@ export function buildSQLFromAST(ast, db = DB.MYSQL) {
   }
 
   if (ast.type === "function") {
-    let expr = "";
-    expr = ast.name;
+    let expr = ast.name;
     if (ast.args) {
       expr +=
         "(" +
         ast.args.value
           .map((v) => {
             if (v.type === "column_ref") return "`" + v.column + "`";
-            if (
-              v.type === "single_quote_string" ||
-              v.type === "double_quote_string"
-            )
+            if (v.type === "single_quote_string" || v.type === "double_quote_string")
               return "'" + v.value + "'";
             return v.value;
           })

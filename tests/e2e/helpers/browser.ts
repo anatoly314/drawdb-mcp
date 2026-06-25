@@ -1,4 +1,4 @@
-import { Browser, Page, chromium } from 'playwright';
+import { Browser, Page, chromium } from "playwright";
 
 export interface GuiSession {
   browser: Browser;
@@ -13,7 +13,7 @@ export async function openGui(guiUrl: string): Promise<GuiSession> {
   const page = await browser.newPage();
   await page.goto(`${guiUrl}/`, {
     timeout: GOTO_TIMEOUT_MS,
-    waitUntil: 'domcontentloaded',
+    waitUntil: "domcontentloaded",
   });
   return { browser, page };
 }
@@ -21,9 +21,9 @@ export async function openGui(guiUrl: string): Promise<GuiSession> {
 export async function waitForWsConnected(page: Page): Promise<void> {
   try {
     await page
-      .getByText('AI Connected', { exact: true })
+      .getByText("AI Connected", { exact: true })
       .first()
-      .waitFor({ state: 'visible', timeout: WS_WAIT_TIMEOUT_MS });
+      .waitFor({ state: "visible", timeout: WS_WAIT_TIMEOUT_MS });
   } catch (err) {
     const cause = err instanceof Error ? err.message : String(err);
     throw new Error(

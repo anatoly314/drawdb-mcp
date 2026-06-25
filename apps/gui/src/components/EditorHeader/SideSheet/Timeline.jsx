@@ -10,11 +10,7 @@ export default function Timeline() {
     return (
       <List>
         {[...undoStack].reverse().map((e, i) => (
-          <List.Item
-            key={i}
-            style={{ padding: "4px 18px 4px 18px" }}
-            className="hover-1"
-          >
+          <List.Item key={i} style={{ padding: "4px 18px 4px 18px" }} className="hover-1">
             <div className="flex items-center py-1 w-full">
               <i className="block fa-regular fa-circle fa-xs" />
               <div className="ms-2">{e.message}</div>

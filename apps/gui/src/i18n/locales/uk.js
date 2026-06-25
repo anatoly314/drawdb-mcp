@@ -32,8 +32,7 @@ const uk = {
     undo: "Скасувати",
     redo: "Повторити",
     clear: "Очистити",
-    are_you_sure_clear:
-      "Ви впевнені, що хочете очистити діаграму? Це незворотно.",
+    are_you_sure_clear: "Ви впевнені, що хочете очистити діаграму? Це незворотно.",
     cut: "Вирізати",
     copy: "Копіювати",
     paste: "Вставити",
@@ -91,8 +90,7 @@ const uk = {
     no_tables: "Немає таблиць",
     no_tables_text: "Почніть створювати вашу діаграму!",
     no_relationships: "Немає зв'язків",
-    no_relationships_text:
-      "Перетягніть, щоб з'єднати поля та створити зв'язки!",
+    no_relationships_text: "Перетягніть, щоб з'єднати поля та створити зв'язки!",
     no_subject_areas: "Немає тематичних областей",
     no_subject_areas_text: "Додайте тематичні області для групування таблиць!",
     no_notes: "Немає нотаток",
@@ -100,8 +98,7 @@ const uk = {
     no_types: "Немає типів",
     no_types_text: "Створіть власні користувацькі типи даних",
     no_issues: "Проблем не виявлено.",
-    strict_mode_is_on_no_issues:
-      "Строгий режим вимкнено, тому проблеми не будуть відображатися.",
+    strict_mode_is_on_no_issues: "Строгий режим вимкнено, тому проблеми не будуть відображатися.",
     name: "Назва",
     type: "Тип",
     null: "Null",
@@ -151,13 +148,11 @@ const uk = {
     create: "Створити",
     confirm: "Підтвердити",
     last_modified: "Остання зміна",
-    drag_and_drop_files:
-      "Перетягніть файл сюди або натисніть для завантаження.",
+    drag_and_drop_files: "Перетягніть файл сюди або натисніть для завантаження.",
     upload_sql_to_generate_diagrams:
       "Завантажте SQL файл для автоматичного створення ваших таблиць та стовпців.",
     overwrite_existing_diagram: "Перезаписати існуючу діаграму",
-    only_mysql_supported:
-      "*На даний момент підтримується завантаження лише MySQL скриптів.",
+    only_mysql_supported: "*На даний момент підтримується завантаження лише MySQL скриптів.",
     blank: "Порожній",
     filename: "Назва файлу",
     table_w_no_name: "Оголошено таблицю без назви",
@@ -170,10 +165,8 @@ const uk = {
       "Значення за замовчуванням для поля '{{fieldName}}' в таблиці '{{tableName}}' не відповідає його типу",
     not_null_is_null:
       "'{{fieldName}}' поле в таблиці '{{tableName}}' є NOT NULL, але має значення за замовчуванням NULL",
-    duplicate_fields:
-      "Дубльовані поля таблиці з назвою '{{fieldName}}' в таблиці '{{tableName}}'",
-    duplicate_index:
-      "Дубльований індекс з назвою '{{indexName}}' в таблиці '{{tableName}}'",
+    duplicate_fields: "Дубльовані поля таблиці з назвою '{{fieldName}}' в таблиці '{{tableName}}'",
+    duplicate_index: "Дубльований індекс з назвою '{{indexName}}' в таблиці '{{tableName}}'",
     empty_index: "Індекс в таблиці '{{tableName}}' не індексує жодного стовпця",
     no_primary_key: "Таблиця '{{tableName}}' не має первинного ключа",
     type_with_no_name: "Оголошено тип без назви",
@@ -183,11 +176,9 @@ const uk = {
     empty_type_field_type: "Порожнє поле `type` в типі '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' поле в типі '{{typeName}}' має тип `{{type}}`, але значення не вказані",
-    duplicate_type_fields:
-      "Дубльовані поля типу з назвою '{{fieldName}}' в типі '{{typeName}}'",
+    duplicate_type_fields: "Дубльовані поля типу з назвою '{{fieldName}}' в типі '{{typeName}}'",
     duplicate_reference: "Дубльована посилання з назвою '{{refName}}'",
-    circular_dependency:
-      "Циклічна залежність, що стосується таблиці '{{refName}}'",
+    circular_dependency: "Циклічна залежність, що стосується таблиці '{{refName}}'",
     timeline: "Хронологія",
     priority: "Пріоритет",
     none: "Жодний",

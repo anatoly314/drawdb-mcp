@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateFieldTool {
@@ -11,34 +11,34 @@ export class UpdateFieldTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_field',
+    name: "update_field",
     description:
-      'Update properties of an existing field in a table. Can modify name, type, constraints, or other attributes.',
+      "Update properties of an existing field in a table. Can modify name, type, constraints, or other attributes.",
     parameters: z.object({
-      tableId: z.string().describe('ID of the table containing the field'),
-      fieldId: z.string().describe('ID of the field to update'),
-      name: z.string().optional().describe('New field name'),
-      type: z.string().optional().describe('New field data type'),
+      tableId: z.string().describe("ID of the table containing the field"),
+      fieldId: z.string().describe("ID of the field to update"),
+      name: z.string().optional().describe("New field name"),
+      type: z.string().optional().describe("New field data type"),
       size: z
         .union([z.number(), z.string()])
         .optional()
         .describe(
           "Length/size for sized types like VARCHAR or CHAR (e.g. 255). Optional — when omitted, the type's standard default size is applied.",
         ),
-      primary: z.boolean().optional().describe('New primary key status'),
-      unique: z.boolean().optional().describe('New unique constraint status'),
-      notNull: z.boolean().optional().describe('New NOT NULL constraint status'),
-      increment: z.boolean().optional().describe('New auto-increment status'),
-      default: z.string().optional().describe('New default value'),
-      check: z.string().optional().describe('New check constraint'),
-      comment: z.string().optional().describe('New field comment'),
+      primary: z.boolean().optional().describe("New primary key status"),
+      unique: z.boolean().optional().describe("New unique constraint status"),
+      notNull: z.boolean().optional().describe("New NOT NULL constraint status"),
+      increment: z.boolean().optional().describe("New auto-increment status"),
+      default: z.string().optional().describe("New default value"),
+      check: z.string().optional().describe("New check constraint"),
+      comment: z.string().optional().describe("New field comment"),
     }),
   })
   async updateField(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -72,7 +72,7 @@ export class UpdateFieldTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update field', error);
+      this.logger.error("Failed to update field", error);
       throw error;
     }
   }

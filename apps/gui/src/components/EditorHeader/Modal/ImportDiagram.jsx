@@ -1,25 +1,11 @@
-import {
-  ddbDiagramIsValid,
-  jsonDiagramIsValid,
-} from "../../../utils/validateSchema";
+import { ddbDiagramIsValid, jsonDiagramIsValid } from "../../../utils/validateSchema";
 import { Upload, Banner } from "@douyinfe/semi-ui";
 import { DB, IMPORT_FROM, STATUS } from "../../../data/constants";
-import {
-  useAreas,
-  useEnums,
-  useNotes,
-  useDiagram,
-  useTypes,
-} from "../../../hooks";
+import { useAreas, useEnums, useNotes, useDiagram, useTypes } from "../../../hooks";
 import { useTranslation } from "react-i18next";
 import { fromDBML } from "../../../utils/importFrom/dbml";
 
-export default function ImportDiagram({
-  setImportData,
-  error,
-  setError,
-  importFrom,
-}) {
+export default function ImportDiagram({ setImportData, error, setError, importFrom }) {
   const { areas } = useAreas();
   const { notes } = useNotes();
   const { tables, relationships, database } = useDiagram();
@@ -42,7 +28,7 @@ export default function ImportDiagram({
     let jsonObject = null;
     try {
       jsonObject = JSON.parse(e.target.result);
-    } catch (error) {
+    } catch {
       setError({
         type: STATUS.ERROR,
         message: "The file contains an error.",
@@ -75,17 +61,14 @@ export default function ImportDiagram({
     if (jsonObject.database !== database) {
       setError({
         type: STATUS.ERROR,
-        message:
-          "The imported diagram and the open diagram don't use matching databases.",
+        message: "The imported diagram and the open diagram don't use matching databases.",
       });
       return;
     }
 
     let ok = true;
     jsonObject.relationships.forEach((rel) => {
-      const startTable = jsonObject.tables.find(
-        (t) => t.id === rel.startTableId,
-      );
+      const startTable = jsonObject.tables.find((t) => t.id === rel.startTableId);
       const endTable = jsonObject.tables.find((t) => t.id === rel.endTableId);
 
       if (!startTable || !endTable) {
@@ -201,24 +184,12 @@ export default function ImportDiagram({
         limit={1}
       />
       {error.type === STATUS.ERROR ? (
-        <Banner
-          type="danger"
-          fullMode={false}
-          description={<div>{error.message}</div>}
-        />
+        <Banner type="danger" fullMode={false} description={<div>{error.message}</div>} />
       ) : error.type === STATUS.OK ? (
-        <Banner
-          type="info"
-          fullMode={false}
-          description={<div>{error.message}</div>}
-        />
+        <Banner type="info" fullMode={false} description={<div>{error.message}</div>} />
       ) : (
         error.type === STATUS.WARNING && (
-          <Banner
-            type="warning"
-            fullMode={false}
-            description={<div>{error.message}</div>}
-          />
+          <Banner type="warning" fullMode={false} description={<div>{error.message}</div>} />
         )
       )}
     </div>

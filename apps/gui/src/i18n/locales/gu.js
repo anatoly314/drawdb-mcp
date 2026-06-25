@@ -32,8 +32,7 @@ const gu = {
     undo: "અનડૂ",
     redo: "રીડૂ",
     clear: "સાફ કરો",
-    are_you_sure_clear:
-      "શું તમે ખરેખર આ ડાયાગ્રામ સાફ કરવા માંગો છો? આ અપરિવર્તનીય છે.",
+    are_you_sure_clear: "શું તમે ખરેખર આ ડાયાગ્રામ સાફ કરવા માંગો છો? આ અપરિવર્તનીય છે.",
     cut: "કાપો",
     copy: "કૉપિ કરો",
     paste: "પેસ્ટ કરો",
@@ -99,8 +98,7 @@ const gu = {
     no_types: "કોઈ પ્રકાર નથી",
     no_types_text: "તમારા પોતાના કસ્ટમ ડેટા પ્રકારો બનાવો",
     no_issues: "કોઈ સમસ્યાઓ મળી નથી.",
-    strict_mode_is_on_no_issues:
-      "સખત સ્થિતિ બંધ છે એટલે કોઈ સમસ્યાઓ બતાવવામાં આવશે નહીં.",
+    strict_mode_is_on_no_issues: "સખત સ્થિતિ બંધ છે એટલે કોઈ સમસ્યાઓ બતાવવામાં આવશે નહીં.",
     name: "નામ",
     type: "પ્રકાર",
     null: "Null",
@@ -150,13 +148,11 @@ const gu = {
     create: "બનાવો",
     confirm: "પુષ્ટિ કરો",
     last_modified: "છેલ્લે સુધારેલા",
-    drag_and_drop_files:
-      "ફાઇલને અહીં ખેંચો અને છોડો અથવા અપલોડ કરવા માટે ક્લિક કરો.",
+    drag_and_drop_files: "ફાઇલને અહીં ખેંચો અને છોડો અથવા અપલોડ કરવા માટે ક્લિક કરો.",
     upload_sql_to_generate_diagrams:
       "તમારી ટેબલ અને કોલમને આપમેળે જનરેટ કરવા માટે SQL ફાઇલ અપલોડ કરો.",
     overwrite_existing_diagram: "મોજુદા ડાયાગ્રામને ઓવરરાઈટ કરો",
-    only_mysql_supported:
-      "*હાલમાં ફક્ત MySQL સ્ક્રિપ્ટ્સ લોડ કરવા સપોર્ટેડ છે.",
+    only_mysql_supported: "*હાલમાં ફક્ત MySQL સ્ક્રિપ્ટ્સ લોડ કરવા સપોર્ટેડ છે.",
     blank: "ખાલી",
     filename: "ફાઇલનામ",
     table_w_no_name: "નામ વિના ટેબલ ઘોષિત",
@@ -169,17 +165,13 @@ const gu = {
       "ટેબલ '{{tableName}}' માં ફીલ્ડ '{{fieldName}}' નું ડિફોલ્ટ મૂલ્ય તેના પ્રકાર સાથે મેળ ખાતું નથી",
     not_null_is_null:
       "ટેબલ '{{tableName}}' ના ફીલ્ડ '{{fieldName}}' નું મૂલ્ય NOT NULL છે પરંતુ ડિફોલ્ટ NULL છે",
-    duplicate_fields:
-      "ટેબલ '{{tableName}}' માં નામ '{{fieldName}}' વાળા ડુપ્લિકેટ ટેબલ ફીલ્ડ્સ",
-    duplicate_index:
-      "ટેબલ '{{tableName}}' માં નામ '{{indexName}}' વાળો ડુપ્લિકેટ ઈન્ડેક્સ",
-    empty_index:
-      "ટેબલ '{{tableName}}' માં ઈન્ડેક્સ કોઈ કૉલમ ઈન્ડેક્સ કરતું નથી",
+    duplicate_fields: "ટેબલ '{{tableName}}' માં નામ '{{fieldName}}' વાળા ડુપ્લિકેટ ટેબલ ફીલ્ડ્સ",
+    duplicate_index: "ટેબલ '{{tableName}}' માં નામ '{{indexName}}' વાળો ડુપ્લિકેટ ઈન્ડેક્સ",
+    empty_index: "ટેબલ '{{tableName}}' માં ઈન્ડેક્સ કોઈ કૉલમ ઈન્ડેક્સ કરતું નથી",
     no_primary_key: "ટેબલ '{{tableName}}' માં કોઈ પ્રાથમિક કી નથી",
     type_with_no_name: "કોઈ નામ ન હોય તેવા પ્રકારને ઘોષિત કર્યું",
     duplicate_types: "નામ '{{typeName}}' વાળા ડુપ્લિકેટ પ્રકાર",
-    type_w_no_fields:
-      "કોઈ ફીલ્ડ્સ ન હોય તેવા પ્રકાર '{{typeName}}' ને ઘોષિત કર્યું",
+    type_w_no_fields: "કોઈ ફીલ્ડ્સ ન હોય તેવા પ્રકાર '{{typeName}}' ને ઘોષિત કર્યું",
     empty_type_field_name: "પ્રકાર '{{typeName}}' માં ખાલી ફીલ્ડ `નામ`",
     empty_type_field_type: "પ્રકાર '{{typeName}}' માં ખાલી ફીલ્ડ `પ્રકાર`",
     no_values_for_type_field:

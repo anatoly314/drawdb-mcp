@@ -19,8 +19,7 @@ const ar = {
     template_saved: "تم حفظ القالب!",
     rename: "إعادة تسمية",
     delete_diagram: "حذف المخطط",
-    are_you_sure_delete_diagram:
-      "هل أنت متأكد أنك تريد حذف هذا المخطط؟ هذه العملية لا رجعة فيها.",
+    are_you_sure_delete_diagram: "هل أنت متأكد أنك تريد حذف هذا المخطط؟ هذه العملية لا رجعة فيها.",
     oops_smth_went_wrong: "عفوًا! حدث خطأ ما.",
     import_diagram: "استيراد المخطط",
     import_from_source: "استيراد من SQL",
@@ -32,8 +31,7 @@ const ar = {
     undo: "تراجع",
     redo: "إعادة",
     clear: "مسح",
-    are_you_sure_clear:
-      "هل أنت متأكد أنك تريد مسح المخطط؟ هذه العملية لا رجعة فيها.",
+    are_you_sure_clear: "هل أنت متأكد أنك تريد مسح المخطط؟ هذه العملية لا رجعة فيها.",
     cut: "قص",
     copy: "نسخ",
     paste: "لصق",
@@ -157,8 +155,7 @@ const ar = {
     confirm: "تأكيد",
     last_modified: "آخر تعديل",
     drag_and_drop_files: "اسحب وأسقط الملف هنا أو انقر للتحميل.",
-    upload_sql_to_generate_diagrams:
-      "قم بتحميل ملف SQL لتوليد الجداول والأعمدة تلقائيًا.",
+    upload_sql_to_generate_diagrams: "قم بتحميل ملف SQL لتوليد الجداول والأعمدة تلقائيًا.",
     overwrite_existing_diagram: "الكتابة فوق المخطط الحالي",
     only_mysql_supported: "*في الوقت الحالي، يتم دعم تحميل نصوص MySQL فقط.",
     blank: "فارغ",
@@ -173,10 +170,8 @@ const ar = {
       "القيمة الافتراضية للحقل '{{fieldName}}' في الجدول '{{tableName}}' لا تتطابق مع نوعه",
     not_null_is_null:
       "'{{fieldName}}' الحقل في الجدول '{{tableName}}' ليس فارغًا ولكنه يحتوي على قيمة فارغة افتراضية",
-    duplicate_fields:
-      "حقول مكررة باسم '{{fieldName}}' في الجدول '{{tableName}}'",
-    duplicate_index:
-      "مؤشر مكرر بالاسم '{{indexName}}' في الجدول '{{tableName}}'",
+    duplicate_fields: "حقول مكررة باسم '{{fieldName}}' في الجدول '{{tableName}}'",
+    duplicate_index: "مؤشر مكرر بالاسم '{{indexName}}' في الجدول '{{tableName}}'",
     empty_index: "المؤشر في الجدول '{{tableName}}' لا يشير إلى أي أعمدة",
     no_primary_key: "الجدول '{{tableName}}' ليس له مفتاح أساسي",
     type_with_no_name: "تم إعلان نوع بدون اسم",
@@ -186,8 +181,7 @@ const ar = {
     empty_type_field_type: "نوع الحقل فارغ في النوع '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' الحقل في النوع '{{typeName}}' من النوع `{{type}}` ولكن لم يتم تحديد أي قيم",
-    duplicate_type_fields:
-      "حقول مكررة بالاسم '{{fieldName}}' في النوع '{{typeName}}'",
+    duplicate_type_fields: "حقول مكررة بالاسم '{{fieldName}}' في النوع '{{typeName}}'",
     duplicate_reference: "مرجع مكرر بالاسم '{{refName}}'",
     circular_dependency: "اعتماد دائري يشمل الجدول '{{refName}}'",
     timeline: "الجدول الزمني",
@@ -219,8 +213,7 @@ const ar = {
     not_found: "لم يتم العثور على",
     pick_db: "اختر قاعدة البيانات",
     generic: "عام",
-    generic_description:
-      "يمكن تصدير المخططات العامة إلى أي نوع SQL ولكن تدعم أنواع بيانات قليلة.",
+    generic_description: "يمكن تصدير المخططات العامة إلى أي نوع SQL ولكن تدعم أنواع بيانات قليلة.",
     enums: "القيم المعدودة",
     add_enum: "إضافة قيمة معدودة",
     edit_enum: "{{extra}} تحرير القيمة المعدودة {{enumName}}",

@@ -11,14 +11,10 @@ export default function SearchBar() {
   const { setSelectedElement } = useSelect();
   const { t } = useTranslation();
 
-  const [filteredResult, setFilteredResult] = useState(
-    relationships.map((t) => t.name),
-  );
+  const [filteredResult, setFilteredResult] = useState(relationships.map((t) => t.name));
 
   const handleStringSearch = (value) => {
-    setFilteredResult(
-      relationships.map((t) => t.name).filter((i) => i.includes(value)),
-    );
+    setFilteredResult(relationships.map((t) => t.name).filter((i) => i.includes(value)));
   };
 
   return (
@@ -39,9 +35,7 @@ export default function SearchBar() {
           open: true,
           element: ObjectType.RELATIONSHIP,
         }));
-        document
-          .getElementById(`scroll_ref_${id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_ref_${id}`).scrollIntoView({ behavior: "smooth" });
       }}
       className="w-full"
     />

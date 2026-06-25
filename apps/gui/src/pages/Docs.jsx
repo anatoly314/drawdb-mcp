@@ -17,10 +17,9 @@ export default function Docs() {
       <div>
         <Title heading={2}>DrawDB-MCP</Title>
         <Paragraph>
-          DrawDB is a database entity-relationship diagram editor, extended here
-          with AI-assistant control via the Model Context Protocol (MCP). An AI
-          assistant (e.g. Claude) can create and modify diagrams
-          programmatically while you watch it happen live in the browser.
+          DrawDB is a database entity-relationship diagram editor, extended here with AI-assistant
+          control via the Model Context Protocol (MCP). An AI assistant (e.g. Claude) can create and
+          modify diagrams programmatically while you watch it happen live in the browser.
         </Paragraph>
       </div>
 
@@ -28,18 +27,15 @@ export default function Docs() {
         <Title heading={4}>Run it</Title>
         <Paragraph>The quickest way is Docker:</Paragraph>
         <Code>
-          docker run --name drawdb-mcp -p 8080:80 -p 3000:3000
-          ghcr.io/anatoly314/drawdb-mcp:latest
+          docker run --name drawdb-mcp -p 8080:80 -p 3000:3000 ghcr.io/anatoly314/drawdb-mcp:latest
         </Code>
         <Paragraph>
-          The GUI is served at{" "}
-          <Text code>http://localhost:8080</Text> and the MCP server listens at{" "}
+          The GUI is served at <Text code>http://localhost:8080</Text> and the MCP server listens at{" "}
           <Text code>http://127.0.0.1:3000</Text>.
         </Paragraph>
         <Paragraph>
-          For local development you can instead run{" "}
-          <Text code>pnpm dev</Text>, which serves the GUI at{" "}
-          <Text code>http://localhost:5173</Text> and the backend at{" "}
+          For local development you can instead run <Text code>pnpm dev</Text>, which serves the GUI
+          at <Text code>http://localhost:5173</Text> and the backend at{" "}
           <Text code>http://localhost:3000</Text>.
         </Paragraph>
       </div>
@@ -47,23 +43,19 @@ export default function Docs() {
       <div>
         <Title heading={4}>Connect / attach an AI assistant</Title>
         <Paragraph>Register the MCP server with your assistant:</Paragraph>
-        <Code>
-          claude mcp add --transport http drawdb-mcp http://127.0.0.1:3000
-        </Code>
+        <Code>claude mcp add --transport http drawdb-mcp http://127.0.0.1:3000</Code>
         <Paragraph>
-          Once attached, the assistant&apos;s MCP tools drive this editor over a
-          WebSocket connection. Keep the editor tab open while you work — only
-          one tab can be controlled at a time, and opening a new one takes over
-          the connection.
+          Once attached, the assistant&apos;s MCP tools drive this editor over a WebSocket
+          connection. Keep the editor tab open while you work — only one tab can be controlled at a
+          time, and opening a new one takes over the connection.
         </Paragraph>
       </div>
 
       <div>
         <Title heading={4}>What the assistant can do</Title>
         <Paragraph>
-          The assistant can create and edit tables and fields, relationships,
-          subject areas, and notes; manage enums and types (PostgreSQL); and
-          export the diagram to SQL or DBML.
+          The assistant can create and edit tables and fields, relationships, subject areas, and
+          notes; manage enums and types (PostgreSQL); and export the diagram to SQL or DBML.
         </Paragraph>
       </div>
 

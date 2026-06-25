@@ -43,8 +43,7 @@ export default function Canvas() {
     pointer,
   } = canvasContextValue;
 
-  const { tables, updateTable, relationships, addRelationship, database } =
-    useDiagram();
+  const { tables, updateTable, relationships, addRelationship, database } = useDiagram();
   const { setSaveState } = useSaveState();
   const { areas, updateArea } = useAreas();
   const { notes, updateNote } = useNotes();
@@ -52,12 +51,8 @@ export default function Canvas() {
   const { settings } = useSettings();
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { transform, setTransform } = useTransform();
-  const {
-    selectedElement,
-    setSelectedElement,
-    bulkSelectedElements,
-    setBulkSelectedElements,
-  } = useSelect();
+  const { selectedElement, setSelectedElement, bulkSelectedElements, setBulkSelectedElements } =
+    useSelect();
   const notDragging = {
     id: -1,
     type: ObjectType.NONE,
@@ -100,9 +95,14 @@ export default function Canvas() {
     ctrlKey: false,
     metaKey: false,
   });
-  // this is used to store the element that is clicked on
-  // at the moment, and shouldn't be a part of the state
-  let elementPointerDown = null;
+  // Stores the element clicked on for the current pointer gesture. It isn't
+  // state (it must not trigger a render), but it also can't be a render-scoped
+  // `let`: the child onPointerDown handlers that write it and the canvas
+  // handler that reads it run across event ticks, so it needs a stable
+  // cross-render container. A ref is the correct home. It's reset to null at
+  // the start of every gesture (onPointerDownCapture, which fires before the
+  // children's bubble-phase handlers) so a click on empty canvas reads null.
+  const elementPointerDownRef = useRef(null);
 
   const isSameElement = (el1, el2) => {
     return el1.id === el2.id && el1.type === el2.type;
@@ -135,11 +135,7 @@ export default function Canvas() {
         x: table.x,
         y: table.y,
         width: settings.tableWidth,
-        height: getTableHeight(
-          table,
-          settings.tableWidth,
-          settings.showComments,
-        ),
+        height: getTableHeight(table, settings.tableWidth, settings.showComments),
       };
       if (shouldAddElement(tableRect, element)) {
         elements.push(element);
@@ -228,17 +224,13 @@ export default function Canvas() {
       initialCoords: { x: element.x, y: element.y },
     };
 
-    const isSelected = bulkSelectedElements.some((el) =>
-      isSameElement(el, elementInBulk),
-    );
+    const isSelected = bulkSelectedElements.some((el) => isSameElement(el, elementInBulk));
 
     if (e.ctrlKey || e.metaKey) {
       if (isSelected) {
         if (bulkSelectedElements.length > 1) {
           setBulkSelectedElements(
-            bulkSelectedElements.filter(
-              (el) => !isSameElement(el, elementInBulk),
-            ),
+            bulkSelectedElements.filter((el) => !isSameElement(el, elementInBulk)),
           );
           setSelectedElement({
             ...selectedElement,
@@ -290,11 +282,9 @@ export default function Canvas() {
         ...prev,
         pan: {
           x:
-            panning.panStart.x +
-            (panning.cursorStart.x - pointer.spaces.screen.x) / transform.zoom,
+            panning.panStart.x + (panning.cursorStart.x - pointer.spaces.screen.x) / transform.zoom,
           y:
-            panning.panStart.y +
-            (panning.cursorStart.y - pointer.spaces.screen.y) / transform.zoom,
+            panning.panStart.y + (panning.cursorStart.y - pointer.spaces.screen.y) / transform.zoom,
         },
       }));
       return;
@@ -312,15 +302,12 @@ export default function Canvas() {
     }
 
     if (isDragging()) {
-      const { x: mainElementFinalX, y: mainElementFinalY } =
-        coordinatesAfterSnappingToGrid({
-          x: pointer.spaces.diagram.x - dragging.grabOffset.x,
-          y: pointer.spaces.diagram.y - dragging.grabOffset.y,
-        });
+      const { x: mainElementFinalX, y: mainElementFinalY } = coordinatesAfterSnappingToGrid({
+        x: pointer.spaces.diagram.x - dragging.grabOffset.x,
+        y: pointer.spaces.diagram.y - dragging.grabOffset.y,
+      });
 
-      const { currentCoords } = bulkSelectedElements.find((el) =>
-        isSameElement(el, dragging),
-      );
+      const { currentCoords } = bulkSelectedElements.find((el) => isSameElement(el, dragging));
 
       const deltaX = mainElementFinalX - currentCoords.x;
       const deltaY = mainElementFinalY - currentCoords.y;
@@ -365,14 +352,12 @@ export default function Canvas() {
           newDims.x = x;
           newDims.y = y;
           newDims.width = areaInitDimensions.width - (x - areaInitDimensions.x);
-          newDims.height =
-            areaInitDimensions.height - (y - areaInitDimensions.y);
+          newDims.height = areaInitDimensions.height - (y - areaInitDimensions.y);
           break;
         case "tr":
           newDims.y = y;
           newDims.width = x - areaInitDimensions.x;
-          newDims.height =
-            areaInitDimensions.height - (y - areaInitDimensions.y);
+          newDims.height = areaInitDimensions.height - (y - areaInitDimensions.y);
           break;
         case "bl":
           newDims.x = x;
@@ -384,16 +369,14 @@ export default function Canvas() {
       if (newDims.width <= minAreaSize) {
         newDims.width = minAreaSize;
         if (areaResize.dir === "tl" || areaResize.dir === "bl") {
-          newDims.x =
-            areaInitDimensions.x + areaInitDimensions.width - minAreaSize;
+          newDims.x = areaInitDimensions.x + areaInitDimensions.width - minAreaSize;
         }
       }
 
       if (newDims.height <= minAreaSize) {
         newDims.height = minAreaSize;
         if (areaResize.dir === "tl" || areaResize.dir === "tr") {
-          newDims.y =
-            areaInitDimensions.y + areaInitDimensions.height - minAreaSize;
+          newDims.y = areaInitDimensions.y + areaInitDimensions.height - minAreaSize;
         }
       }
 
@@ -417,11 +400,7 @@ export default function Canvas() {
     if (!e.isPrimary) return;
 
     // don't pan if the sidesheet for editing a table is open
-    if (
-      selectedElement.element === ObjectType.TABLE &&
-      selectedElement.open &&
-      !layout.sidebar
-    )
+    if (selectedElement.element === ObjectType.TABLE && selectedElement.open && !layout.sidebar)
       return;
 
     const isMouseLeftButton = e.button === 0;
@@ -433,12 +412,13 @@ export default function Canvas() {
         y1: pointer.spaces.diagram.y,
         x2: pointer.spaces.diagram.x,
         y2: pointer.spaces.diagram.y,
-        show: elementPointerDown === null || !elementPointerDown.element.locked,
+        show:
+          elementPointerDownRef.current === null || !elementPointerDownRef.current.element.locked,
         ctrlKey: e.ctrlKey,
         metaKey: e.metaKey,
       });
-      if (elementPointerDown !== null) {
-        handlePointerDownOnElement(e, elementPointerDown);
+      if (elementPointerDownRef.current !== null) {
+        handlePointerDownOnElement(e, elementPointerDownRef.current);
       }
       pointer.setStyle("crosshair");
     } else if (isMouseMiddleButton) {
@@ -461,9 +441,7 @@ export default function Canvas() {
     if (!isDragging()) return false;
     // checking any element is sufficient
     const { currentCoords, initialCoords } = bulkSelectedElements[0];
-    return (
-      currentCoords.x !== initialCoords.x || currentCoords.y !== initialCoords.y
-    );
+    return currentCoords.x !== initialCoords.x || currentCoords.y !== initialCoords.y;
   };
 
   const didResize = (id) => {
@@ -476,10 +454,7 @@ export default function Canvas() {
   };
 
   const didPan = () =>
-    !(
-      transform.pan.x === panning.panStart.x &&
-      transform.pan.y === panning.panStart.y
-    );
+    !(transform.pan.x === panning.panStart.x && transform.pan.y === panning.panStart.y);
 
   /**
    * @param {PointerEvent} e
@@ -599,9 +574,7 @@ export default function Canvas() {
     const { fields: startTableFields, name: startTableName } = tables.find(
       (t) => t.id === linkingLine.startTableId,
     );
-    const startField = startTableFields.find(
-      (f) => f.id === linkingLine.startFieldId,
-    );
+    const startField = startTableFields.find((f) => f.id === linkingLine.startFieldId);
     const { fields: endTableFields, name: endTableName } = tables.find(
       (t) => t.id === hoveredTable.tableId,
     );
@@ -649,14 +622,10 @@ export default function Canvas() {
           pan: {
             x:
               prev.pan.x -
-              (pointer.spaces.diagram.x - prev.pan.x) *
-                eagernessFactor *
-                Math.sign(e.deltaY),
+              (pointer.spaces.diagram.x - prev.pan.x) * eagernessFactor * Math.sign(e.deltaY),
             y:
               prev.pan.y -
-              (pointer.spaces.diagram.y - prev.pan.y) *
-                eagernessFactor *
-                Math.sign(e.deltaY),
+              (pointer.spaces.diagram.y - prev.pan.y) * eagernessFactor * Math.sign(e.deltaY),
           },
           zoom: e.deltaY <= 0 ? prev.zoom * 1.05 : prev.zoom / 1.05,
         }));
@@ -695,6 +664,12 @@ export default function Canvas() {
           id="diagram"
           ref={canvasRef}
           onPointerMove={handlePointerMove}
+          // Capture phase runs parent -> child, so this clears the previous
+          // gesture's target before any child's bubble-phase onPointerDown sets
+          // a new one. Keeps clicks on empty canvas reading null.
+          onPointerDownCapture={() => {
+            elementPointerDownRef.current = null;
+          }}
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           className="absolute w-full h-full touch-none"
@@ -737,7 +712,7 @@ export default function Canvas() {
               setResize={setAreaResize}
               setInitDimensions={setAreaInitDimensions}
               onPointerDown={() => {
-                elementPointerDown = {
+                elementPointerDownRef.current = {
                   element: a,
                   type: ObjectType.AREA,
                 };
@@ -755,7 +730,7 @@ export default function Canvas() {
               handleGripField={handleGripField}
               setLinkingLine={setLinkingLine}
               onPointerDown={() => {
-                elementPointerDown = {
+                elementPointerDownRef.current = {
                   element: table,
                   type: ObjectType.TABLE,
                 };
@@ -775,7 +750,7 @@ export default function Canvas() {
               key={n.id}
               data={n}
               onPointerDown={() => {
-                elementPointerDown = {
+                elementPointerDownRef.current = {
                   element: n,
                   type: ObjectType.NOTE,
                 };

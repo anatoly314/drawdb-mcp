@@ -105,31 +105,21 @@ export default function SidePanel({ width, resize, setResize }) {
               activeKey={selectedElement.currentTab}
               lazyRender
               keepDOM={false}
-              onChange={(key) =>
-                setSelectedElement((prev) => ({ ...prev, currentTab: key }))
-              }
+              onChange={(key) => setSelectedElement((prev) => ({ ...prev, currentTab: key }))}
               collapsible
               tabBarStyle={{ direction: "ltr" }}
               tabBarExtraContent={
                 <>
                   <Divider layout="vertical" />
                   <Tooltip content={t("dbml_view")} position="bottom">
-                    <Button
-                      onClick={toggleDBMLEditor}
-                      icon={<IconCode />}
-                      theme="borderless"
-                    />
+                    <Button onClick={toggleDBMLEditor} icon={<IconCode />} theme="borderless" />
                   </Tooltip>
                 </>
               }
             >
               {tabList.length &&
                 tabList.map((tab) => (
-                  <TabPane
-                    tab={tab.tab}
-                    itemKey={tab.itemKey}
-                    key={tab.itemKey}
-                  >
+                  <TabPane tab={tab.tab} itemKey={tab.itemKey} key={tab.itemKey}>
                     <div className="p-2">{tab.component}</div>
                   </TabPane>
                 ))}

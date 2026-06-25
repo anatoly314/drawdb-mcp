@@ -32,8 +32,7 @@ const hi = {
     undo: "पूर्ववत करें",
     redo: "फिर से करें",
     clear: "साफ़ करें",
-    are_you_sure_clear:
-      "क्या आप वाकई इस डायग्राम को साफ़ करना चाहते हैं? यह अपरिवर्तनीय है।",
+    are_you_sure_clear: "क्या आप वाकई इस डायग्राम को साफ़ करना चाहते हैं? यह अपरिवर्तनीय है।",
     cut: "काटें",
     copy: "कॉपी करें",
     paste: "पेस्ट करें",
@@ -91,8 +90,7 @@ const hi = {
     no_tables: "कोई टेबल्स नहीं",
     no_tables_text: "अपना डायग्राम बनाना शुरू करें!",
     no_relationships: "कोई संबंध नहीं",
-    no_relationships_text:
-      "फील्ड्स को कनेक्ट करने के लिए खींचें और संबंध बनाएं!",
+    no_relationships_text: "फील्ड्स को कनेक्ट करने के लिए खींचें और संबंध बनाएं!",
     no_subject_areas: "कोई विषय एरियाज नहीं",
     no_subject_areas_text: "ग्रूप टेबल्स को सब्जेक्ट एरियाज जोड़ें!",
     no_notes: "कोई नोट्स नहीं",
@@ -100,8 +98,7 @@ const hi = {
     no_types: "कोई प्रकार नहीं",
     no_types_text: "अपने स्वयं के कस्टम डेटा प्रकार बनाएं",
     no_issues: "कोई समस्याएं नहीं पाए गए।",
-    strict_mode_is_on_no_issues:
-      "स्ट्रिक्ट मोड बंद है इसलिए कोई समस्याएं नहीं दिखाए जाएंगे।",
+    strict_mode_is_on_no_issues: "स्ट्रिक्ट मोड बंद है इसलिए कोई समस्याएं नहीं दिखाए जाएंगे।",
     name: "नाम",
     type: "प्रकार",
     null: "Null",
@@ -111,8 +108,7 @@ const hi = {
     autoincrement: "स्वतः वाढ",
     default_value: "डिफ़ॉल्ट",
     check: "चेक एक्सप्रेशन",
-    this_will_appear_as_is:
-      "*यह जेनरेटेड स्क्रिप्ट में जैसा है वैसा ही दिखेगा।",
+    this_will_appear_as_is: "*यह जेनरेटेड स्क्रिप्ट में जैसा है वैसा ही दिखेगा।",
     comment: "टिप्पणी",
     add_field: "फ़ील्ड जोड़ें",
     values: "व्हॅल्यूज",
@@ -152,13 +148,11 @@ const hi = {
     create: "बनाएं",
     confirm: "पुष्टि करें",
     last_modified: "अंतिम बार मॉडिफाइड",
-    drag_and_drop_files:
-      "फ़ाइल को यहां खींचें और छोड़ें या अपलोड करने के लिए क्लिक करें।",
+    drag_and_drop_files: "फ़ाइल को यहां खींचें और छोड़ें या अपलोड करने के लिए क्लिक करें।",
     upload_sql_to_generate_diagrams:
       "अपनी टेबल और कॉलम को स्वचालित रूप से जेनरेट करने के लिए एक sql फ़ाइल अपलोड करें।",
     overwrite_existing_diagram: "मौजूदा डायग्राम को अधिलेखित करें",
-    only_mysql_supported:
-      "*फिलहाल केवल MySQL स्क्रिप्ट्स को लोड करना समर्थित है।",
+    only_mysql_supported: "*फिलहाल केवल MySQL स्क्रिप्ट्स को लोड करना समर्थित है।",
     blank: "खाली",
     filename: "फ़ाइलनाम",
     table_w_no_name: "नाम के बिना टेबल घोषित की गई",
@@ -171,16 +165,13 @@ const hi = {
       "टेबल '{{tableName}}' में फ़ील्ड '{{fieldName}}' की डिफ़ॉल्ट व्हॅल्यू उसके प्रकार से मेल नहीं खाती",
     not_null_is_null:
       "टेबल '{{tableName}}' के फ़ील्ड '{{fieldName}}' की व्हॅल्यू NOT NULL है लेकिन डिफ़ॉल्ट NULL है",
-    duplicate_fields:
-      "टेबल '{{tableName}}' में नाम '{{fieldName}}' वाले डुप्लिकेट टेबल फ़ील्ड्स",
-    duplicate_index:
-      "टेबल '{{tableName}}' में नाम '{{indexName}}' वाला डुप्लिकेट इंडेक्स",
+    duplicate_fields: "टेबल '{{tableName}}' में नाम '{{fieldName}}' वाले डुप्लिकेट टेबल फ़ील्ड्स",
+    duplicate_index: "टेबल '{{tableName}}' में नाम '{{indexName}}' वाला डुप्लिकेट इंडेक्स",
     empty_index: "टेबल '{{tableName}}' में इंडेक्स कोई कॉलम इंडेक्स नहीं करता",
     no_primary_key: "टेबल '{{tableName}}' में कोई प्राथमिक कुंजी नहीं है",
     type_with_no_name: "कोई नाम नहीं होने वाले प्रकार को घोषित किया",
     duplicate_types: "नाम '{{typeName}}' वाले डुप्लिकेट प्रकार",
-    type_w_no_fields:
-      "कोई फ़ील्ड्स नहीं होने वाले प्रकार '{{typeName}}' को घोषित किया",
+    type_w_no_fields: "कोई फ़ील्ड्स नहीं होने वाले प्रकार '{{typeName}}' को घोषित किया",
     empty_type_field_name: "प्रकार '{{typeName}}' में खाली फ़ील्ड `नाम`",
     empty_type_field_type: "प्रकार '{{typeName}}' में खाली फ़ील्ड `प्रकार`",
     no_values_for_type_field:

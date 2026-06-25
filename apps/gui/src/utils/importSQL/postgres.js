@@ -42,18 +42,13 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
             field.name = d.column.column.expr.value;
 
             let type = types.find((t) =>
-              new RegExp(`^(${t.name}|"${t.name}")$`).test(
-                d.definition.dataType,
-              ),
+              new RegExp(`^(${t.name}|"${t.name}")$`).test(d.definition.dataType),
             )?.name;
             type ??= enums.find((t) =>
-              new RegExp(`^(${t.name}|"${t.name}")$`).test(
-                d.definition.dataType,
-              ),
+              new RegExp(`^(${t.name}|"${t.name}")$`).test(d.definition.dataType),
             )?.name;
 
-            type ??=
-              dbToTypes[diagramDb][d.definition.dataType.toUpperCase()].type;
+            type ??= dbToTypes[diagramDb][d.definition.dataType.toUpperCase()].type;
             type ??= affinity[diagramDb][d.definition.dataType.toUpperCase()];
 
             field.type = type;
@@ -72,7 +67,7 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
             if (d.primary_key) field.primary = true;
             field.default = "";
             if (d.default_val) {
-              let defaultValue = "";
+              let defaultValue;
               if (d.default_val.value.type === "function") {
                 defaultValue = d.default_val.value.name.name[0].value;
                 if (d.default_val.value.args) {
@@ -80,10 +75,7 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
                     "(" +
                     d.default_val.value.args.value
                       .map((v) => {
-                        if (
-                          v.type === "single_quote_string" ||
-                          v.type === "double_quote_string"
-                        )
+                        if (v.type === "single_quote_string" || v.type === "double_quote_string")
                           return "'" + v.value + "'";
                         return v.value;
                       })
@@ -131,20 +123,15 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
               const startTableName = e.table[0].table;
               const startFieldName = d.definition[0].column.expr.value;
               const endTableName = d.reference_definition.table[0].table;
-              const endFieldName =
-                d.reference_definition.definition[0].column.expr.value;
+              const endFieldName = d.reference_definition.definition[0].column.expr.value;
 
               const endTable = tables.find((t) => t.name === endTableName);
               if (!endTable) return;
 
-              const endField = endTable.fields.find(
-                (f) => f.name === endFieldName,
-              );
+              const endField = endTable.fields.find((f) => f.name === endFieldName);
               if (!endField) return;
 
-              const startField = table.fields.find(
-                (f) => f.name === startFieldName,
-              );
+              const startField = table.fields.find((f) => f.name === startFieldName);
               if (!startField) return;
 
               relationship.name = `fk_${startTableName}_${startFieldName}_${endTableName}`;
@@ -160,13 +147,11 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
                 if (c.type === "on update") {
                   updateConstraint = c.value.value;
                   updateConstraint =
-                    updateConstraint[0].toUpperCase() +
-                    updateConstraint.substring(1);
+                    updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
                 } else if (c.type === "on delete") {
                   deleteConstraint = c.value.value;
                   deleteConstraint =
-                    deleteConstraint[0].toUpperCase() +
-                    deleteConstraint.substring(1);
+                    deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
                 }
               });
 
@@ -186,21 +171,18 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
             const startTableName = table.name;
             const startFieldName = field.name;
             const endTableName = d.reference_definition.table[0].table;
-            const endFieldName =
-              d.reference_definition.definition[0].column.expr.value;
+            const endFieldName = d.reference_definition.definition[0].column.expr.value;
             let updateConstraint = Constraint.NONE;
             let deleteConstraint = Constraint.NONE;
             d.reference_definition.on_action.forEach((c) => {
               if (c.type === "on update") {
                 updateConstraint = c.value.value;
                 updateConstraint =
-                  updateConstraint[0].toUpperCase() +
-                  updateConstraint.substring(1);
+                  updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
               } else if (c.type === "on delete") {
                 deleteConstraint = c.value.value;
                 deleteConstraint =
-                  deleteConstraint[0].toUpperCase() +
-                  deleteConstraint.substring(1);
+                  deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
               }
             });
 
@@ -209,14 +191,10 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
             const endTable = tables.find((t) => t.name === endTableName);
             if (!endTable) return;
 
-            const endField = endTable.fields.find(
-              (f) => f.name === endFieldName,
-            );
+            const endField = endTable.fields.find((f) => f.name === endFieldName);
             if (!endField) return;
 
-            const startField = table.fields.find(
-              (f) => f.name === startFieldName,
-            );
+            const startField = table.fields.find((f) => f.name === startFieldName);
             if (!startField) return;
 
             relationship.name = `fk_${startTableName}_${startFieldName}_${endTableName}`;
@@ -294,35 +272,27 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
         e.expr.forEach((expr) => {
           if (
             expr.action === "add" &&
-            expr.create_definitions.constraint_type.toLowerCase() ===
-              "foreign key"
+            expr.create_definitions.constraint_type.toLowerCase() === "foreign key"
           ) {
             const relationship = {};
             const startTableName = e.table[0].table;
-            const startFieldName =
-              expr.create_definitions.definition[0].column.expr.value;
-            const endTableName =
-              expr.create_definitions.reference_definition.table[0].table;
+            const startFieldName = expr.create_definitions.definition[0].column.expr.value;
+            const endTableName = expr.create_definitions.reference_definition.table[0].table;
             const endFieldName =
-              expr.create_definitions.reference_definition.definition[0].column
-                .expr.value;
+              expr.create_definitions.reference_definition.definition[0].column.expr.value;
             let updateConstraint = Constraint.NONE;
             let deleteConstraint = Constraint.NONE;
-            expr.create_definitions.reference_definition.on_action.forEach(
-              (c) => {
-                if (c.type === "on update") {
-                  updateConstraint = c.value.value;
-                  updateConstraint =
-                    updateConstraint[0].toUpperCase() +
-                    updateConstraint.substring(1);
-                } else if (c.type === "on delete") {
-                  deleteConstraint = c.value.value;
-                  deleteConstraint =
-                    deleteConstraint[0].toUpperCase() +
-                    deleteConstraint.substring(1);
-                }
-              },
-            );
+            expr.create_definitions.reference_definition.on_action.forEach((c) => {
+              if (c.type === "on update") {
+                updateConstraint = c.value.value;
+                updateConstraint =
+                  updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
+              } else if (c.type === "on delete") {
+                deleteConstraint = c.value.value;
+                deleteConstraint =
+                  deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
+              }
+            });
 
             const startTable = tables.find((t) => t.name === startTableName);
             if (!startTable) return;
@@ -330,14 +300,10 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
             const endTable = tables.find((t) => t.name === endTableName);
             if (!endTable) return;
 
-            const endField = endTable.fields.find(
-              (f) => f.name === endFieldName,
-            );
+            const endField = endTable.fields.find((f) => f.name === endFieldName);
             if (!endField) return;
 
-            const startField = startTable.fields.find(
-              (f) => f.name === startFieldName,
-            );
+            const startField = startTable.fields.find((f) => f.name === startFieldName);
             if (!startField) return;
 
             relationship.name = `fk_${startTableName}_${startFieldName}_${endTableName}`;
@@ -369,9 +335,7 @@ export function fromPostgres(ast, diagramDb = DB.GENERIC) {
       } else if (e.target.type === "column") {
         const table = tables.find((t) => t.name === e.target?.name?.table);
         if (table) {
-          const field = table.fields.find(
-            (f) => f.name === e.target?.name?.column?.expr?.value,
-          );
+          const field = table.fields.find((f) => f.name === e.target?.name?.column?.expr?.value);
           if (field) {
             field.comment = e.expr.expr.value;
           }

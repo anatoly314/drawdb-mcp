@@ -99,8 +99,7 @@ const pa = {
     no_types: "ਕੋਈ ਕਿਸਮਾਂ ਨਹੀਂ",
     no_types_text: "ਆਪਣੇ ਆਪ ਦੇ ਕਸਟਮ ਡਾਟਾ ਕਿਸਮਾਂ ਬਣਾਓ",
     no_issues: "ਕੋਈ ਸਮੱਸਿਆ ਨਹੀਂ ਮਿਲੀ।",
-    strict_mode_is_on_no_issues:
-      "ਸਖ਼ਤ ਮੋਡ ਬੰਦ ਹੈ ਇਸ ਲਈ ਕੋਈ ਸਮੱਸਿਆ ਨਹੀਂ ਦਿਖਾਈ ਜਾਵੇਗੀ।",
+    strict_mode_is_on_no_issues: "ਸਖ਼ਤ ਮੋਡ ਬੰਦ ਹੈ ਇਸ ਲਈ ਕੋਈ ਸਮੱਸਿਆ ਨਹੀਂ ਦਿਖਾਈ ਜਾਵੇਗੀ।",
     name: "ਨਾਮ",
     type: "ਕਿਸਮ",
     null: "ਨੱਲ",
@@ -110,8 +109,7 @@ const pa = {
     autoincrement: "ਆਟੋ ਇੰਕਰੀਮੈਂਟ",
     default_value: "ਡਿਫਾਲਟ ਮੁੱਲ",
     check: "ਚੈਕ ਐਕਸਪਰੈਸ਼ਨ",
-    this_will_appear_as_is:
-      "*ਇਹ ਜਨਰੇਟ ਕੀਤੇ ਸਕ੍ਰਿਪਟ ਵਿੱਚ ਜਿਵੇਂ ਦਾ ਤਿਵੇਂ ਹੀ ਦਿਖੇਗਾ।",
+    this_will_appear_as_is: "*ਇਹ ਜਨਰੇਟ ਕੀਤੇ ਸਕ੍ਰਿਪਟ ਵਿੱਚ ਜਿਵੇਂ ਦਾ ਤਿਵੇਂ ਹੀ ਦਿਖੇਗਾ।",
     comment: "ਟਿੱਪਣੀ",
     add_field: "ਖੇਤਰ ਸ਼ਾਮਲ ਕਰੋ",
     values: "ਮੁੱਲ",
@@ -151,13 +149,11 @@ const pa = {
     create: "ਬਣਾਓ",
     confirm: "ਪੁਸ਼ਟੀ ਕਰੋ",
     last_modified: "ਆਖਰੀ ਵਾਰ ਬਦਲਿਆ ਗਿਆ",
-    drag_and_drop_files:
-      "ਫਾਈਲ ਨੂੰ ਇੱਥੇ ਖਿੱਚੋ ਅਤੇ ਛੱਡੋ ਜਾਂ ਅੱਪਲੋਡ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
+    drag_and_drop_files: "ਫਾਈਲ ਨੂੰ ਇੱਥੇ ਖਿੱਚੋ ਅਤੇ ਛੱਡੋ ਜਾਂ ਅੱਪਲੋਡ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
     upload_sql_to_generate_diagrams:
       "ਆਪਣੇ ਟੇਬਲਾਂ ਅਤੇ ਕਾਲਮਾਂ ਨੂੰ ਆਪਣੇ ਆਪ ਜਨਰੇਟ ਕਰਨ ਲਈ ਇੱਕ SQL ਫਾਈਲ ਅੱਪਲੋਡ ਕਰੋ।",
     overwrite_existing_diagram: "ਮੌਜੂਦਾ ਡਾਯਾਗ੍ਰਾਮ ਨੂੰ ਓਵਰਰਾਈਟ ਕਰੋ",
-    only_mysql_supported:
-      "*ਇਸ ਸਮੇਂ ਸਿਰਫ MySQL ਸਕ੍ਰਿਪਟਾਂ ਨੂੰ ਲੋਡ ਕਰਨਾ ਸਮਰਥਿਤ ਹੈ।",
+    only_mysql_supported: "*ਇਸ ਸਮੇਂ ਸਿਰਫ MySQL ਸਕ੍ਰਿਪਟਾਂ ਨੂੰ ਲੋਡ ਕਰਨਾ ਸਮਰਥਿਤ ਹੈ।",
     blank: "ਖਾਲੀ",
     filename: "ਫਾਈਲ ਨਾਮ",
     table_w_no_name: "ਬਿਨਾਂ ਨਾਮ ਵਾਲੀ ਟੇਬਲ ਘੋਸ਼ਿਤ ਕੀਤੀ ਗਈ",
@@ -170,23 +166,18 @@ const pa = {
       "ਟੇਬਲ '{{tableName}}' ਦੇ ਖੇਤਰ '{{fieldName}}' ਦੀ ਡਿਫਾਲਟ ਮੁੱਲ ਉਸਦੀ ਕਿਸਮ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦੀ",
     not_null_is_null:
       "ਟੇਬਲ '{{tableName}}' ਦੇ ਖੇਤਰ '{{fieldName}}' ਦੀ ਮੁੱਲ NOT NULL ਹੈ ਪਰ ਡਿਫਾਲਟ NULL ਹੈ",
-    duplicate_fields:
-      "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ '{{fieldName}}' ਨਾਮ ਵਾਲੇ ਨਕਲ ਟੇਬਲ ਖੇਤਰ",
-    duplicate_index:
-      "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ '{{indexName}}' ਨਾਮ ਵਾਲਾ ਨਕਲ ਇੰਡੈਕਸ",
-    empty_index:
-      "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ ਇੰਡੈਕਸ ਕਿਸੇ ਵੀ ਕਾਲਮ ਨੂੰ ਇੰਡੈਕਸ ਨਹੀਂ ਕਰਦਾ",
+    duplicate_fields: "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ '{{fieldName}}' ਨਾਮ ਵਾਲੇ ਨਕਲ ਟੇਬਲ ਖੇਤਰ",
+    duplicate_index: "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ '{{indexName}}' ਨਾਮ ਵਾਲਾ ਨਕਲ ਇੰਡੈਕਸ",
+    empty_index: "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ ਇੰਡੈਕਸ ਕਿਸੇ ਵੀ ਕਾਲਮ ਨੂੰ ਇੰਡੈਕਸ ਨਹੀਂ ਕਰਦਾ",
     no_primary_key: "ਟੇਬਲ '{{tableName}}' ਵਿੱਚ ਕੋਈ ਪ੍ਰਾਥਮਿਕ ਕੁੰਜੀ ਨਹੀਂ ਹੈ",
     type_with_no_name: "ਬਿਨਾਂ ਕਿਸੇ ਨਾਮ ਵਾਲੇ ਕਿਸਮ ਨੂੰ ਘੋਸ਼ਿਤ ਕੀਤਾ",
     duplicate_types: "ਨਾਮ '{{typeName}}' ਵਾਲੀ ਨਕਲ ਕਿਸਮ",
-    type_w_no_fields:
-      "ਬਿਨਾਂ ਕਿਸੇ ਖੇਤਰ ਵਾਲੀ ਕਿਸਮ '{{typeName}}' ਨੂੰ ਘੋਸ਼ਿਤ ਕੀਤਾ",
+    type_w_no_fields: "ਬਿਨਾਂ ਕਿਸੇ ਖੇਤਰ ਵਾਲੀ ਕਿਸਮ '{{typeName}}' ਨੂੰ ਘੋਸ਼ਿਤ ਕੀਤਾ",
     empty_type_field_name: "ਕਿਸਮ '{{typeName}}' ਵਿੱਚ ਖਾਲੀ ਖੇਤਰ `ਨਾਮ`",
     empty_type_field_type: "ਕਿਸਮ '{{typeName}}' ਵਿੱਚ ਖਾਲੀ ਖੇਤਰ `ਕਿਸਮ`",
     no_values_for_type_field:
       "ਕਿਸਮ '{{typeName}}' ਦੇ ਖੇਤਰ '{{fieldName}}' ਦੀ ਕਿਸਮ `{{type}}` ਹੈ ਪਰ ਕੋਈ ਮੁੱਲ ਨਿਰਧਾਰਤ ਨਹੀਂ ਹੈ",
-    duplicate_type_fields:
-      "ਕਿਸਮ '{{typeName}}' ਵਿੱਚ '{{fieldName}}' ਨਾਮ ਵਾਲੇ ਨਕਲ ਕਿਸਮ ਖੇਤਰ",
+    duplicate_type_fields: "ਕਿਸਮ '{{typeName}}' ਵਿੱਚ '{{fieldName}}' ਨਾਮ ਵਾਲੇ ਨਕਲ ਕਿਸਮ ਖੇਤਰ",
     duplicate_reference: "ਨਾਮ '{{refName}}' ਵਾਲਾ ਨਕਲ ਸੰਦਰਭ",
     circular_dependency: "ਟੇਬਲ '{{refName}}' ਵਿੱਚ ਚੱਕਰਕਾਰ ਨਿਰਭਰਤਾ",
     timeline: "ਟਾਈਮਲਾਈਨ",

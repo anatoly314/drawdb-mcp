@@ -1,10 +1,9 @@
 import { Toast } from "@douyinfe/semi-ui";
-import { createContext, useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
 import { useSelect, useTransform, useUndoRedo } from "../hooks";
-
-export const AreasContext = createContext(null);
+import { AreasContext } from "./AreasContext";
 
 export default function AreasContextProvider({ children }) {
   const { t } = useTranslation();
@@ -76,9 +75,7 @@ export default function AreasContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
-    setAreas((prev) =>
-      prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })),
-    );
+    setAreas((prev) => prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })));
     if (id === selectedElement.id) {
       setSelectedElement((prev) => ({
         ...prev,

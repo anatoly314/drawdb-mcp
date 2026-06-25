@@ -41,11 +41,7 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
   const tables = [];
   const relationships = [];
 
-  const addRelationshipFromReferenceDef = (
-    startTable,
-    startFieldName,
-    referenceDefinition,
-  ) => {
+  const addRelationshipFromReferenceDef = (startTable, startFieldName, referenceDefinition) => {
     const relationship = {};
     const endTableName = referenceDefinition.table[0].table;
     const endFieldName = referenceDefinition.definition[0].column;
@@ -59,8 +55,7 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
     const startField = startTable.fields.find((f) => f.name === startFieldName);
     if (!startField) return;
 
-    relationship.name =
-      "fk_" + startTable.name + "_" + startFieldName + "_" + endTableName;
+    relationship.name = "fk_" + startTable.name + "_" + startFieldName + "_" + endTableName;
     relationship.startTableId = startTable.id;
     relationship.endTableId = endTable.id;
     relationship.endFieldId = endField.id;
@@ -72,12 +67,10 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
     referenceDefinition.on_action.forEach((c) => {
       if (c.type === "on update") {
         updateConstraint = c.value.value;
-        updateConstraint =
-          updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
+        updateConstraint = updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
       } else if (c.type === "on delete") {
         deleteConstraint = c.value.value;
-        deleteConstraint =
-          deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
+        deleteConstraint = deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
       }
     });
 
@@ -128,7 +121,7 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
             if (d.primary_key) field.primary = true;
             field.default = "";
             if (d.default_val) {
-              let defaultValue = "";
+              let defaultValue;
               if (d.default_val.value.type === "function") {
                 defaultValue = d.default_val.value.name.name[0].value;
                 if (d.default_val.value.args) {
@@ -136,10 +129,7 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
                     "(" +
                     d.default_val.value.args.value
                       .map((v) => {
-                        if (
-                          v.type === "single_quote_string" ||
-                          v.type === "double_quote_string"
-                        )
+                        if (v.type === "single_quote_string" || v.type === "double_quote_string")
                           return "'" + v.value + "'";
                         return v.value;
                       })
@@ -167,11 +157,7 @@ export function fromSQLite(ast, diagramDb = DB.GENERIC) {
             table.fields.push(field);
 
             if (d.reference_definition) {
-              addRelationshipFromReferenceDef(
-                table,
-                field.name,
-                d.reference_definition,
-              );
+              addRelationshipFromReferenceDef(table, field.name, d.reference_definition);
             }
           } else if (d.resource === "constraint") {
             if (d.constraint_type === "primary key") {

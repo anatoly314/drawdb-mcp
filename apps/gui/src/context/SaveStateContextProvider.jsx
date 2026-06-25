@@ -1,7 +1,6 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { State } from "../data/constants";
-
-export const SaveStateContext = createContext(State.NONE);
+import { SaveStateContext } from "./SaveStateContext";
 
 export default function SaveStateContextProvider({ children }) {
   const [saveState, setSaveState] = useState(State.NONE);

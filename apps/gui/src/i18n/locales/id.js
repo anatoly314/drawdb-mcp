@@ -98,8 +98,7 @@ const id = {
     no_tables: "Tidak ada tabel",
     no_tables_text: "Mulai bangun diagram Anda!",
     no_relationships: "Tidak ada hubungan",
-    no_relationships_text:
-      "Seret untuk menghubungkan bidang dan membentuk hubungan!",
+    no_relationships_text: "Seret untuk menghubungkan bidang dan membentuk hubungan!",
     no_subject_areas: "Tidak ada area subjek",
     no_subject_areas_text: "Tambahkan area subjek untuk mengelompokkan tabel!",
     no_notes: "Tidak ada catatan",
@@ -118,8 +117,7 @@ const id = {
     autoincrement: "Autoincrement",
     default_value: "Nilai default",
     check: "Periksa ekspresi",
-    this_will_appear_as_is:
-      "*Ini akan muncul dalam skrip yang dihasilkan sebagaimana adanya.",
+    this_will_appear_as_is: "*Ini akan muncul dalam skrip yang dihasilkan sebagaimana adanya.",
     comment: "Komentar",
     add_field: "Tambah bidang",
     values: "Nilai",
@@ -148,8 +146,7 @@ const id = {
     note_deleted: "Catatan dihapus",
     relationship_deleted: "Hubungan dihapus",
     type_deleted: "Jenis dihapus",
-    cannot_connect:
-      "Tidak dapat menghubungkan, kolom memiliki tipe yang berbeda",
+    cannot_connect: "Tidak dapat menghubungkan, kolom memiliki tipe yang berbeda",
     copied_to_clipboard: "Disalin ke papan klip",
     create_new_diagram: "Buat diagram baru",
     cancel: "Batal",
@@ -160,10 +157,8 @@ const id = {
     create: "Buat",
     confirm: "Konfirmasi",
     last_modified: "Terakhir diubah",
-    drag_and_drop_files:
-      "Seret dan lepas file di sini atau klik untuk mengunggah.",
-    upload_sql_to_generate_diagrams:
-      "Unggah file SQL untuk mengotomatiskan tabel dan kolom Anda.",
+    drag_and_drop_files: "Seret dan lepas file di sini atau klik untuk mengunggah.",
+    upload_sql_to_generate_diagrams: "Unggah file SQL untuk mengotomatiskan tabel dan kolom Anda.",
     overwrite_existing_diagram: "Timpa diagram yang ada",
     only_mysql_supported: "*Saat ini hanya memuat skrip MySQL yang didukung.",
     blank: "Kosong",
@@ -180,25 +175,20 @@ const id = {
       "Bidang '{{fieldName}}' dalam tabel '{{tableName}}' adalah TIDAK NULL tetapi memiliki nilai default NULL",
     duplicate_fields:
       "Bidang tabel duplikat dengan nama '{{fieldName}}' dalam tabel '{{tableName}}'",
-    duplicate_index:
-      "Indeks duplikat dengan nama '{{indexName}}' dalam tabel '{{tableName}}'",
-    empty_index:
-      "Indeks dalam tabel '{{tableName}}' tidak mengindeks kolom apapun",
+    duplicate_index: "Indeks duplikat dengan nama '{{indexName}}' dalam tabel '{{tableName}}'",
+    empty_index: "Indeks dalam tabel '{{tableName}}' tidak mengindeks kolom apapun",
     no_primary_key: "Tabel '{{tableName}}' tidak memiliki kunci utama",
     type_with_no_name: "Mendeklarasikan tipe tanpa nama",
     duplicate_types: "Tipe duplikat dengan nama '{{typeName}}'",
     type_w_no_fields: "Mendeklarasikan tipe '{{typeName}}' kosong tanpa bidang",
-    empty_type_field_name:
-      "Nama bidang `name` kosong dalam tipe '{{typeName}}'",
-    empty_type_field_type:
-      "Jenis bidang `type` kosong dalam tipe '{{typeName}}'",
+    empty_type_field_name: "Nama bidang `name` kosong dalam tipe '{{typeName}}'",
+    empty_type_field_type: "Jenis bidang `type` kosong dalam tipe '{{typeName}}'",
     no_values_for_type_field:
       "Bidang '{{fieldName}}' dalam tipe '{{typeName}}' adalah tipe `{{type}}` tetapi tidak ada nilai yang ditentukan",
     duplicate_type_fields:
       "Bidang tipe duplikat dengan nama '{{fieldName}}' dalam tipe '{{typeName}}'",
     duplicate_reference: "Referensi duplikat dengan nama '{{refName}}'",
-    circular_dependency:
-      "Ketergantungan siklik yang melibatkan tabel '{{refName}}'",
+    circular_dependency: "Ketergantungan siklik yang melibatkan tabel '{{refName}}'",
     timeline: "Garis waktu",
     priority: "Prioritas",
     none: "Tidak ada",
@@ -240,8 +230,7 @@ const id = {
     no_enums: "Tidak ada enum",
     no_enums_text: "Definisikan enum di sini",
     declare_array: "Deklarasikan array",
-    empty_index_name:
-      "Mendeklarasikan indeks tanpa nama dalam tabel '{{tableName}}'",
+    empty_index_name: "Mendeklarasikan indeks tanpa nama dalam tabel '{{tableName}}'",
     didnt_find_diagram: "Ups! Tidak menemukan diagram.",
   },
 };

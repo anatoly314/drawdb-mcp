@@ -10,10 +10,7 @@ function parseType(field) {
     res += `${field.values ? "(" + field.values.map((value) => "'" + value + "'").join(", ") + ")" : ""}`;
   }
 
-  if (
-    dbToTypes[DB.MARIADB][field.type].isSized ||
-    dbToTypes[DB.MARIADB][field.type].hasPrecision
-  ) {
+  if (dbToTypes[DB.MARIADB][field.type].isSized || dbToTypes[DB.MARIADB][field.type].hasPrecision) {
     res += `${field.size && field.size !== "" ? "(" + field.size + ")" : ""}`;
   }
 
@@ -30,12 +27,9 @@ export function toMariaDB(diagram) {
               `\t\`${field.name}\` ${parseType(field)}${field.unsigned ? " UNSIGNED" : ""}${field.notNull ? " NOT NULL" : ""}${
                 field.increment ? " AUTO_INCREMENT" : ""
               }${field.unique ? " UNIQUE" : ""}${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, diagram.database)}`
-                  : ""
+                field.default !== "" ? ` DEFAULT ${parseDefault(field, diagram.database)}` : ""
               }${
-                field.check === "" ||
-                !dbToTypes[diagram.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[diagram.database][field.type].hasCheck
                   ? ""
                   : ` CHECK(${field.check})`
               }${field.comment ? ` COMMENT '${escapeQuotes(field.comment)}'` : ""}`,
@@ -52,9 +46,7 @@ export function toMariaDB(diagram) {
             (i) =>
               `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX \`${
                 i.name
-              }\`\nON \`${table.name}\` (${i.fields
-                .map((f) => `\`${f}\``)
-                .join(", ")});`,
+              }\`\nON \`${table.name}\` (${i.fields.map((f) => `\`${f}\``).join(", ")});`,
           )
           .join("")}`}`,
     )

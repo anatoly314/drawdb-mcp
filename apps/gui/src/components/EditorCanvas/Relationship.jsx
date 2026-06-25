@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useLayoutEffect } from "react";
 import { Cardinality, ObjectType, Tab } from "../../data/constants";
 import { calcPath } from "../../utils/calcPath";
 import { useDiagram, useSettings, useLayout, useSelect } from "../../hooks";
@@ -7,6 +7,19 @@ import { SideSheet } from "@douyinfe/semi-ui";
 import RelationshipInfo from "../EditorSidePanel/RelationshipsTab/RelationshipInfo";
 
 const labelFontSize = 16;
+const cardinalityOffset = 28;
+
+const INITIAL_GEOMETRY = {
+  pathMeasured: false,
+  labelX: 0,
+  labelY: 0,
+  labelWidth: 0,
+  labelHeight: 0,
+  cardinalityStartX: 0,
+  cardinalityStartY: 0,
+  cardinalityEndX: 0,
+  cardinalityEndY: 0,
+};
 
 export default function Relationship({ data }) {
   const { settings } = useSettings();
@@ -22,9 +35,7 @@ export default function Relationship({ data }) {
     if (!startTable || !endTable) return null;
 
     return {
-      startFieldIndex: startTable.fields.findIndex(
-        (f) => f.id === data.startFieldId,
-      ),
+      startFieldIndex: startTable.fields.findIndex((f) => f.id === data.startFieldId),
       endFieldIndex: endTable.fields.findIndex((f) => f.id === data.endFieldId),
       startTable: {
         x: startTable.x,
@@ -34,6 +45,14 @@ export default function Relationship({ data }) {
       endTable: { x: endTable.x, y: endTable.y, comment: endTable.comment },
     };
   }, [tables, data]);
+
+  // The single source of truth for the rendered path. Both the visible and the
+  // wider invisible hover paths render this string, and the layout effect below
+  // re-measures whenever it (or its label inputs) change.
+  const pathD = useMemo(
+    () => calcPath(pathValues, settings.tableWidth, 1, settings.showComments),
+    [pathValues, settings.tableWidth, settings.showComments],
+  );
 
   const pathRef = useRef();
   const labelRef = useRef();
@@ -62,34 +81,60 @@ export default function Relationship({ data }) {
       break;
   }
 
-  let cardinalityStartX = 0;
-  let cardinalityEndX = 0;
-  let cardinalityStartY = 0;
-  let cardinalityEndY = 0;
-  let labelX = 0;
-  let labelY = 0;
+  // Geometry that depends on the committed SVG (path length, sampled points and
+  // the label's measured box) is computed AFTER render in a layout effect and
+  // stored here, then rendered from state. Reading refs during render is impure
+  // -- on first render `.current` is null so positions would be (0,0) until an
+  // incidental re-render. Measuring post-commit fixes that latent bug while
+  // keeping settled positions identical to the old render-time math.
+  const [geometry, setGeometry] = useState(INITIAL_GEOMETRY);
 
-  let labelWidth = labelRef.current?.getBBox().width ?? 0;
-  let labelHeight = labelRef.current?.getBBox().height ?? 0;
+  useLayoutEffect(() => {
+    const pathEl = pathRef.current;
+    if (!pathEl) {
+      setGeometry((prev) => (prev.pathMeasured ? INITIAL_GEOMETRY : prev));
+      return;
+    }
 
-  const cardinalityOffset = 28;
+    const labelBBox = settings.showRelationshipLabels ? labelRef.current?.getBBox() : null;
+    const labelWidth = labelBBox?.width ?? 0;
+    const labelHeight = labelBBox?.height ?? 0;
 
-  if (pathRef.current) {
-    const pathLength = pathRef.current.getTotalLength();
+    const pathLength = pathEl.getTotalLength();
+    const labelPoint = pathEl.getPointAtLength(pathLength / 2);
+    const startPoint = pathEl.getPointAtLength(cardinalityOffset);
+    const endPoint = pathEl.getPointAtLength(pathLength - cardinalityOffset);
 
-    const labelPoint = pathRef.current.getPointAtLength(pathLength / 2);
-    labelX = labelPoint.x - (labelWidth ?? 0) / 2;
-    labelY = labelPoint.y + (labelHeight ?? 0) / 2;
+    const next = {
+      pathMeasured: true,
+      labelWidth,
+      labelHeight,
+      labelX: labelPoint.x - labelWidth / 2,
+      labelY: labelPoint.y + labelHeight / 2,
+      cardinalityStartX: startPoint.x,
+      cardinalityStartY: startPoint.y,
+      cardinalityEndX: endPoint.x,
+      cardinalityEndY: endPoint.y,
+    };
 
-    const point1 = pathRef.current.getPointAtLength(cardinalityOffset);
-    cardinalityStartX = point1.x;
-    cardinalityStartY = point1.y;
-    const point2 = pathRef.current.getPointAtLength(
-      pathLength - cardinalityOffset,
-    );
-    cardinalityEndX = point2.x;
-    cardinalityEndY = point2.y;
-  }
+    // Only update when something actually moved, so the effect can't loop.
+    setGeometry((prev) => {
+      for (const key of Object.keys(next)) {
+        if (prev[key] !== next[key]) return next;
+      }
+      return prev;
+    });
+  }, [pathD, settings.showRelationshipLabels, settings.showCardinality, data.name]);
+
+  const {
+    pathMeasured,
+    labelX,
+    labelY,
+    cardinalityStartX,
+    cardinalityStartY,
+    cardinalityEndX,
+    cardinalityEndY,
+  } = geometry;
 
   const edit = () => {
     if (!layout.sidebar) {
@@ -108,9 +153,7 @@ export default function Relationship({ data }) {
         open: true,
       }));
       if (selectedElement.currentTab !== Tab.RELATIONSHIPS) return;
-      document
-        .getElementById(`scroll_ref_${data.id}`)
-        .scrollIntoView({ behavior: "smooth" });
+      document.getElementById(`scroll_ref_${data.id}`).scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -118,20 +161,8 @@ export default function Relationship({ data }) {
     <>
       <g className="select-none group" onDoubleClick={edit}>
         {/* invisible wider path for better hover ux */}
-        <path
-          d={calcPath(pathValues, settings.tableWidth, 1, settings.showComments)}
-          fill="none"
-          stroke="transparent"
-          strokeWidth={12}
-          cursor="pointer"
-        />
-        <path
-          ref={pathRef}
-          d={calcPath(pathValues, settings.tableWidth, 1, settings.showComments)}
-          className="relationship-path"
-          fill="none"
-          cursor="pointer"
-        />
+        <path d={pathD} fill="none" stroke="transparent" strokeWidth={12} cursor="pointer" />
+        <path ref={pathRef} d={pathD} className="relationship-path" fill="none" cursor="pointer" />
         {settings.showRelationshipLabels && (
           <text
             x={labelX}
@@ -145,18 +176,10 @@ export default function Relationship({ data }) {
             {data.name}
           </text>
         )}
-        {pathRef.current && settings.showCardinality && (
+        {pathMeasured && settings.showCardinality && (
           <>
-            <CardinalityLabel
-              x={cardinalityStartX}
-              y={cardinalityStartY}
-              text={cardinalityStart}
-            />
-            <CardinalityLabel
-              x={cardinalityEndX}
-              y={cardinalityEndY}
-              text={cardinalityEnd}
-            />
+            <CardinalityLabel x={cardinalityStartX} y={cardinalityStartY} text={cardinalityStart} />
+            <CardinalityLabel x={cardinalityEndX} y={cardinalityEndY} text={cardinalityEnd} />
           </>
         )}
       </g>

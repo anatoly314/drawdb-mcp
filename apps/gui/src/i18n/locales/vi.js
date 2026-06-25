@@ -164,8 +164,7 @@ const vi = {
     confirm: "Xác nhận",
     last_modified: "Sửa đổi lần cuối",
     drag_and_drop_files: "Kéo và thả tệp vào đây hoặc nhấp để tải lên.",
-    upload_sql_to_generate_diagrams:
-      "Tải tệp sql lên để tự động tạo bảng và cột của bạn.",
+    upload_sql_to_generate_diagrams: "Tải tệp sql lên để tự động tạo bảng và cột của bạn.",
     overwrite_existing_diagram: "Ghi đè sơ đồ hiện có",
     only_mysql_supported: "*Hiện tại, chỉ hỗ trợ tải các tập lệnh MySQL.",
     blank: "Trống",
@@ -180,10 +179,8 @@ const vi = {
       "Giá trị mặc định cho trường '{{fieldName}}' trong bảng '{{tableName}}' không khớp với kiểu của nó",
     not_null_is_null:
       "Trường '{{fieldName}}' của bảng '{{tableName}}' là NOT NULL nhưng có giá trị mặc định là NULL",
-    duplicate_fields:
-      "Các trường trùng lặp theo tên '{{fieldName}}' trong bảng '{{tableName}}'",
-    duplicate_index:
-      "Chỉ mục trùng lặp theo tên '{{indexName}}' trong bảng '{{tableName}}'",
+    duplicate_fields: "Các trường trùng lặp theo tên '{{fieldName}}' trong bảng '{{tableName}}'",
+    duplicate_index: "Chỉ mục trùng lặp theo tên '{{indexName}}' trong bảng '{{tableName}}'",
     empty_index: "Chỉ mục trong bảng '{{tableName}}' không có cột nào",
     no_primary_key: "Bảng '{{tableName}}' không có khóa chính",
     type_with_no_name: "Khai báo một kiểu không có tên",
@@ -246,8 +243,7 @@ const vi = {
     copy_link: "Sao chép liên kết",
     readme: "README",
     failed_to_load: "Không thể tải. Hãy chắc chắn rằng liên kết là chính xác.",
-    share_info:
-      "* Chia sẻ liên kết này sẽ không tạo ra một phiên hợp tác thời gian thực.",
+    share_info: "* Chia sẻ liên kết này sẽ không tạo ra một phiên hợp tác thời gian thực.",
     show_relationship_labels: "Hiển thị nhãn quan hệ",
     docs: "Tài liệu",
     supported_types: "Các loại tệp được hỗ trợ:",

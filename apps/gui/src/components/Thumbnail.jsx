@@ -34,13 +34,7 @@ export default function Thumbnail({ diagram, i, zoom, theme }) {
           />
         </pattern>
       </defs>
-      <rect
-        x="0"
-        y="0"
-        width="100%"
-        height="100%"
-        fill={"url(#pattern-grid-" + i + ")"}
-      ></rect>
+      <rect x="0" y="0" width="100%" height="100%" fill={"url(#pattern-grid-" + i + ")"}></rect>
       <g
         style={{
           transform: `scale(${zoom})`,
@@ -55,38 +49,21 @@ export default function Thumbnail({ diagram, i, zoom, theme }) {
             height={a.height > 0 ? a.height : 0}
           >
             <div className="border border-slate-400 w-full h-full rounded-xs relative">
-              <div
-                className="opacity-40 w-fill h-full"
-                style={{ backgroundColor: a.color }}
-              />
+              <div className="opacity-40 w-fill h-full" style={{ backgroundColor: a.color }} />
             </div>
-            <div className="text-color absolute top-1 left-2 select-none">
-              {a.name}
-            </div>
+            <div className="text-color absolute top-1 left-2 select-none">{a.name}</div>
           </foreignObject>
         ))}
         {diagram.tables?.map((table, i) => {
-          const height =
-            table.fields.length * tableFieldHeight + tableHeaderHeight + 7;
+          const height = table.fields.length * tableFieldHeight + tableHeaderHeight + 7;
           return (
-            <foreignObject
-              x={table.x}
-              y={table.y}
-              width={200}
-              height={height}
-              key={i}
-            >
+            <foreignObject x={table.x} y={table.y} width={200} height={height} key={i}>
               <div
                 className={`border rounded-md ${
-                  theme === "dark"
-                    ? "bg-zinc-800"
-                    : "border-zinc-300 bg-zinc-100"
+                  theme === "dark" ? "bg-zinc-800" : "border-zinc-300 bg-zinc-100"
                 }`}
               >
-                <div
-                  className="h-2 w-full rounded-t-sm"
-                  style={{ backgroundColor: table.color }}
-                />
+                <div className="h-2 w-full rounded-t-sm" style={{ backgroundColor: table.color }} />
                 <div className="rounded-b-[3px]">
                   <div
                     className={`font-bold py-1 px-2 border-b ${
@@ -103,9 +80,7 @@ export default function Thumbnail({ diagram, i, zoom, theme }) {
                       key={j}
                     >
                       <div className="flex items-center justify-start">
-                        <div
-                          className={`w-[6px] h-[6px] bg-[#2f68adcc] rounded-full me-2`}
-                        ></div>
+                        <div className={`w-[6px] h-[6px] bg-[#2f68adcc] rounded-full me-2`}></div>
                         <div>{f.name}</div>
                       </div>
                       <div className="text-zinc-500">{f.type}</div>

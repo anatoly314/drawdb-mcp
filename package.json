@@ -11,13 +11,14 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json}\"",
     "clean": "turbo run clean && rm -rf node_modules",
     "gui:dev": "turbo run dev --filter=gui",
     "backend:dev": "turbo run dev --filter=backend",
     "backend:inspector": "turbo run inspector:stdio --filter=backend",
     "test:e2e": "turbo run test --filter=@drawdb-mcp/e2e",
-    "test:e2e:ci": "turbo run test:ci --filter=@drawdb-mcp/e2e"
+    "test:e2e:ci": "turbo run test:ci --filter=@drawdb-mcp/e2e",
+    "upgrade:interactive": "pnpm update --recursive --interactive --latest"
   },
   "devDependencies": {
     "prettier": "^3.8.4",

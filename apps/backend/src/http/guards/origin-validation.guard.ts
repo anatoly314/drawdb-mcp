@@ -1,5 +1,5 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
+import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
+import { Request } from "express";
 
 /**
  * Origin Validation Guard
@@ -20,9 +20,9 @@ export class OriginValidationGuard implements CanActivate {
 
   constructor() {
     const defaultOrigins =
-      'http://localhost:*,http://127.0.0.1:*,https://localhost:*,https://127.0.0.1:*';
+      "http://localhost:*,http://127.0.0.1:*,https://localhost:*,https://127.0.0.1:*";
     const originsEnv = process.env.ALLOWED_ORIGINS || defaultOrigins;
-    this.allowedOrigins = originsEnv.split(',').map((o) => o.trim());
+    this.allowedOrigins = originsEnv.split(",").map((o) => o.trim());
   }
 
   canActivate(context: ExecutionContext): boolean {
@@ -32,13 +32,13 @@ export class OriginValidationGuard implements CanActivate {
     // Log all incoming requests for debugging
     console.log(`[OriginValidationGuard] Request: ${request.method} ${request.url}`);
     console.log(
-      `[OriginValidationGuard] Origin: ${origin || 'none'}, Referer: ${request.headers.referer || 'none'}`,
+      `[OriginValidationGuard] Origin: ${origin || "none"}, Referer: ${request.headers.referer || "none"}`,
     );
-    console.log(`[OriginValidationGuard] Allowed origins: ${this.allowedOrigins.join(', ')}`);
+    console.log(`[OriginValidationGuard] Allowed origins: ${this.allowedOrigins.join(", ")}`);
 
     // No origin header - allow for direct API calls (curl, Postman, etc.)
     if (!origin) {
-      console.log('[OriginValidationGuard] No origin header - allowing request');
+      console.log("[OriginValidationGuard] No origin header - allowing request");
       return true;
     }
 
@@ -52,7 +52,7 @@ export class OriginValidationGuard implements CanActivate {
         `[OriginValidationGuard] ❌ REJECTED request from unauthorized origin: ${origin}`,
       );
       console.warn(
-        `[OriginValidationGuard] Allowed origins are: ${this.allowedOrigins.join(', ')}`,
+        `[OriginValidationGuard] Allowed origins are: ${this.allowedOrigins.join(", ")}`,
       );
     } else {
       console.log(`[OriginValidationGuard] ✅ ALLOWED request from origin: ${origin}`);
@@ -75,10 +75,10 @@ export class OriginValidationGuard implements CanActivate {
     }
 
     // Wildcard match
-    if (pattern.includes('*')) {
+    if (pattern.includes("*")) {
       const regexPattern = pattern
-        .replace(/\./g, '\\.') // Escape dots
-        .replace(/\*/g, '.*'); // Convert * to .*
+        .replace(/\./g, "\\.") // Escape dots
+        .replace(/\*/g, ".*"); // Convert * to .*
       const regex = new RegExp(`^${regexPattern}$`);
       return regex.test(origin);
     }

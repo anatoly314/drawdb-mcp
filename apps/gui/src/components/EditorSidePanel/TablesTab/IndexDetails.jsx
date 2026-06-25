@@ -121,12 +121,10 @@ export default function IndexDetails({ data, fields, iid, tid }) {
                       tid: tid,
                       iid: iid,
                       undo: {
-                        [checkedValues.target.value]:
-                          !checkedValues.target.checked,
+                        [checkedValues.target.value]: !checkedValues.target.checked,
                       },
                       redo: {
-                        [checkedValues.target.value]:
-                          checkedValues.target.checked,
+                        [checkedValues.target.value]: checkedValues.target.checked,
                       },
                       message: t("edit_table", {
                         tableName: table.name,
@@ -140,8 +138,7 @@ export default function IndexDetails({ data, fields, iid, tid }) {
                       index.id === iid
                         ? {
                             ...index,
-                            [checkedValues.target.value]:
-                              checkedValues.target.checked,
+                            [checkedValues.target.value]: checkedValues.target.checked,
                           }
                         : index,
                     ),
@@ -188,11 +185,7 @@ export default function IndexDetails({ data, fields, iid, tid }) {
         position="rightTop"
         showArrow
       >
-        <Button
-          icon={<IconMore />}
-          type="tertiary"
-          style={{ marginLeft: "12px" }}
-        />
+        <Button icon={<IconMore />} type="tertiary" style={{ marginLeft: "12px" }} />
       </Popover>
     </div>
   );

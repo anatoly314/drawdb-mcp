@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
-
-export const LayoutContext = createContext(null);
+import { useState } from "react";
+import { LayoutContext } from "./LayoutContext";
 
 export default function LayoutContextProvider({ children }) {
   const [layout, setLayout] = useState({
@@ -12,9 +11,5 @@ export default function LayoutContextProvider({ children }) {
     readOnly: false,
   });
 
-  return (
-    <LayoutContext.Provider value={{ layout, setLayout }}>
-      {children}
-    </LayoutContext.Provider>
-  );
+  return <LayoutContext.Provider value={{ layout, setLayout }}>{children}</LayoutContext.Provider>;
 }

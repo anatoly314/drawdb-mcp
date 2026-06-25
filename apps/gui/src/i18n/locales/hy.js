@@ -98,19 +98,15 @@ const hy = {
     no_tables: "Աղյուսակներ չկան",
     no_tables_text: "Սկսեք կառուցել ձեր սխեման",
     no_relationships: "Հարաբերություններ չկան",
-    no_relationships_text:
-      "Քաշեք և միացրեք դաշտերը հարաբերություններ ստեղծելու համար",
+    no_relationships_text: "Քաշեք և միացրեք դաշտերը հարաբերություններ ստեղծելու համար",
     no_subject_areas: "Կազմակերպման մակերեսներ չկան",
-    no_subject_areas_text:
-      "Ավելացրեք Կազմակերպման մակերեսներ աղյուսակները խմբավորելու համար",
+    no_subject_areas_text: "Ավելացրեք Կազմակերպման մակերեսներ աղյուսակները խմբավորելու համար",
     no_notes: "Նշումներ չկան",
-    no_notes_text:
-      "Օգտագործեք նշումները լրացուցիչ տեղեկություններ գրանցելու համար",
+    no_notes_text: "Օգտագործեք նշումները լրացուցիչ տեղեկություններ գրանցելու համար",
     no_types: "Տիպեր չկան",
     no_types_text: "Ստեղծեք ձեր սեփական տվյալների տիպերը",
     no_issues: "Խնդիրներ չկան",
-    strict_mode_is_on_no_issues:
-      "Խիստ ռեժիմը միցված է, ուստի խնդիրներ չեն ցուցադրվի։",
+    strict_mode_is_on_no_issues: "Խիստ ռեժիմը միցված է, ուստի խնդիրներ չեն ցուցադրվի։",
     name: "Անուն",
     type: "Տիպ",
     null: "Null",
@@ -160,8 +156,7 @@ const hy = {
     create: "Ստեղծել",
     confirm: "Հաստատել",
     last_modified: "Վերջին փոփոխությունը",
-    drag_and_drop_files:
-      "Քաշեք և թողեք ֆայլը այստեղ կամ սեղմեք բեռնելու համար։",
+    drag_and_drop_files: "Քաշեք և թողեք ֆայլը այստեղ կամ սեղմեք բեռնելու համար։",
     upload_sql_to_generate_diagrams:
       "Վերբեռնեք sql ֆայլ՝ ձեր աղյուսակներն ու սյունակները ավտոմատ ստեղծելու համար։",
     overwrite_existing_diagram: "Փոխարինել առկա սխեման",
@@ -178,22 +173,18 @@ const hy = {
       "Default արժեքը '{{tableName}}' աղյուսակի '{{fieldName}}' դաշտում չի համընկնում իր տեսակի հետ",
     not_null_is_null:
       "'{{fieldName}}' դաշտ '{{tableName}}' աղյուսակում NOT NULL է, բայց default NULL է",
-    duplicate_fields:
-      "Կրկնօրինակված դաշտեր '{{fieldName}}' անվամբ '{{tableName}}' աղյուսակում",
-    duplicate_index:
-      "Կրկնօրինակված ինդեքս '{{indexName}}' անվամբ '{{tableName}}' աղյուսակում",
+    duplicate_fields: "Կրկնօրինակված դաշտեր '{{fieldName}}' անվամբ '{{tableName}}' աղյուսակում",
+    duplicate_index: "Կրկնօրինակված ինդեքս '{{indexName}}' անվամբ '{{tableName}}' աղյուսակում",
     empty_index: "Ինդեքս '{{tableName}}' աղյուսակում չի ընդգրկում սյունակներ",
     no_primary_key: "'{{tableName}}' աղյուսակը չունի հիմնական բանալի",
     type_with_no_name: "Հայտարարվել է տիպ առանց անվան",
     duplicate_types: "Կրկնօրինակված տիպ '{{typeName}}' անվամբ",
-    type_w_no_fields:
-      "Հայտարարվել է դատարկ տիպ '{{typeName}}' անվամբ առանց դաշտերի",
+    type_w_no_fields: "Հայտարարվել է դատարկ տիպ '{{typeName}}' անվամբ առանց դաշտերի",
     empty_type_field_name: "Դատարկ դաշտ 'name' '{{typeName}}' տիպում",
     empty_type_field_type: "Դատարկ դաշտ 'type' '{{typeName}}' տիպում",
     no_values_for_type_field:
       "'{{fieldName}}' դաշտ '{{typeName}}' տիպում 'type' տիպի է, բայց արժեքներ չեն նշվել",
-    duplicate_type_fields:
-      "Կրկնօրինակված դաշտեր '{{fieldName}}' անվամբ '{{typeName}}' տիպում",
+    duplicate_type_fields: "Կրկնօրինակված դաշտեր '{{fieldName}}' անվամբ '{{typeName}}' տիպում",
     duplicate_reference: "Կրկնօրինակված հղում '{{refName}}' անվամբ",
     circular_dependency: "Շրջանաձև կախվածություն '{{refName}}' աղյուսակում",
     timeline: "Ժամանակացույց",
@@ -237,8 +228,7 @@ const hy = {
     no_enums: "Enum-ներ չկան",
     no_enums_text: "Սահմանեք enum-ները այստեղ",
     declare_array: "Հայտարարել array",
-    empty_index_name:
-      "Հայտարարվել է ինդեքս '{{tableName}}' աղյուսակում առանց անվան",
+    empty_index_name: "Հայտարարվել է ինդեքս '{{tableName}}' աղյուսակում առանց անվան",
     didnt_find_diagram: "Ուֆֆ! Սխեման չի գտնվել։",
   },
 };

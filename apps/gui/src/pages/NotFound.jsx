@@ -18,8 +18,8 @@ export default function NotFound() {
       </p>
       <br />
       <p className="opacity-70">
-        * to create a relationship hold the blue dot of a field and drag it
-        towards the field you want to connect it to
+        * to create a relationship hold the blue dot of a field and drag it towards the field you
+        want to connect it to
       </p>
     </div>
   );

@@ -141,15 +141,18 @@ Without a hard refresh, the browser may continue using the old cached frontend c
 The MCP server provides tools for exporting and importing database diagrams in multiple formats:
 
 **Export Formats:**
+
 - **SQL DDL**: Export database-specific SQL statements (PostgreSQL, MySQL, SQLite, MariaDB, MSSQL, Oracle)
 - **DBML**: Export to Database Markup Language (human-readable, database-agnostic format)
 - **JSON**: Export complete diagram state for backup/restore
 
 **Import Formats:**
+
 - **DBML**: Import database schemas from DBML format
 - **JSON**: Import complete diagram state
 
 **Available MCP Tools:**
+
 - `export_sql` - Export diagram as SQL DDL for current database type
 - `export_dbml` - Export diagram as DBML
 - `import_dbml` - Import database schema from DBML

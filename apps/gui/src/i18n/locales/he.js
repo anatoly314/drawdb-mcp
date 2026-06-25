@@ -32,8 +32,7 @@ const he = {
     undo: "בטל",
     redo: "בצע שוב",
     clear: "נקה",
-    are_you_sure_clear:
-      "האם אתה בטוח שברצונך לנקות את הדיאגרמה? פעולה זו אינה ניתנת לביטול.",
+    are_you_sure_clear: "האם אתה בטוח שברצונך לנקות את הדיאגרמה? פעולה זו אינה ניתנת לביטול.",
     cut: "גזור",
     copy: "העתק",
     paste: "הדבק",
@@ -173,8 +172,7 @@ const he = {
       "ערך ברירת מחדל עבור שדה '{{fieldName}}' בטבלה '{{tableName}}' אינו תואם לסוג שלו",
     not_null_is_null:
       "שדה '{{fieldName}}' בטבלה '{{tableName}}' אינו ריק אך ערך ברירת מחדל הוא NULL",
-    duplicate_fields:
-      "שדות טבלה כפולים בשם '{{fieldName}}' בטבלה '{{tableName}}'",
+    duplicate_fields: "שדות טבלה כפולים בשם '{{fieldName}}' בטבלה '{{tableName}}'",
     duplicate_index: "אינדקס כפול בשם '{{indexName}}' בטבלה '{{tableName}}'",
     empty_index: "אינדקס בטבלה '{{tableName}}' אינו מאנדקס שום עמודות",
     no_primary_key: "לטבלה '{{tableName}}' אין מפתח ראשי",
@@ -185,8 +183,7 @@ const he = {
     empty_type_field_type: "שדה `type` ריק בסוג '{{typeName}}'",
     no_values_for_type_field:
       "שדה '{{fieldName}}' בסוג '{{typeName}}' הוא מסוג `{{type}}` אך לא הוגדרו ערכים",
-    duplicate_type_fields:
-      "שדות סוג כפולים בשם '{{fieldName}}' בסוג '{{typeName}}'",
+    duplicate_type_fields: "שדות סוג כפולים בשם '{{fieldName}}' בסוג '{{typeName}}'",
     duplicate_reference: "הפניה כפולה בשם '{{refName}}'",
     circular_dependency: "תלות מעגלית בטבלה '{{refName}}'",
     timeline: "ציר זמן",

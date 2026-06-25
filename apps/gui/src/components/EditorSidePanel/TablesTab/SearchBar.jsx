@@ -48,14 +48,10 @@ export default function SearchBar({ tables }) {
           open: true,
           element: ObjectType.TABLE,
         }));
-        document
-          .getElementById(`scroll_table_${tableId}`)
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_table_${tableId}`).scrollIntoView({ behavior: "smooth" });
 
         if (!children) {
-          document
-            .getElementById(`scroll_table_${tableId}_input_${id}`)
-            .focus();
+          document.getElementById(`scroll_table_${tableId}_input_${id}`).focus();
         }
       }}
       onChangeWithObject

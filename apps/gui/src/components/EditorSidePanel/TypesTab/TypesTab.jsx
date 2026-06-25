@@ -19,12 +19,7 @@ export default function TypesTab() {
       <div className="flex gap-2">
         <Searchbar />
         <div>
-          <Button
-            block
-            icon={<IconPlus />}
-            onClick={() => addType()}
-            disabled={layout.readOnly}
-          >
+          <Button block icon={<IconPlus />} onClick={() => addType()} disabled={layout.readOnly}>
             {t("add_type")}
           </Button>
         </div>

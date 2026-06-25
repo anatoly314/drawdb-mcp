@@ -9,8 +9,8 @@ export default function About() {
       <div>
         <Title heading={2}>About</Title>
         <Paragraph>
-          DrawDB-MCP is a fork of the original DrawDB project, adding
-          AI-assistant integration via the Model Context Protocol (MCP).
+          DrawDB-MCP is a fork of the original DrawDB project, adding AI-assistant integration via
+          the Model Context Protocol (MCP).
         </Paragraph>
       </div>
 

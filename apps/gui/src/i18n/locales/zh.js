@@ -171,14 +171,10 @@ const zh = {
     empty_field_type: "表 '{{tableName}}' 中的字段 `type` 为空",
     no_values_for_field:
       "表 '{{tableName}}' 的 '{{fieldName}}' 字段类型为 `{{type}}`，但未指定任何值",
-    default_doesnt_match_type:
-      "表 '{{tableName}}' 中字段 '{{fieldName}}' 的默认值与其类型不匹配",
-    not_null_is_null:
-      "表 '{{tableName}}' 中的 '{{fieldName}}' 字段为 NOT NULL，但默认值为 NULL",
-    duplicate_fields:
-      "在表 '{{tableName}}' 中重复声明了名为 '{{fieldName}}' 的字段",
-    duplicate_index:
-      "在表 '{{tableName}}' 中重复声明了名为 '{{indexName}}' 的索引",
+    default_doesnt_match_type: "表 '{{tableName}}' 中字段 '{{fieldName}}' 的默认值与其类型不匹配",
+    not_null_is_null: "表 '{{tableName}}' 中的 '{{fieldName}}' 字段为 NOT NULL，但默认值为 NULL",
+    duplicate_fields: "在表 '{{tableName}}' 中重复声明了名为 '{{fieldName}}' 的字段",
+    duplicate_index: "在表 '{{tableName}}' 中重复声明了名为 '{{indexName}}' 的索引",
     empty_index: "在表 '{{tableName}}' 中的索引未指定任何列",
     no_primary_key: "表 '{{tableName}}' 没有主键",
     type_with_no_name: "声明了一个没有名称的类型",
@@ -188,8 +184,7 @@ const zh = {
     empty_type_field_type: "类型 '{{typeName}}' 中的字段 `type` 为空",
     no_values_for_type_field:
       "类型 '{{typeName}}' 的 '{{fieldName}}' 字段类型为 `{{type}}`，但未指定任何值",
-    duplicate_type_fields:
-      "在自定义类 '{{typeName}}' 中重复声明了名为 '{{fieldName}}' 的字段",
+    duplicate_type_fields: "在自定义类 '{{typeName}}' 中重复声明了名为 '{{fieldName}}' 的字段",
     duplicate_reference: "重复声明了名为 '{{refName}}' 的引用",
     circular_dependency: "涉及到表 '{{refName}}' 的循环依赖",
     timeline: "时间轴",
@@ -221,8 +216,7 @@ const zh = {
     not_found: "未找到",
     pick_db: "选择数据库",
     generic: "通用",
-    generic_description:
-      "通用图表可以导出为任何 SQL 格式，但仅支持有限的数据类型。",
+    generic_description: "通用图表可以导出为任何 SQL 格式，但仅支持有限的数据类型。",
     enums: "枚举",
     add_enum: "添加枚举",
     edit_enum: "{{extra}} 编辑枚举 {{enumName}}",
@@ -241,8 +235,7 @@ const zh = {
     copy_link: "复制链接",
     readme: "说明文档",
     failed_to_load: "加载失败。请确认链接是否正确。",
-    share_info:
-      "* 分享此链接不会创建实时协作会话。",
+    share_info: "* 分享此链接不会创建实时协作会话。",
     supported_types: "支持的文件类型：",
     bulk_update: "批量更新",
     multiselect: "多选",

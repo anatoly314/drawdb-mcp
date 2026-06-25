@@ -99,8 +99,7 @@ const ne = {
     no_types: "कुनै प्रकारहरू छैनन्",
     no_types_text: "आफ्नो कस्टम डेटा प्रकारहरू बनाउनुहोस्",
     no_issues: "कुनै समस्या पाइएको छैन।",
-    strict_mode_is_on_no_issues:
-      "स्ट्रिक्ट मोड बन्द छ त्यसैले कुनै समस्या देखाइने छैन।",
+    strict_mode_is_on_no_issues: "स्ट्रिक्ट मोड बन्द छ त्यसैले कुनै समस्या देखाइने छैन।",
     name: "नाम",
     type: "प्रकार",
     null: "नल",
@@ -110,8 +109,7 @@ const ne = {
     autoincrement: "स्वतः वृद्धि",
     default_value: "डिफल्ट",
     check: "चेक अभिव्यक्ति",
-    this_will_appear_as_is:
-      "*यो जेनरेट गरिएको स्क्रिप्टमा जसरी हुन्छ त्यस्तै देखिनेछ।",
+    this_will_appear_as_is: "*यो जेनरेट गरिएको स्क्रिप्टमा जसरी हुन्छ त्यस्तै देखिनेछ।",
     comment: "टिप्पणी",
     add_field: "फिल्ड थप्नुहोस्",
     values: "मानहरू",
@@ -151,13 +149,11 @@ const ne = {
     create: "बनाउनुहोस्",
     confirm: "पुष्टि गर्नुहोस्",
     last_modified: "अन्तिम पटक संशोधित",
-    drag_and_drop_files:
-      "फाइललाई यहाँ तानेर छोड्नुहोस् वा अपलोड गर्न क्लिक गर्नुहोस्।",
+    drag_and_drop_files: "फाइललाई यहाँ तानेर छोड्नुहोस् वा अपलोड गर्न क्लिक गर्नुहोस्।",
     upload_sql_to_generate_diagrams:
       "स्वचालित रूपमा डायग्राम सिर्जना गर्न SQL फाइल अपलोड गर्नुहोस्।",
     overwrite_existing_diagram: "मौजुदा डायग्रामलाई अधिलेखित गर्नुहोस्",
-    only_mysql_supported:
-      "*हालको लागि केवल MySQL स्क्रिप्टहरू मात्र समर्थित छन्।",
+    only_mysql_supported: "*हालको लागि केवल MySQL स्क्रिप्टहरू मात्र समर्थित छन्।",
     blank: "खाली",
     filename: "फाइल नाम",
     table_w_no_name: "नाम बिना टेबल घोषणा गरियो",
@@ -170,12 +166,9 @@ const ne = {
       "तालिका '{{tableName}}' मा क्षेत्र '{{fieldName}}' को डिफ़ल्ट मान यसको प्रकारसँग मेल खाँदैन",
     not_null_is_null:
       "तालिका '{{tableName}}' को क्षेत्र '{{fieldName}}' को मान NOT NULL हो तर डिफ़ल्ट NULL छ",
-    duplicate_fields:
-      "तालिका '{{tableName}}' मा नाम '{{fieldName}}' भएका दोहोरो तालिका क्षेत्रहरू",
-    duplicate_index:
-      "तालिका '{{tableName}}' मा नाम '{{indexName}}' भएको दोहोरो सूची",
-    empty_index:
-      "तालिका '{{tableName}}' मा सूची कुनै पनि स्तम्भ सूची गरिरहेको छैन",
+    duplicate_fields: "तालिका '{{tableName}}' मा नाम '{{fieldName}}' भएका दोहोरो तालिका क्षेत्रहरू",
+    duplicate_index: "तालिका '{{tableName}}' मा नाम '{{indexName}}' भएको दोहोरो सूची",
+    empty_index: "तालिका '{{tableName}}' मा सूची कुनै पनि स्तम्भ सूची गरिरहेको छैन",
     no_primary_key: "तालिका '{{tableName}}' मा कुनै प्रमुख कुञ्जी छैन",
     type_with_no_name: "कुनै नाम नभएको प्रकार घोषण गरिएको छ",
     duplicate_types: "नाम '{{typeName}}' भएका दोहोरो प्रकार",

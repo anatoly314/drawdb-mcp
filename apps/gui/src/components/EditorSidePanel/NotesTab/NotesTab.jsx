@@ -24,12 +24,7 @@ export default function NotesTab() {
           }
         />
         <div>
-          <Button
-            block
-            icon={<IconPlus />}
-            onClick={() => addNote()}
-            disabled={layout.readOnly}
-          >
+          <Button block icon={<IconPlus />} onClick={() => addNote()} disabled={layout.readOnly}>
             {t("add_note")}
           </Button>
         </div>

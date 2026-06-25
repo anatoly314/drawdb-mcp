@@ -38,9 +38,8 @@ export function getInlineFK(table, obj) {
         `\tFOREIGN KEY ("${table.fields.find((f) => f.id === r.startFieldId)?.name}") REFERENCES "${
           obj.tables.find((t) => t.id === r.endTableId)?.name
         }"("${
-          obj.tables
-            .find((t) => t.id === r.endTableId)
-            .fields.find((f) => f.id === r.endFieldId)?.name
+          obj.tables.find((t) => t.id === r.endTableId).fields.find((f) => f.id === r.endFieldId)
+            ?.name
         }")\n\tON UPDATE ${r.updateConstraint.toUpperCase()} ON DELETE ${r.deleteConstraint.toUpperCase()}`,
       );
     }

@@ -38,9 +38,6 @@ export async function exportSavedData() {
 
   zip.generateAsync({ type: "blob" }).then(function (content) {
     const date = new Date();
-    saveAs(
-      content,
-      `${date.getFullYear()}_${date.getMonth()}_${date.getDay()}_export.zip`,
-    );
+    saveAs(content, `${date.getFullYear()}_${date.getMonth()}_${date.getDay()}_export.zip`);
   });
 }

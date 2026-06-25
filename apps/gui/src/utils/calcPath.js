@@ -43,8 +43,7 @@ export function calcPath(r, tableWidth = 200, zoom = 1, showComments = true) {
     radius = Math.abs(y2 - y1) / 3;
     if (radius <= 2) {
       if (x1 + width <= x2) return `M ${x1 + width} ${y1} L ${x2} ${y2 + 0.1}`;
-      else if (x2 + width < x1)
-        return `M ${x1} ${y1} L ${x2 + width} ${y2 + 0.1}`;
+      else if (x2 + width < x1) return `M ${x1} ${y1} L ${x2 + width} ${y2 + 0.1}`;
     }
   }
 
@@ -90,9 +89,7 @@ export function calcPath(r, tableWidth = 200, zoom = 1, showComments = true) {
         x1 - radius - radius
       } ${y1} A ${radius} ${radius} 0 0 1 ${x1 - radius - radius - radius} ${
         y1 - radius
-      } L ${x1 - radius - radius - radius} ${
-        y2 + radius
-      } A ${radius} ${radius} 0 0 1 ${
+      } L ${x1 - radius - radius - radius} ${y2 + radius} A ${radius} ${radius} 0 0 1 ${
         x1 - radius - radius
       } ${y2} L ${endX} ${y2}`;
     } else if (x1 >= x2 && x1 <= x2 + width) {
@@ -102,9 +99,7 @@ export function calcPath(r, tableWidth = 200, zoom = 1, showComments = true) {
         y1 - radius
       } L ${x1 + width + radius + radius} ${
         y2 + radius
-      } A ${radius} ${radius} 0 0 0 ${x1 + width + radius} ${y2} L ${
-        x2 + width
-      } ${y2}`;
+      } A ${radius} ${radius} 0 0 0 ${x1 + width + radius} ${y2} L ${x2 + width} ${y2}`;
     } else {
       return `M ${x1} ${y1} L ${
         midX + radius

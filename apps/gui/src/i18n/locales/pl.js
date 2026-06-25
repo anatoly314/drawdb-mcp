@@ -32,8 +32,7 @@ const pl = {
     undo: "Cofnij",
     redo: "Ponów",
     clear: "Wyczyść",
-    are_you_sure_clear:
-      "Czy na pewno chcesz wyczyścić diagram? To jest nieodwracalne.",
+    are_you_sure_clear: "Czy na pewno chcesz wyczyścić diagram? To jest nieodwracalne.",
     cut: "Wytnij",
     copy: "Kopiuj",
     paste: "Wklej",
@@ -117,8 +116,7 @@ const pl = {
     autoincrement: "Autonumerowanie",
     default_value: "Wartość domyślna",
     check: "Wyrażenie sprawdzające",
-    this_will_appear_as_is:
-      "*To pojawi się w wygenerowanym skrypcie tak, jak jest.",
+    this_will_appear_as_is: "*To pojawi się w wygenerowanym skrypcie tak, jak jest.",
     comment: "Komentarz",
     add_field: "Dodaj pole",
     values: "Wartości",
@@ -158,13 +156,11 @@ const pl = {
     create: "Utwórz",
     confirm: "Potwierdź",
     last_modified: "Ostatnio zmodyfikowano",
-    drag_and_drop_files:
-      "Przeciągnij i upuść plik tutaj lub kliknij, aby przesłać.",
+    drag_and_drop_files: "Przeciągnij i upuść plik tutaj lub kliknij, aby przesłać.",
     upload_sql_to_generate_diagrams:
       "Prześlij plik SQL, aby automatycznie wygenerować tabele i kolumny.",
     overwrite_existing_diagram: "Nadpisz istniejący diagram",
-    only_mysql_supported:
-      "*Obecnie obsługiwane jest tylko ładowanie skryptów MySQL.",
+    only_mysql_supported: "*Obecnie obsługiwane jest tylko ładowanie skryptów MySQL.",
     blank: "Pusty",
     filename: "Nazwa pliku",
     table_w_no_name: "Zadeklarowano tabelę bez nazwy",
@@ -177,10 +173,8 @@ const pl = {
       "Wartość domyślna dla pola '{{fieldName}}' w tabeli '{{tableName}}' nie pasuje do jego typu",
     not_null_is_null:
       "Pole '{{fieldName}}' w tabeli '{{tableName}}' jest NOT NULL, ale ma wartość domyślną NULL",
-    duplicate_fields:
-      "Duplikat pól tabeli o nazwie '{{fieldName}}' w tabeli '{{tableName}}'",
-    duplicate_index:
-      "Duplikat indeksu o nazwie '{{indexName}}' w tabeli '{{tableName}}'",
+    duplicate_fields: "Duplikat pól tabeli o nazwie '{{fieldName}}' w tabeli '{{tableName}}'",
+    duplicate_index: "Duplikat indeksu o nazwie '{{indexName}}' w tabeli '{{tableName}}'",
     empty_index: "Indeks w tabeli '{{tableName}}' nie indeksuje żadnych kolumn",
     no_primary_key: "Tabela '{{tableName}}' nie ma klucza głównego",
     type_with_no_name: "Zadeklarowano typ bez nazwy",
@@ -190,8 +184,7 @@ const pl = {
     empty_type_field_type: "Puste pole `type` w typie '{{typeName}}'",
     no_values_for_type_field:
       "Pole '{{fieldName}}' w typie '{{typeName}}' jest typu `{{type}}`, ale nie określono wartości",
-    duplicate_type_fields:
-      "Duplikat pól typu o nazwie '{{fieldName}}' w typie '{{typeName}}'",
+    duplicate_type_fields: "Duplikat pól typu o nazwie '{{fieldName}}' w typie '{{typeName}}'",
     duplicate_reference: "Duplikat referencji o nazwie '{{refName}}'",
     circular_dependency: "Cykliczna zależność obejmująca tabelę '{{refName}}'",
     timeline: "Oś czasu",
@@ -241,10 +234,8 @@ const pl = {
     share: "Udostępnij",
     copy_link: "Kopiuj link",
     readme: "README",
-    failed_to_load:
-      "Nie udało się załadować. Upewnij się, że link jest poprawny.",
-    share_info:
-      "* Udostępnienie tego linku nie utworzy sesji współpracy w czasie rzeczywistym.",
+    failed_to_load: "Nie udało się załadować. Upewnij się, że link jest poprawny.",
+    share_info: "* Udostępnienie tego linku nie utworzy sesji współpracy w czasie rzeczywistym.",
   },
 };
 

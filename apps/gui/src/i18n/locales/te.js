@@ -91,8 +91,7 @@ const te = {
     no_tables: "ఏ పట్టికలు లేవు",
     no_tables_text: "మీ డయాగ్రామ్ ను ప్రారంభించండి!",
     no_relationships: "ఏ సంబంధాలు లేవు",
-    no_relationships_text:
-      "ఫీల్డ్స్ కలుపుకోవడానికి డ్రాగ్ చేసి సంబంధం ఏర్పాటు చేయండి!",
+    no_relationships_text: "ఫీల్డ్స్ కలుపుకోవడానికి డ్రాగ్ చేసి సంబంధం ఏర్పాటు చేయండి!",
     no_subject_areas: "ఏ విషయ ప్రాంతాలు లేవు",
     no_subject_areas_text: "పట్టికలను సమూహంగా సబ్జెక్ట్ ప్రాంతాలకు చేర్చండి!",
     no_notes: "ఏ గమనికలు లేవు",
@@ -100,8 +99,7 @@ const te = {
     no_types: "ఏ రకాలు లేవు",
     no_types_text: "మీ సొంత కస్టమ్ డేటా రకాలను సృష్టించండి",
     no_issues: "ఏ సమస్యలు లభించలేదు.",
-    strict_mode_is_on_no_issues:
-      "స్ట్రిక్ట్ మోడ్ ఆఫ్ లో ఉంది కాబట్టి ఏ సమస్యలు చూపించబడవు.",
+    strict_mode_is_on_no_issues: "స్ట్రిక్ట్ మోడ్ ఆఫ్ లో ఉంది కాబట్టి ఏ సమస్యలు చూపించబడవు.",
     name: "పేరు",
     type: "రకం",
     null: "Null",
@@ -111,8 +109,7 @@ const te = {
     autoincrement: "స్వీయ వృద్ధి",
     default_value: "మూల్యాన్ని అప్రమేయంగా చేయి",
     check: "తనిఖీ",
-    this_will_appear_as_is:
-      "*ఇది ఉత్పత్తి చేయబడిన స్క్రిప్ట్‌లో వంటి ప్రదర్శితం అవుతుంది.",
+    this_will_appear_as_is: "*ఇది ఉత్పత్తి చేయబడిన స్క్రిప్ట్‌లో వంటి ప్రదర్శితం అవుతుంది.",
     comment: "వ్యాఖ్య",
     add_field: "ఫీల్డ్ చేర్చండి",
     values: "విలువలు",
@@ -156,10 +153,8 @@ const te = {
       "ఫైల్స్‌ను ఇక్కడికి లాగి వదిలివేయండి లేదా అప్‌లోడ్ చేయడానికి క్లిక్ చేయండి.",
     upload_sql_to_generate_diagrams:
       "మీ టేబుల్ మరియు కాలమ్స్‌ను స్వయంచాలకంగా ఉత్పత్తి చేయడానికి SQL ఫైల్‌ను అప్‌లోడ్ చేయండి.",
-    overwrite_existing_diagram:
-      "అన్నిప్రతుల మునుపటి ఆర్కెంట్ అంబి అవరు ఆర్కెదాన్ని చర్",
-    only_mysql_supported:
-      "*ప్రస్తుతం MySQL స్క్రిప్ట్స్ మాత్రమే లోడ్ చేయడానికి మద్దతు ఉంది.",
+    overwrite_existing_diagram: "అన్నిప్రతుల మునుపటి ఆర్కెంట్ అంబి అవరు ఆర్కెదాన్ని చర్",
+    only_mysql_supported: "*ప్రస్తుతం MySQL స్క్రిప్ట్స్ మాత్రమే లోడ్ చేయడానికి మద్దతు ఉంది.",
     blank: "ఖాళీ",
     filename: "ఫైల్ పేరు",
     table_w_no_name: "పేరు లేకుండా పట్టికని ప్రకటించారు",
@@ -172,10 +167,8 @@ const te = {
       "పట్టిక '{{table.name}}' లో ఫీల్డ్ '{{fieldName}}' యొక్క డిఫాల్ట్ విలువ రకంతో సరిపోలడం లేదు",
     not_null_is_null:
       "పట్టిక '{{tableName}}' లో ఫీల్డ్ '{{fieldName}}' యొక్క విలువ NOT NULL కానీ డిఫాల్ట్ NULL ఉంది",
-    duplicate_fields:
-      "పట్టిక '{{tableName}}' లో పేరుతో డుప్లికేట్ టేబుల్ ఫీల్డ్స్ '{{fieldName}}'",
-    duplicate_index:
-      "పట్టిక '{{tableName}}' లో పేరుతో డుప్లికేట్ ఇండెక్స్ '{{indexName}}'",
+    duplicate_fields: "పట్టిక '{{tableName}}' లో పేరుతో డుప్లికేట్ టేబుల్ ఫీల్డ్స్ '{{fieldName}}'",
+    duplicate_index: "పట్టిక '{{tableName}}' లో పేరుతో డుప్లికేట్ ఇండెక్స్ '{{indexName}}'",
     empty_index: "పట్టిక '{{tableName}}' లో ఏ కాలమ్స్ ను ఇండెక్స్ చేయదు",
     no_primary_key: "పట్టిక '{{tableName}}' లో ప్రాధమిక కీ లేదు",
     type_with_no_name: "పేరు లేకుండా రకాన్ని ప్రకటించారు",
@@ -185,8 +178,7 @@ const te = {
     empty_type_field_type: "రకం '{{typeName}}' లో ఖాళీ ఫీల్డ్ `రకం`",
     no_values_for_type_field:
       "రకం '{{typeName}}' లో ఫీల్డ్ '{{fieldName}}' రకం `{{type}}` కానీ విలువలు ఇవ్వబడలేదు",
-    duplicate_type_fields:
-      "రకం '{{typeName}}' లో పేరుతో డుప్లికేట్ రకం ఫీల్డ్స్ '{{fieldName}}'",
+    duplicate_type_fields: "రకం '{{typeName}}' లో పేరుతో డుప్లికేట్ రకం ఫీల్డ్స్ '{{fieldName}}'",
     duplicate_reference: "పేరుతో డుప్లికేట్ రిఫరెన్స్ '{{refName}}'",
     circular_dependency: "పట్టిక '{{refName}}' లో సర్క్యులర్ డిపెండెన్సీ",
     timeline: "టైమ్‌లైన్",

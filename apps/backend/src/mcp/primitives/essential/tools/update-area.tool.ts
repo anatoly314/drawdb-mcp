@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateAreaTool {
@@ -11,24 +11,24 @@ export class UpdateAreaTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_area',
+    name: "update_area",
     description:
-      'Update properties of an existing area in the diagram. Can modify name, position, color, or indices.',
+      "Update properties of an existing area in the diagram. Can modify name, position, color, or indices.",
     parameters: z.object({
-      areaId: z.string().describe('ID of the area to update'),
-      name: z.string().optional().describe('New area name'),
-      x: z.number().optional().describe('New X coordinate on canvas'),
-      y: z.number().optional().describe('New Y coordinate on canvas'),
-      width: z.number().optional().describe('New area width in pixels'),
-      height: z.number().optional().describe('New area height in pixels'),
-      color: z.string().optional().describe('New area color (hex format)'),
+      areaId: z.string().describe("ID of the area to update"),
+      name: z.string().optional().describe("New area name"),
+      x: z.number().optional().describe("New X coordinate on canvas"),
+      y: z.number().optional().describe("New Y coordinate on canvas"),
+      width: z.number().optional().describe("New area width in pixels"),
+      height: z.number().optional().describe("New area height in pixels"),
+      color: z.string().optional().describe("New area color (hex format)"),
     }),
   })
   async updateArea(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -55,7 +55,7 @@ export class UpdateAreaTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update area', error);
+      this.logger.error("Failed to update area", error);
       throw error;
     }
   }

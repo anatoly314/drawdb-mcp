@@ -1,10 +1,9 @@
-import { createContext, useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Action, ObjectType, defaultNoteTheme, noteWidth } from "../data/constants";
 import { useUndoRedo, useTransform, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
-
-export const NotesContext = createContext(null);
+import { NotesContext } from "./NotesContext";
 
 export default function NotesContextProvider({ children }) {
   const { t } = useTranslation();
@@ -76,9 +75,7 @@ export default function NotesContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
-    setNotes((prev) =>
-      prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })),
-    );
+    setNotes((prev) => prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })));
     if (id === selectedElement.id) {
       setSelectedElement((prev) => ({
         ...prev,

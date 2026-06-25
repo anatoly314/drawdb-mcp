@@ -32,8 +32,7 @@ const jp = {
     undo: "元に戻す",
     redo: "やり直す",
     clear: "クリア",
-    are_you_sure_clear:
-      "ダイアグラムをクリアしてもよろしいですか？ この操作は取り消せません。",
+    are_you_sure_clear: "ダイアグラムをクリアしてもよろしいですか？ この操作は取り消せません。",
     cut: "切り取り",
     copy: "コピー",
     paste: "貼り付け",
@@ -106,8 +105,7 @@ const jp = {
     no_types: "タイプがありません",
     no_types_text: "カスタムデータタイプを作成",
     no_issues: "問題は検出されていません。",
-    strict_mode_is_on_no_issues:
-      "厳格モードがオフになっているため、問題は表示されません。",
+    strict_mode_is_on_no_issues: "厳格モードがオフになっているため、問題は表示されません。",
     name: "名前",
     type: "タイプ",
     null: "Null",
@@ -117,8 +115,7 @@ const jp = {
     autoincrement: "オートインクリメント",
     default_value: "デフォルト",
     check: "チェック式",
-    this_will_appear_as_is:
-      "*これが生成されたスクリプトにそのまま表示されます。",
+    this_will_appear_as_is: "*これが生成されたスクリプトにそのまま表示されます。",
     comment: "コメント",
     add_field: "フィールドを追加",
     values: "値",
@@ -158,13 +155,10 @@ const jp = {
     create: "作成",
     confirm: "確認",
     last_modified: "最終更新",
-    drag_and_drop_files:
-      "ファイルをここにドラッグ＆ドロップするかクリックしてアップロードします。",
-    upload_sql_to_generate_diagrams:
-      "SQLファイルをアップロードしてテーブルと列を自動生成します。",
+    drag_and_drop_files: "ファイルをここにドラッグ＆ドロップするかクリックしてアップロードします。",
+    upload_sql_to_generate_diagrams: "SQLファイルをアップロードしてテーブルと列を自動生成します。",
     overwrite_existing_diagram: "既存のダイアグラムを上書きする",
-    only_mysql_supported:
-      "*現在のところMySQLスクリプトの読み込みのみサポートされています。",
+    only_mysql_supported: "*現在のところMySQLスクリプトの読み込みのみサポートされています。",
     blank: "空白",
     filename: "ファイル名",
     table_w_no_name: "名前のないテーブルが宣言されました",
@@ -181,13 +175,11 @@ const jp = {
       "テーブル '{{tableName}}' 内に名前 '{{fieldName}}' のフィールドが重複しています",
     duplicate_index:
       "テーブル '{{tableName}}' 内に名前 '{{indexName}}' のインデックスが重複しています",
-    empty_index:
-      "テーブル '{{tableName}}' のインデックスは列をインデックスしていません",
+    empty_index: "テーブル '{{tableName}}' のインデックスは列をインデックスしていません",
     no_primary_key: "テーブル '{{tableName}}' に主キーがありません",
     type_with_no_name: "名前のないタイプが宣言されました",
     duplicate_types: "名前 '{{typeName}}' のタイプが重複しています",
-    type_w_no_fields:
-      "フィールドのない空のタイプ '{{typeName}}' が宣言されました",
+    type_w_no_fields: "フィールドのない空のタイプ '{{typeName}}' が宣言されました",
     empty_type_field_name: "タイプ '{{typeName}}' のフィールド `name` が空です",
     empty_type_field_type: "タイプ '{{typeName}}' のフィールド `type` が空です",
     no_values_for_type_field:
@@ -195,8 +187,7 @@ const jp = {
     duplicate_type_fields:
       "タイプ '{{typeName}}' 内に名前 '{{fieldName}}' のフィールドが重複しています",
     duplicate_reference: "名前 '{{refName}}' の参照が重複しています",
-    circular_dependency:
-      "テーブル '{{refName}}' を含む循環依存が検出されました",
+    circular_dependency: "テーブル '{{refName}}' を含む循環依存が検出されました",
     timeline: "タイムライン",
     priority: "優先度",
     none: "なし",
@@ -238,17 +229,14 @@ const jp = {
     no_enums: "列挙型がありません",
     no_enums_text: "ここで列挙型を定義",
     declare_array: "配列を宣言",
-    empty_index_name:
-      "テーブル '{{tableName}}' 内で名前のないインデックスが宣言されました",
+    empty_index_name: "テーブル '{{tableName}}' 内で名前のないインデックスが宣言されました",
     didnt_find_diagram: "おっと！ダイアグラムが見つかりませんでした。",
     unsigned: "符号なし",
     share: "共有",
     copy_link: "リンクをコピー",
     readme: "README",
-    failed_to_load:
-      "読み込みに失敗しました。リンクが正しいか確認してください。",
-    share_info:
-      "* このリンクを共有してもリアルタイムコラボレーションセッションは作成されません。",
+    failed_to_load: "読み込みに失敗しました。リンクが正しいか確認してください。",
+    share_info: "* このリンクを共有してもリアルタイムコラボレーションセッションは作成されません。",
   },
 };
 

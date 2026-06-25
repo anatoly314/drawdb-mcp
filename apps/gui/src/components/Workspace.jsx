@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, createContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ControlPanel from "./EditorHeader/ControlPanel";
 import Canvas from "./EditorCanvas/Canvas";
-import { CanvasContextProvider } from "../context/CanvasContext";
+import { CanvasContextProvider } from "../context/CanvasContextProvider";
+import { IdContext } from "../context/IdContext";
 import SidePanel from "./EditorSidePanel/SidePanel";
 import { DB, State } from "../data/constants";
 import { db } from "../data/db";
@@ -29,13 +30,6 @@ import { ensureEnumIds, ensureTypeIds } from "../utils/ensureIds";
 import { useSearchParams } from "react-router-dom";
 import { get, SHARE_FILENAME } from "../api/gists";
 
-export const IdContext = createContext({
-  gistId: "",
-  setGistId: () => {},
-  version: "",
-  setVersion: () => {},
-});
-
 const SIDEPANEL_MIN_WIDTH = 384;
 
 export default function WorkSpace() {
@@ -59,14 +53,8 @@ export default function WorkSpace() {
   const { saveState, setSaveState } = useSaveState();
   const { transform, setTransform } = useTransform();
   const { enums, setEnums } = useEnums();
-  const {
-    tables,
-    relationships,
-    setTables,
-    setRelationships,
-    database,
-    setDatabase,
-  } = useDiagram();
+  const { tables, relationships, setTables, setRelationships, database, setDatabase } =
+    useDiagram();
   const { undoStack, redoStack, setUndoStack, setRedoStack } = useUndoRedo();
   const { t, i18n } = useTranslation();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -290,45 +278,47 @@ export default function WorkSpace() {
     };
 
     const loadFromGist = async (shareId) => {
-      try {
-        const { data } = await get(shareId);
-        const parsedDiagram = JSON.parse(data.files[SHARE_FILENAME].content);
-        setUndoStack([]);
-        setRedoStack([]);
-        setGistId(shareId);
-        setLoadedFromGistId(shareId);
-        setDatabase(parsedDiagram.database);
-        setTitle(parsedDiagram.title);
-        setTables(parsedDiagram.tables);
-        setRelationships(parsedDiagram.relationships);
-        setNotes(parsedDiagram.notes);
-        setAreas(parsedDiagram.subjectAreas);
-        setTransform(parsedDiagram.transform);
-        if (databases[parsedDiagram.database].hasTypes) {
-          setTypes(ensureTypeIds(parsedDiagram.types));
-        }
-        if (databases[parsedDiagram.database].hasEnums) {
-          setEnums(ensureEnumIds(parsedDiagram.enums));
-        }
-      } catch (e) {
-        console.log(e);
-        setSaveState(State.FAILED_TO_LOAD);
-      }
+      // State updates live inside the promise's .then() callback (rather than
+      // after a bare `await`) so they read as deferred external-sync callbacks:
+      // this is the load-from-async-source pattern effects are meant for.
+      await get(shareId)
+        .then(({ data }) => {
+          const parsedDiagram = JSON.parse(data.files[SHARE_FILENAME].content);
+          setUndoStack([]);
+          setRedoStack([]);
+          setGistId(shareId);
+          setLoadedFromGistId(shareId);
+          setDatabase(parsedDiagram.database);
+          setTitle(parsedDiagram.title);
+          setTables(parsedDiagram.tables);
+          setRelationships(parsedDiagram.relationships);
+          setNotes(parsedDiagram.notes);
+          setAreas(parsedDiagram.subjectAreas);
+          setTransform(parsedDiagram.transform);
+          if (databases[parsedDiagram.database].hasTypes) {
+            setTypes(ensureTypeIds(parsedDiagram.types));
+          }
+          if (databases[parsedDiagram.database].hasEnums) {
+            setEnums(ensureEnumIds(parsedDiagram.enums));
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          setSaveState(State.FAILED_TO_LOAD);
+        });
     };
 
     const shareId = searchParams.get("shareId");
     if (shareId) {
-      const existingDiagram = await db.diagrams.get({
-        loadedFromGistId: shareId,
+      await db.diagrams.get({ loadedFromGistId: shareId }).then((existingDiagram) => {
+        if (existingDiagram) {
+          window.name = "d " + existingDiagram.id;
+          setId(existingDiagram.id);
+        } else {
+          window.name = "";
+          setId(0);
+        }
       });
-
-      if (existingDiagram) {
-        window.name = "d " + existingDiagram.id;
-        setId(existingDiagram.id);
-      } else {
-        window.name = "";
-        setId(0);
-      }
       await loadFromGist(shareId);
       return;
     }
@@ -444,9 +434,7 @@ export default function WorkSpace() {
         }}
         style={isRtl(i18n.language) ? { direction: "rtl" } : {}}
       >
-        {layout.sidebar && (
-          <SidePanel resize={resize} setResize={setResize} width={width} />
-        )}
+        {layout.sidebar && <SidePanel resize={resize} setResize={setResize} width={width} />}
         <div className="relative w-full h-full overflow-hidden">
           <CanvasContextProvider className="h-full w-full">
             <Canvas saveState={saveState} setSaveState={setSaveState} />
@@ -514,8 +502,7 @@ export default function WorkSpace() {
                   src={x.image}
                   className="h-8"
                   style={{
-                    filter:
-                      "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
+                    filter: "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
                   }}
                 />
               )}

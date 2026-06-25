@@ -91,14 +91,11 @@ const fr = {
     no_tables: "Aucune table",
     no_tables_text: "Commencez à créer votre diagramme!",
     no_relationships: "Aucune relation",
-    no_relationships_text:
-      "Faites glisser pour connecter les champs et créer des relations!",
+    no_relationships_text: "Faites glisser pour connecter les champs et créer des relations!",
     no_subject_areas: "Aucune zone de sujet",
-    no_subject_areas_text:
-      "Regroupez les tables en ajoutant des zones de sujet!",
+    no_subject_areas_text: "Regroupez les tables en ajoutant des zones de sujet!",
     no_notes: "Aucune note",
-    no_notes_text:
-      "Utilisez les notes pour enregistrer des informations supplémentaires",
+    no_notes_text: "Utilisez les notes pour enregistrer des informations supplémentaires",
     no_types: "Aucun type",
     no_types_text: "Créez vos propres types de données personnalisés",
     no_issues: "Aucun problème détecté.",
@@ -142,8 +139,7 @@ const fr = {
     note_deleted: "Note supprimée",
     relationship_deleted: "Relation supprimée",
     type_deleted: "Type supprimé",
-    cannot_connect:
-      "Impossible de connecter, les types de colonnes sont différents",
+    cannot_connect: "Impossible de connecter, les types de colonnes sont différents",
     copied_to_clipboard: "Copié dans le presse-papiers",
     create_new_diagram: "Créer un nouveau diagramme",
     cancel: "Annuler",
@@ -154,13 +150,11 @@ const fr = {
     create: "Créer",
     confirm: "Confirmer",
     last_modified: "Dernière modification",
-    drag_and_drop_files:
-      "Glissez et déposez les fichiers ici ou cliquez pour les télécharger.",
+    drag_and_drop_files: "Glissez et déposez les fichiers ici ou cliquez pour les télécharger.",
     upload_sql_to_generate_diagrams:
       "Téléchargez un fichier SQL pour générer automatiquement vos tables et colonnes.",
     overwrite_existing_diagram: "Écraser le diagramme existant",
-    only_mysql_supported:
-      "*Pour le moment, seuls les scripts MySQL peuvent être chargés.",
+    only_mysql_supported: "*Pour le moment, seuls les scripts MySQL peuvent être chargés.",
     blank: "Vide",
     filename: "Nom du fichier",
     table_w_no_name: "Table déclarée sans nom",
@@ -175,8 +169,7 @@ const fr = {
       "Le champ '{{fieldName}}' de la table '{{tableName}}' est NOT NULL mais la valeur par défaut est NULL",
     duplicate_fields:
       "Champs de table en double nommés '{{fieldName}}' dans la table '{{tableName}}'",
-    duplicate_index:
-      "Index en double nommé '{{indexName}}' dans la table '{{tableName}}'",
+    duplicate_index: "Index en double nommé '{{indexName}}' dans la table '{{tableName}}'",
     empty_index: "Index sans colonnes dans la table '{{tableName}}'",
     no_primary_key: "Aucune clé primaire dans la table '{{tableName}}'",
     type_with_no_name: "Type déclaré sans nom",

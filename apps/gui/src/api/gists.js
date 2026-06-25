@@ -53,21 +53,13 @@ export async function getVersion(gistId, sha) {
   return res.data;
 }
 
-export async function getCommitsWithFile(
-  gistId,
-  file,
-  limit = 10,
-  cursor = null,
-) {
-  const res = await axios.get(
-    `${baseUrl}/gists/${gistId}/file-versions/${file}`,
-    {
-      params: {
-        limit,
-        cursor,
-      },
+export async function getCommitsWithFile(gistId, file, limit = 10, cursor = null) {
+  const res = await axios.get(`${baseUrl}/gists/${gistId}/file-versions/${file}`, {
+    params: {
+      limit,
+      cursor,
     },
-  );
+  });
 
   return res.data;
 }

@@ -93,8 +93,7 @@ const fa = {
     no_relationships: "بدون رابطه",
     no_relationships_text: "برای اتصال فیلدها و تشکیل روابط بکشید!",
     no_subject_areas: "بدون ناحیه موضوعی",
-    no_subject_areas_text:
-      "ناحیه‌های موضوعی را برای گروه‌بندی جدول‌ها اضافه کنید!",
+    no_subject_areas_text: "ناحیه‌های موضوعی را برای گروه‌بندی جدول‌ها اضافه کنید!",
     no_notes: "بدون یادداشت",
     no_notes_text: "از یادداشت‌ها برای ثبت اطلاعات اضافی استفاده کنید",
     no_types: "بدون نوع",
@@ -111,8 +110,7 @@ const fa = {
     autoincrement: "افزایش خودکار",
     default_value: "پیش‌فرض",
     check: "عبارت بررسی",
-    this_will_appear_as_is:
-      "*این در اسکریپت تولید شده به همان صورت نمایش داده می‌شود.",
+    this_will_appear_as_is: "*این در اسکریپت تولید شده به همان صورت نمایش داده می‌شود.",
     comment: "نظر",
     add_field: "افزودن فیلد",
     values: "مقادیر",
@@ -152,13 +150,11 @@ const fa = {
     create: "ایجاد",
     confirm: "تأیید",
     last_modified: "آخرین ویرایش",
-    drag_and_drop_files:
-      "فایل را اینجا بکشید و رها کنید یا کلیک کنید تا بارگذاری شود.",
+    drag_and_drop_files: "فایل را اینجا بکشید و رها کنید یا کلیک کنید تا بارگذاری شود.",
     upload_sql_to_generate_diagrams:
       "یک فایل sql را بارگذاری کنید تا جداول و ستون‌هایتان به‌طور خودکار تولید شوند.",
     overwrite_existing_diagram: "بازنویسی نمودار موجود",
-    only_mysql_supported:
-      "*در حال حاضر فقط بارگذاری اسکریپت‌های MySQL پشتیبانی می‌شود.",
+    only_mysql_supported: "*در حال حاضر فقط بارگذاری اسکریپت‌های MySQL پشتیبانی می‌شود.",
     blank: "خالی",
     filename: "نام فایل",
     table_w_no_name: "جدولی بدون نام اعلام شد",
@@ -171,10 +167,8 @@ const fa = {
       "مقدار پیش‌فرض برای فیلد '{{fieldName}}' در جدول '{{tableName}}' با نوع آن مطابقت ندارد",
     not_null_is_null:
       "فیلد '{{fieldName}}' جدول '{{tableName}}' غیر خالی است اما پیش‌فرض آن خالی است",
-    duplicate_fields:
-      "فیلدهای تکراری جدول به نام '{{fieldName}}' در جدول '{{tableName}}'",
-    duplicate_index:
-      "شاخص تکراری به نام '{{indexName}}' در جدول '{{tableName}}'",
+    duplicate_fields: "فیلدهای تکراری جدول به نام '{{fieldName}}' در جدول '{{tableName}}'",
+    duplicate_index: "شاخص تکراری به نام '{{indexName}}' در جدول '{{tableName}}'",
     empty_index: "شاخص در جدول '{{tableName}}' هیچ ستونی را شاخص نمی‌کند",
     no_primary_key: "جدول '{{tableName}}' کلید اصلی ندارد",
     type_with_no_name: "نوعی بدون نام اعلام شد",
@@ -184,8 +178,7 @@ const fa = {
     empty_type_field_type: "فیلد `type` خالی در نوع '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' فیلد از نوع '{{typeName}}' از نوع `{{type}}` است اما هیچ مقداری مشخص نشده است",
-    duplicate_type_fields:
-      "فیلدهای تکراری نوع با نام '{{fieldName}}' در نوع '{{typeName}}'",
+    duplicate_type_fields: "فیلدهای تکراری نوع با نام '{{fieldName}}' در نوع '{{typeName}}'",
     duplicate_reference: "ارجاع تکراری به نام '{{refName}}'",
     circular_dependency: "وابستگی دورانی شامل جدول '{{refName}}'",
     timeline: "جدول زمانی",

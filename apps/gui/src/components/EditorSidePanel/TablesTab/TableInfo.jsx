@@ -1,20 +1,8 @@
 import { useState, useRef } from "react";
-import {
-  Collapse,
-  Input,
-  TextArea,
-  Button,
-  Card,
-  Select,
-} from "@douyinfe/semi-ui";
+import { Collapse, Input, TextArea, Button, Card, Select } from "@douyinfe/semi-ui";
 import ColorPicker from "../ColorPicker";
 import { IconDeleteStroked } from "@douyinfe/semi-icons";
-import {
-  useDiagram,
-  useLayout,
-  useSaveState,
-  useUndoRedo,
-} from "../../../hooks";
+import { useDiagram, useLayout, useSaveState, useUndoRedo } from "../../../hooks";
 import { Action, ObjectType, State, DB } from "../../../data/constants";
 import TableField from "./TableField";
 import IndexDetails from "./IndexDetails";
@@ -117,11 +105,7 @@ export default function TableInfo({ data }) {
         items={data.fields}
         keyPrefix={`table-${data.id}`}
         onChange={(newFields) =>
-          setTables((prev) =>
-            prev.map((t) =>
-              t.id === data.id ? { ...t, fields: newFields } : t,
-            ),
-          )
+          setTables((prev) => prev.map((t) => (t.id === data.id ? { ...t, fields: newFields } : t)))
         }
         afterChange={() => setSaveState(State.SAVING)}
         renderItem={(item, i) => (
@@ -136,9 +120,7 @@ export default function TableInfo({ data }) {
 
       {database === DB.POSTGRES && (
         <div className="mb-2">
-          <div className="text-md font-semibold break-keep">
-            {t("inherits")}:
-          </div>
+          <div className="text-md font-semibold break-keep">{t("inherits")}:</div>
           <Select
             multiple
             value={data.inherits || []}
@@ -217,9 +199,7 @@ export default function TableInfo({ data }) {
               autosize
               placeholder={t("comment")}
               rows={1}
-              onChange={(value) =>
-                updateTable(data.id, { comment: value }, false)
-              }
+              onChange={(value) => updateTable(data.id, { comment: value }, false)}
               onFocus={(e) => setEditField({ comment: e.target.value })}
               onBlur={(e) => {
                 if (e.target.value === editField.comment) return;

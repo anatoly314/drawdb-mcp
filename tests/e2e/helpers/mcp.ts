@@ -1,4 +1,4 @@
-import { execFileSync } from 'child_process';
+import { execFileSync } from "child_process";
 
 export interface McpTool {
   name: string;
@@ -30,24 +30,24 @@ function getMcpUrl(): string {
   const url = process.env.MCP_URL;
   if (!url || url.length === 0) {
     throw new Error(
-      'MCP_URL is not set. The e2e global setup must run before tests can call MCP tools.',
+      "MCP_URL is not set. The e2e global setup must run before tests can call MCP tools.",
     );
   }
   return url;
 }
 
 function runInspector(args: string[]): string {
-  return execFileSync('npx', ['@modelcontextprotocol/inspector', ...args], {
-    encoding: 'utf-8',
+  return execFileSync("npx", ["@modelcontextprotocol/inspector", ...args], {
+    encoding: "utf-8",
     timeout: SUBPROCESS_TIMEOUT_MS,
-    stdio: ['pipe', 'pipe', 'pipe'],
+    stdio: ["pipe", "pipe", "pipe"],
   });
 }
 
 function parseJson(stdout: string): unknown {
   const trimmed = stdout.trim();
   if (trimmed.length === 0) {
-    throw new Error('MCP inspector returned empty stdout');
+    throw new Error("MCP inspector returned empty stdout");
   }
   try {
     return JSON.parse(trimmed);
@@ -68,14 +68,14 @@ function unwrapTextPayload(text: string): unknown {
 }
 
 function extractResult(parsed: unknown): unknown {
-  if (parsed === null || typeof parsed !== 'object') {
+  if (parsed === null || typeof parsed !== "object") {
     return parsed;
   }
   const obj = parsed as McpToolCallResponse;
   let payload: unknown;
   if (Array.isArray(obj.content) && obj.content.length > 0) {
     const first = obj.content[0];
-    if (first && typeof first.text === 'string') {
+    if (first && typeof first.text === "string") {
       payload = unwrapTextPayload(first.text);
     }
   }
@@ -86,12 +86,12 @@ function extractResult(parsed: unknown): unknown {
     return parsed;
   }
   if (obj.isError) {
-    if (payload && typeof payload === 'object') {
+    if (payload && typeof payload === "object") {
       const payloadObj = payload as Record<string, unknown>;
       const message =
-        typeof payloadObj.text === 'string'
+        typeof payloadObj.text === "string"
           ? payloadObj.text
-          : typeof payloadObj.message === 'string'
+          : typeof payloadObj.message === "string"
             ? payloadObj.message
             : JSON.stringify(payloadObj);
       return { success: false, message, ...payloadObj };
@@ -101,19 +101,16 @@ function extractResult(parsed: unknown): unknown {
   return payload;
 }
 
-export function callTool(
-  name: string,
-  args: Record<string, unknown> = {},
-): unknown {
+export function callTool(name: string, args: Record<string, unknown> = {}): unknown {
   const mcpUrl = getMcpUrl();
   const cliArgs: string[] = [
-    '--cli',
+    "--cli",
     mcpUrl,
-    '--transport',
-    'http',
-    '--method',
-    'tools/call',
-    '--tool-name',
+    "--transport",
+    "http",
+    "--method",
+    "tools/call",
+    "--tool-name",
     name,
   ];
   for (const [key, value] of Object.entries(args)) {
@@ -121,7 +118,7 @@ export function callTool(
       continue;
     }
     const serialized = JSON.stringify(value);
-    cliArgs.push('--tool-arg', `${key}=${serialized}`);
+    cliArgs.push("--tool-arg", `${key}=${serialized}`);
   }
 
   const stdout = runInspector(cliArgs);
@@ -131,14 +128,7 @@ export function callTool(
 
 export function listTools(): McpTool[] {
   const mcpUrl = getMcpUrl();
-  const stdout = runInspector([
-    '--cli',
-    mcpUrl,
-    '--transport',
-    'http',
-    '--method',
-    'tools/list',
-  ]);
+  const stdout = runInspector(["--cli", mcpUrl, "--transport", "http", "--method", "tools/list"]);
   const parsed = parseJson(stdout) as McpToolsListResponse;
   if (!Array.isArray(parsed.tools)) {
     throw new Error(

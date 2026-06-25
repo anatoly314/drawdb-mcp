@@ -165,8 +165,7 @@ const de = {
     upload_sql_to_generate_diagrams:
       "Laden Sie eine SQL-Datei hoch, um Ihre Tabellen und Spalten automatisch zu generieren.",
     overwrite_existing_diagram: "Vorhandenes Diagramm überschreiben",
-    only_mysql_supported:
-      "*Vorläufig wird nur das Laden von MySQL-Skripten unterstützt.",
+    only_mysql_supported: "*Vorläufig wird nur das Laden von MySQL-Skripten unterstützt.",
     blank: "Leer",
     filename: "Dateiname",
     table_w_no_name: "Eine Tabelle ohne Namen wurde deklariert",
@@ -181,8 +180,7 @@ const de = {
       "Das Feld '{{fieldName}}' der Tabelle '{{tableName}}' ist NOT NULL, hat aber standardmäßig NULL",
     duplicate_fields:
       "Doppelte Tabellenfelder mit dem Namen '{{fieldName}}' in der Tabelle '{{tableName}}'",
-    duplicate_index:
-      "Doppelter Index mit dem Namen '{{indexName}}' in der Tabelle '{{tableName}}'",
+    duplicate_index: "Doppelter Index mit dem Namen '{{indexName}}' in der Tabelle '{{tableName}}'",
     empty_index: "Der Index in Tabelle '{{tableName}}' indiziert keine Spalten",
     no_primary_key: "Tabelle '{{Tabellenname}}' hat keinen Primärschlüssel",
     type_with_no_name: "Ein Typ ohne Namen wurde deklariert",
@@ -192,8 +190,7 @@ const de = {
     empty_type_field_type: "Leeres Feld `type` im Typ '{{typeName}}'",
     no_values_for_type_field:
       "Das Feld '{{fieldName}}' des Typs '{{typeName}}' ist vom Typ `{{type}}`, aber es wurden keine Werte angegeben",
-    duplicate_type_fields:
-      "Doppelte Typfelder mit dem Namen '{{fieldName}}' im Typ '{{typeName}}'",
+    duplicate_type_fields: "Doppelte Typfelder mit dem Namen '{{fieldName}}' im Typ '{{typeName}}'",
     duplicate_reference: "Doppelte Referenz mit dem Namen '{{refName}}'",
     circular_dependency: "Zirkuläre Abhängigkeit, die Tabelle '{{refName}}' betrifft",
     timeline: "Zeitleiste",
@@ -245,8 +242,7 @@ const de = {
     copy_link: "Link kopieren",
     readme: "README",
     failed_to_load: "Laden fehlgeschlagen. Stellen Sie sicher, das der Link korrekt ist.",
-    share_info:
-      "* Das Teilen dieses Links ermöglicht keine Live-Zusammenarbeit in Echtzeit.",
+    share_info: "* Das Teilen dieses Links ermöglicht keine Live-Zusammenarbeit in Echtzeit.",
     show_relationship_labels: "Beziehungsbeschriftungen anzeigen",
     docs: "Dokumentation",
     supported_types: "Unterstützte Dateitypen:",

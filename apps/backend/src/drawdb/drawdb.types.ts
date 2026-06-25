@@ -51,9 +51,9 @@ export interface DrawDBRelationship {
   startFieldId: string;
   endTableId: string;
   endFieldId: string;
-  cardinality: 'one_to_one' | 'one_to_many' | 'many_to_one';
-  updateConstraint: 'No action' | 'Restrict' | 'Cascade' | 'Set null' | 'Set default';
-  deleteConstraint: 'No action' | 'Restrict' | 'Cascade' | 'Set null' | 'Set default';
+  cardinality: "one_to_one" | "one_to_many" | "many_to_one";
+  updateConstraint: "No action" | "Restrict" | "Cascade" | "Set null" | "Set default";
+  deleteConstraint: "No action" | "Restrict" | "Cascade" | "Set null" | "Set default";
 }
 
 // Area type

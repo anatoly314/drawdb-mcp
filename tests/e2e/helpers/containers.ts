@@ -1,9 +1,5 @@
-import * as path from 'path';
-import {
-  GenericContainer,
-  StartedTestContainer,
-  Wait,
-} from 'testcontainers';
+import * as path from "path";
+import { GenericContainer, StartedTestContainer, Wait } from "testcontainers";
 
 export interface ContainerPorts {
   gui: number;
@@ -17,7 +13,7 @@ export interface RunningContainer {
   mcpUrl: string;
 }
 
-const REPO_ROOT = path.resolve(__dirname, '..', '..', '..');
+const REPO_ROOT = path.resolve(__dirname, "..", "..", "..");
 const STARTUP_TIMEOUT_MS = 2 * 60 * 1000;
 
 export async function startDrawdbContainer(): Promise<RunningContainer> {
@@ -30,12 +26,12 @@ export async function startDrawdbContainer(): Promise<RunningContainer> {
     base = await GenericContainer.fromDockerfile(REPO_ROOT)
       .withCache(true)
       .withBuildkit()
-      .build('drawdb-mcp:e2e', { deleteOnExit: false });
+      .build("drawdb-mcp:e2e", { deleteOnExit: false });
   }
 
   const configured = base
     .withExposedPorts(80, 3000)
-    .withWaitStrategy(Wait.forHttp('/', 80).forStatusCode(200))
+    .withWaitStrategy(Wait.forHttp("/", 80).forStatusCode(200))
     .withStartupTimeout(STARTUP_TIMEOUT_MS);
 
   let container: StartedTestContainer;
@@ -59,9 +55,7 @@ export async function startDrawdbContainer(): Promise<RunningContainer> {
   };
 }
 
-export async function stopDrawdbContainer(
-  container: StartedTestContainer,
-): Promise<void> {
+export async function stopDrawdbContainer(container: StartedTestContainer): Promise<void> {
   try {
     await container.stop();
   } catch (err) {
@@ -71,19 +65,17 @@ export async function stopDrawdbContainer(
   }
 }
 
-export async function dumpContainerLogs(
-  container: StartedTestContainer,
-): Promise<void> {
+export async function dumpContainerLogs(container: StartedTestContainer): Promise<void> {
   try {
     const stream = await container.logs();
-    stream.on('data', (chunk: Buffer | string) => {
+    stream.on("data", (chunk: Buffer | string) => {
       process.stderr.write(`[container] ${chunk.toString()}`);
     });
-    stream.on('err', (chunk: Buffer | string) => {
+    stream.on("err", (chunk: Buffer | string) => {
       process.stderr.write(`[container err] ${chunk.toString()}`);
     });
     await new Promise<void>((resolve) => {
-      stream.on('end', () => resolve());
+      stream.on("end", () => resolve());
       setTimeout(() => resolve(), 2000);
     });
   } catch (err) {

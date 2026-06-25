@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const { chromium } = require('playwright');
+const { chromium } = require("playwright");
 
 const wsEndpoint = process.env.BROWSER_WS_ENDPOINT;
 const guiUrl = process.env.GUI_URL;
-const readyToken = process.env.READY_TOKEN || 'KEEPER_READY';
+const readyToken = process.env.READY_TOKEN || "KEEPER_READY";
 
 if (!wsEndpoint || !guiUrl) {
-  process.stderr.write('[keeper] BROWSER_WS_ENDPOINT and GUI_URL are required\n');
+  process.stderr.write("[keeper] BROWSER_WS_ENDPOINT and GUI_URL are required\n");
   process.exit(2);
 }
 
@@ -32,9 +32,9 @@ async function shutdown(code) {
   process.exit(code);
 }
 
-process.on('SIGTERM', () => shutdown(0));
-process.on('SIGINT', () => shutdown(0));
-process.on('SIGHUP', () => shutdown(0));
+process.on("SIGTERM", () => shutdown(0));
+process.on("SIGINT", () => shutdown(0));
+process.on("SIGHUP", () => shutdown(0));
 
 (async () => {
   try {
@@ -43,15 +43,15 @@ process.on('SIGHUP', () => shutdown(0));
     page = await context.newPage();
     await page.goto(`${guiUrl}/`, {
       timeout: 30000,
-      waitUntil: 'domcontentloaded',
+      waitUntil: "domcontentloaded",
     });
     await page
-      .getByText('AI Connected', { exact: true })
+      .getByText("AI Connected", { exact: true })
       .first()
-      .waitFor({ state: 'visible', timeout: 30000 });
+      .waitFor({ state: "visible", timeout: 30000 });
 
-    browser.on('disconnected', () => {
-      process.stderr.write('[keeper] browser disconnected unexpectedly\n');
+    browser.on("disconnected", () => {
+      process.stderr.write("[keeper] browser disconnected unexpectedly\n");
       shutdown(1);
     });
 

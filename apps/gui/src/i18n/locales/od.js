@@ -31,8 +31,7 @@ const od = {
     undo: "ପୂର୍ବବତ୍ କରନ୍ତୁ",
     redo: "ପୁନରାବୃତ୍ତ କରନ୍ତୁ",
     clear: "ସଫା କରନ୍ତୁ",
-    are_you_sure_clear:
-      "ଆପଣ ନିଶ୍ଚିତ ଏହି ଡାୟାଗ୍ରାମ୍ ସଫା କରିବେ? ଏହା ଅପରିବର୍ତ୍ତନୀୟ ଅଟେ।",
+    are_you_sure_clear: "ଆପଣ ନିଶ୍ଚିତ ଏହି ଡାୟାଗ୍ରାମ୍ ସଫା କରିବେ? ଏହା ଅପରିବର୍ତ୍ତନୀୟ ଅଟେ।",
     cut: "କଟ୍ କରନ୍ତୁ",
     copy: "କପି କରନ୍ତୁ",
     paste: "ପେଷ୍ଟ କରନ୍ତୁ",
@@ -90,8 +89,7 @@ const od = {
     no_tables: "କୌଣସି ଟେବଲ୍ ନାହିଁ",
     no_tables_text: "ଆପଣଙ୍କର ଡାୟାଗ୍ରାମ୍ ତିଆରି କରିବା ଆରମ୍ଭ କରନ୍ତୁ!",
     no_relationships: "କୌଣସି ସମ୍ପର୍କ ନାହିଁ",
-    no_relationships_text:
-      "ଫିଲ୍ଡଗୁଡିକୁ ଜୋଡିବାକୁ ଟାଣନ୍ତୁ ଏବଂ ସମ୍ପର୍କ ତିଆରି କରନ୍ତୁ!",
+    no_relationships_text: "ଫିଲ୍ଡଗୁଡିକୁ ଜୋଡିବାକୁ ଟାଣନ୍ତୁ ଏବଂ ସମ୍ପର୍କ ତିଆରି କରନ୍ତୁ!",
     no_subject_areas: "କୌଣସି ବିଷୟ ଅଞ୍ଚଳ ନାହିଁ",
     no_subject_areas_text: "ଗ୍ରୁପ୍ ଟେବଲ୍ଗୁଡିକୁ ବିଷୟ ଅଞ୍ଚଳ ଯୋଡନ୍ତୁ!",
     no_notes: "କୌଣସି ଟିପ୍ପଣୀ ନାହିଁ",
@@ -99,8 +97,7 @@ const od = {
     no_types: "କୌଣସି ପ୍ରକାର ନାହିଁ",
     no_types_text: "ଆପଣଙ୍କର ନିଜସ୍ୱ କଷ୍ଟମ୍ ଡାଟା ପ୍ରକାର ତିଆରି କରନ୍ତୁ",
     no_issues: "କୌଣସି ସମସ୍ୟା ମିଳିଲା ନାହିଁ।",
-    strict_mode_is_on_no_issues:
-      "ସ୍ତ୍ରିକ୍ଟ ମୋଡ୍ ବନ୍ଦ ଅଟେ ତେଣୁ କୌଣସି ସମସ୍ୟା ଦେଖାଯିବ ନାହିଁ।",
+    strict_mode_is_on_no_issues: "ସ୍ତ୍ରିକ୍ଟ ମୋଡ୍ ବନ୍ଦ ଅଟେ ତେଣୁ କୌଣସି ସମସ୍ୟା ଦେଖାଯିବ ନାହିଁ।",
     name: "ନାମ",
     type: "ପ୍ରକାର",
     null: "Null",
@@ -110,8 +107,7 @@ const od = {
     autoincrement: "ସ୍ୱୟଂ ବୃଦ୍ଧି",
     default_value: "ଡିଫଲ୍ଟ",
     check: "ଚେକ୍ ଏକ୍ସପ୍ରେସନ୍",
-    this_will_appear_as_is:
-      "*ଏହା ଜେନେରେଟ୍ ସ୍କ୍ରିପ୍ଟରେ ଯେପରି ଅଛି ସେପରି ଦେଖାଯିବ।",
+    this_will_appear_as_is: "*ଏହା ଜେନେରେଟ୍ ସ୍କ୍ରିପ୍ଟରେ ଯେପରି ଅଛି ସେପରି ଦେଖାଯିବ।",
     comment: "ଟିପ୍ପଣୀ",
     add_field: "ଫିଲ୍ଡ ଯୋଡନ୍ତୁ",
     values: "ମୂଲ୍ୟଗୁଡିକ",
@@ -151,13 +147,11 @@ const od = {
     create: "ତିଆରି କରନ୍ତୁ",
     confirm: "ନିଶ୍ଚିତ କରନ୍ତୁ",
     last_modified: "ଶେଷ ସମୟରେ ସଂଶୋଧିତ",
-    drag_and_drop_files:
-      "ଫାଇଲ୍କୁ ଏଠାରେ ଟାଣନ୍ତୁ ଏବଂ ଛାଡନ୍ତୁ କିମ୍ବା ଅପଲୋଡ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ।",
+    drag_and_drop_files: "ଫାଇଲ୍କୁ ଏଠାରେ ଟାଣନ୍ତୁ ଏବଂ ଛାଡନ୍ତୁ କିମ୍ବା ଅପଲୋଡ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ।",
     upload_sql_to_generate_diagrams:
       "ଆପଣଙ୍କର ଟେବଲ୍ ଏବଂ କଲମ୍ଗୁଡିକୁ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଜେନେରେଟ୍ କରିବାକୁ ଏକ sql ଫାଇଲ୍ ଅପଲୋଡ୍ କରନ୍ତୁ।",
     overwrite_existing_diagram: "ବର୍ତ୍ତମାନର ଡାୟାଗ୍ରାମ୍କୁ ଅଧିଲେଖନ କରନ୍ତୁ",
-    only_mysql_supported:
-      "*ବର୍ତ୍ତମାନ କେବଳ MySQL ସ୍କ୍ରିପ୍ଟଗୁଡିକୁ ଲୋଡ୍ କରିବା ସମର୍ଥିତ।",
+    only_mysql_supported: "*ବର୍ତ୍ତମାନ କେବଳ MySQL ସ୍କ୍ରିପ୍ଟଗୁଡିକୁ ଲୋଡ୍ କରିବା ସମର୍ଥିତ।",
     blank: "ଖାଲି",
     filename: "ଫାଇଲ୍ନାମ୍",
     table_w_no_name: "ନାମ ବିନା ଟେବଲ୍ ଘୋଷଣା କରାଯାଇଛି",
@@ -170,17 +164,13 @@ const od = {
       "ଟେବଲ '{{tableName}}' ରେ ଫିଲ୍ଡ '{{fieldName}}' ର ଡିଫଲ୍ଟ ମୂଲ୍ୟ ତାହାର ପ୍ରକାର ସହିତ ମେଳ ଖାଉନାହିଁ",
     not_null_is_null:
       "ଟେବଲ '{{tableName}}' ର ଫିଲ୍ଡ '{{fieldName}}' ର ମୂଲ୍ୟ NOT NULL ଅଛି କିନ୍ତୁ ଡିଫଲ୍ଟ NULL ଅଛି",
-    duplicate_fields:
-      "ଟେବଲ '{{tableName}}' ରେ ନାମ '{{fieldName}}' ଥିବା ଡୁପ୍ଲିକେଟ ଟେବଲ ଫିଲ୍ଡସ୍",
-    duplicate_index:
-      "ଟେବଲ '{{tableName}}' ରେ ନାମ '{{indexName}}' ଥିବା ଡୁପ୍ଲିକେଟ ଇଣ୍ଡେକ୍ସ",
-    empty_index:
-      "ଟେବଲ '{{tableName}}' ରେ ଇଣ୍ଡେକ୍ସ କୌଣସି କଲମ୍ ଇଣ୍ଡେକ୍ସ କରୁନାହିଁ",
+    duplicate_fields: "ଟେବଲ '{{tableName}}' ରେ ନାମ '{{fieldName}}' ଥିବା ଡୁପ୍ଲିକେଟ ଟେବଲ ଫିଲ୍ଡସ୍",
+    duplicate_index: "ଟେବଲ '{{tableName}}' ରେ ନାମ '{{indexName}}' ଥିବା ଡୁପ୍ଲିକେଟ ଇଣ୍ଡେକ୍ସ",
+    empty_index: "ଟେବଲ '{{tableName}}' ରେ ଇଣ୍ଡେକ୍ସ କୌଣସି କଲମ୍ ଇଣ୍ଡେକ୍ସ କରୁନାହିଁ",
     no_primary_key: "ଟେବଲ '{{tableName}}' ରେ କୌଣସି ପ୍ରାଥମିକ କୁଞ୍ଜି ନାହିଁ",
     type_with_no_name: "କୌଣସି ନାମ ନଥିବା ପ୍ରକାରକୁ ଘୋଷଣା କରାଯାଇଛି",
     duplicate_types: "ନାମ '{{typeName}}' ଥିବା ଡୁପ୍ଲିକେଟ ପ୍ରକାର",
-    type_w_no_fields:
-      "କୌଣସି ଫିଲ୍ଡସ୍ ନଥିବା ପ୍ରକାର '{{typeName}}' କୁ ଘୋଷଣା କରାଯାଇଛି",
+    type_w_no_fields: "କୌଣସି ଫିଲ୍ଡସ୍ ନଥିବା ପ୍ରକାର '{{typeName}}' କୁ ଘୋଷଣା କରାଯାଇଛି",
     empty_type_field_name: "ପ୍ରକାର '{{typeName}}' ରେ ଖାଲି ଫିଲ୍ଡ `ନାମ`",
     empty_type_field_type: "ପ୍ରକାର '{{typeName}}' ରେ ଖାଲି ଫିଲ୍ଡ `ପ୍ରକାର`",
     no_values_for_type_field:

@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '../../../../drawdb/drawdb-client.service';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "../../../../drawdb/drawdb-client.service";
 
 @Injectable()
 export class AddAreaTool {
@@ -11,23 +11,23 @@ export class AddAreaTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'add_area',
+    name: "add_area",
     description:
-      'Add a rectangular area to the diagram for grouping related tables. Use this to visually organize tables by domain or module.',
+      "Add a rectangular area to the diagram for grouping related tables. Use this to visually organize tables by domain or module.",
     parameters: z.object({
-      name: z.string().describe('Area name/label'),
-      x: z.number().optional().describe('X coordinate on canvas (optional, defaults to 50)'),
-      y: z.number().optional().describe('Y coordinate on canvas (optional, defaults to 50)'),
-      width: z.number().optional().describe('Area width in pixels (optional, defaults to 400)'),
-      height: z.number().optional().describe('Area height in pixels (optional, defaults to 300)'),
-      color: z.string().optional().describe('Area color (optional, defaults to #eb9f34)'),
+      name: z.string().describe("Area name/label"),
+      x: z.number().optional().describe("X coordinate on canvas (optional, defaults to 50)"),
+      y: z.number().optional().describe("Y coordinate on canvas (optional, defaults to 50)"),
+      width: z.number().optional().describe("Area width in pixels (optional, defaults to 400)"),
+      height: z.number().optional().describe("Area height in pixels (optional, defaults to 300)"),
+      color: z.string().optional().describe("Area color (optional, defaults to #eb9f34)"),
     }),
   })
   async addArea(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -60,7 +60,7 @@ export class AddAreaTool {
         areaId: createdArea.id,
       };
     } catch (error) {
-      this.logger.error('Failed to add area', error);
+      this.logger.error("Failed to add area", error);
       throw error;
     }
   }

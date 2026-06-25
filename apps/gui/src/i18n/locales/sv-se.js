@@ -106,8 +106,7 @@ const sv = {
     no_types: "Inga typer",
     no_types_text: "Skapa dina egna anpassade datatyper",
     no_issues: "Inga fel upptäcktes.",
-    strict_mode_is_on_no_issues:
-      "Strikt läge är påslaget, så inga fel kommer att visas.",
+    strict_mode_is_on_no_issues: "Strikt läge är påslaget, så inga fel kommer att visas.",
     name: "Namn",
     type: "Typ",
     null: "Null",
@@ -117,8 +116,7 @@ const sv = {
     autoincrement: "Autoinkrement",
     default_value: "Standardvärde",
     check: "Kontrollera uttryck",
-    this_will_appear_as_is:
-      "*Detta kommer att visas i det genererade skriptet som det är.",
+    this_will_appear_as_is: "*Detta kommer att visas i det genererade skriptet som det är.",
     comment: "Kommentar",
     add_field: "Lägg till fält",
     values: "Värden",
@@ -158,13 +156,11 @@ const sv = {
     create: "Skapa",
     confirm: "Bekräfta",
     last_modified: "Senast ändrad",
-    drag_and_drop_files:
-      "Dra och släpp filen här eller klicka för att ladda upp.",
+    drag_and_drop_files: "Dra och släpp filen här eller klicka för att ladda upp.",
     upload_sql_to_generate_diagrams:
       "Ladda upp en SQL-fil för att auto-generera dina tabeller och kolumner.",
     overwrite_existing_diagram: "Skriv över befintligt diagram",
-    only_mysql_supported:
-      "*För närvarande stöds endast uppladdning av MySQL-skript.",
+    only_mysql_supported: "*För närvarande stöds endast uppladdning av MySQL-skript.",
     blank: "Tom",
     filename: "Filnamn",
     table_w_no_name: "Deklarerade en tabell utan namn",
@@ -177,10 +173,8 @@ const sv = {
       "Standardvärdet för fältet '{{fieldName}}' i tabellen '{{tableName}}' matchar inte dess typ",
     not_null_is_null:
       "'{{fieldName}}'-fältet i tabellen '{{tableName}}' är NOT NULL, men har standardvärdet NULL",
-    duplicate_fields:
-      "Duplicerade fält med namnet '{{fieldName}}' i tabellen '{{tableName}}'",
-    duplicate_index:
-      "Duplicerat index med namnet '{{indexName}}' i tabellen '{{tableName}}'",
+    duplicate_fields: "Duplicerade fält med namnet '{{fieldName}}' i tabellen '{{tableName}}'",
+    duplicate_index: "Duplicerat index med namnet '{{indexName}}' i tabellen '{{tableName}}'",
     empty_index: "Index i tabellen '{{tableName}}' indexerar inga kolumner",
     no_primary_key: "Tabellen '{{tableName}}' har ingen primärnyckel",
     type_with_no_name: "Deklarerade en typ utan namn",
@@ -190,8 +184,7 @@ const sv = {
     empty_type_field_type: "Tomt fält `typ` i typen '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}'-fältet av typen '{{typeName}}' är av typen `{{type}}`, men inga värden är specificerade",
-    duplicate_type_fields:
-      "Duplicerade fält med namnet '{{fieldName}}' av typen '{{typeName}}'",
+    duplicate_type_fields: "Duplicerade fält med namnet '{{fieldName}}' av typen '{{typeName}}'",
     duplicate_reference: "Duplicerad referens med namnet '{{refName}}'",
     circular_dependency: "Cirkulärt beroende gällande tabellen '{{refName}}'",
     timeline: "Tidslinje",
@@ -235,16 +228,14 @@ const sv = {
     no_enums: "Inga enum",
     no_enums_text: "Definiera enum här",
     declare_array: "Deklarera array",
-    empty_index_name:
-      "Deklarerade ett index utan namn i tabell '{{tableName}}'",
+    empty_index_name: "Deklarerade ett index utan namn i tabell '{{tableName}}'",
     didnt_find_diagram: "Oj! Kunde inte hitta diagrammet.",
     unsigned: "Osignerad",
     share: "Dela",
     copy_link: "Kopiera länk",
     readme: "README",
     failed_to_load: "Kunde inte ladda. Se till att länken är korrekt.",
-    share_info:
-      "* Att dela denna länk kommer inte att skapa en live samarbetssession.",
+    share_info: "* Att dela denna länk kommer inte att skapa en live samarbetssession.",
   },
 };
 

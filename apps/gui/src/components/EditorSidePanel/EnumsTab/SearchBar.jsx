@@ -9,14 +9,10 @@ export default function SearchBar() {
   const [value, setValue] = useState("");
   const { t } = useTranslation();
 
-  const [filteredResult, setFilteredResult] = useState(
-    enums.map((e) => e.name),
-  );
+  const [filteredResult, setFilteredResult] = useState(enums.map((e) => e.name));
 
   const handleStringSearch = (value) => {
-    setFilteredResult(
-      enums.map((e) => e.name).filter((i) => i.includes(value)),
-    );
+    setFilteredResult(enums.map((e) => e.name).filter((i) => i.includes(value)));
   };
 
   return (
@@ -31,9 +27,7 @@ export default function SearchBar() {
       onChange={(v) => setValue(v)}
       onSelect={(v) => {
         const e = enums.find((t) => t.name === v);
-        document
-          .getElementById(`scroll_enum_${e.id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_enum_${e.id}`).scrollIntoView({ behavior: "smooth" });
       }}
       className="w-full"
     />

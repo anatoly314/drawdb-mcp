@@ -2,13 +2,7 @@ import { useMemo, useState } from "react";
 import { Action, ObjectType } from "../../../data/constants";
 import { Input, Button, Popover, Select } from "@douyinfe/semi-ui";
 import { IconMore, IconKeyStroked } from "@douyinfe/semi-icons";
-import {
-  useEnums,
-  useDiagram,
-  useTypes,
-  useUndoRedo,
-  useLayout,
-} from "../../../hooks";
+import { useEnums, useDiagram, useTypes, useUndoRedo, useLayout } from "../../../hooks";
 import { useTranslation } from "react-i18next";
 import { dbToTypes } from "../../../data/datatypes";
 import { DragHandle } from "../../SortableList/DragHandle";
@@ -33,9 +27,7 @@ export default function TableField({ data, tid, index, inherited }) {
         <Input
           value={data.name}
           id={`scroll_table_${tid}_input_${index}`}
-          validateStatus={
-            data.name.trim() === "" || inherited ? "error" : "default"
-          }
+          validateStatus={data.name.trim() === "" || inherited ? "error" : "default"}
           readonly={layout.readOnly}
           placeholder={t("name")}
           onChange={(value) => updateField(tid, data.id, { name: value })}
@@ -105,8 +97,7 @@ export default function TableField({ data, tid, index, inherited }) {
               },
             ]);
             setRedoStack([]);
-            const incr =
-              data.increment && !!dbToTypes[database][value].canIncrement;
+            const incr = data.increment && !!dbToTypes[database][value].canIncrement;
 
             if (value === "ENUM" || value === "SET") {
               updateField(tid, data.id, {

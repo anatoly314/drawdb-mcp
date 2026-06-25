@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateNoteTool {
@@ -11,25 +11,25 @@ export class UpdateNoteTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_note',
+    name: "update_note",
     description:
-      'Update properties of an existing sticky note in the diagram. Can modify title, content, position, size, or color.',
+      "Update properties of an existing sticky note in the diagram. Can modify title, content, position, size, or color.",
     parameters: z.object({
-      noteId: z.string().describe('ID of the note to update'),
-      title: z.string().optional().describe('New note title'),
-      content: z.string().optional().describe('New note content/text'),
-      x: z.number().optional().describe('New X coordinate on canvas'),
-      y: z.number().optional().describe('New Y coordinate on canvas'),
-      width: z.number().optional().describe('New note width in pixels'),
-      height: z.number().optional().describe('New note height in pixels'),
-      color: z.string().optional().describe('New note color theme'),
+      noteId: z.string().describe("ID of the note to update"),
+      title: z.string().optional().describe("New note title"),
+      content: z.string().optional().describe("New note content/text"),
+      x: z.number().optional().describe("New X coordinate on canvas"),
+      y: z.number().optional().describe("New Y coordinate on canvas"),
+      width: z.number().optional().describe("New note width in pixels"),
+      height: z.number().optional().describe("New note height in pixels"),
+      color: z.string().optional().describe("New note color theme"),
     }),
   })
   async updateNote(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -57,7 +57,7 @@ export class UpdateNoteTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update note', error);
+      this.logger.error("Failed to update note", error);
       throw error;
     }
   }

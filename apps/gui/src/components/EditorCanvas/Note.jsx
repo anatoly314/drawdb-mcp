@@ -2,12 +2,7 @@ import { useMemo, useState, useRef, useEffect } from "react";
 import { Action, ObjectType, Tab, State } from "../../data/constants";
 import { Input, Button, Popover } from "@douyinfe/semi-ui";
 import ColorPicker from "../EditorSidePanel/ColorPicker";
-import {
-  IconEdit,
-  IconDeleteStroked,
-  IconLock,
-  IconUnlock,
-} from "@douyinfe/semi-icons";
+import { IconEdit, IconDeleteStroked, IconLock, IconUnlock } from "@douyinfe/semi-icons";
 import {
   useLayout,
   useUndoRedo,
@@ -33,12 +28,8 @@ export default function Note({ data, onPointerDown }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { transform } = useTransform();
   const { settings } = useSettings();
-  const {
-    selectedElement,
-    setSelectedElement,
-    bulkSelectedElements,
-    setBulkSelectedElements,
-  } = useSelect();
+  const { selectedElement, setSelectedElement, bulkSelectedElements, setBulkSelectedElements } =
+    useSelect();
   const initialColorRef = useRef(data.color);
 
   const handleColorPick = (color) => {
@@ -160,19 +151,14 @@ export default function Note({ data, onPointerDown }) {
     }));
 
     if (layout.sidebar && selectedElement.currentTab === Tab.NOTES) {
-      document
-        .getElementById(`scroll_note_${data.id}`)
-        .scrollIntoView({ behavior: "smooth" });
+      document.getElementById(`scroll_note_${data.id}`).scrollIntoView({ behavior: "smooth" });
     }
   };
 
   const isSelected = useMemo(() => {
     return (
-      (selectedElement.id === data.id &&
-        selectedElement.element === ObjectType.NOTE) ||
-      bulkSelectedElements.some(
-        (e) => e.type === ObjectType.NOTE && e.id === data.id,
-      )
+      (selectedElement.id === data.id && selectedElement.element === ObjectType.NOTE) ||
+      bulkSelectedElements.some((e) => e.type === ObjectType.NOTE && e.id === data.id)
     );
   }, [selectedElement, data, bulkSelectedElements]);
 
@@ -209,13 +195,7 @@ export default function Note({ data, onPointerDown }) {
           data.y + data.height - noteRadius
         } L${data.x} ${data.y + noteFold}`}
         fill={data.color}
-        stroke={
-          hovered
-            ? "rgb(59 130 246)"
-            : isSelected
-              ? "rgb(59 130 246)"
-              : "rgb(168 162 158)"
-        }
+        stroke={hovered ? "rgb(59 130 246)" : isSelected ? "rgb(59 130 246)" : "rgb(168 162 158)"}
         strokeDasharray={hovered ? 5 : 0}
         strokeLinejoin="round"
         strokeWidth="2"
@@ -227,13 +207,7 @@ export default function Note({ data, onPointerDown }) {
           data.x + noteFold
         } ${data.y} L${data.x} ${data.y + noteFold} Z`}
         fill={data.color}
-        stroke={
-          hovered
-            ? "rgb(59 130 246)"
-            : isSelected
-              ? "rgb(59 130 246)"
-              : "rgb(168 162 158)"
-        }
+        stroke={hovered ? "rgb(59 130 246)" : isSelected ? "rgb(59 130 246)" : "rgb(168 162 158)"}
         strokeDasharray={hovered ? 5 : 0}
         strokeLinejoin="round"
         strokeWidth="2"
@@ -379,10 +353,7 @@ export default function Note({ data, onPointerDown }) {
       >
         <div className="text-gray-900 select-none w-full h-full cursor-move px-3 py-2">
           <div className="flex justify-between gap-1 w-full">
-            <label
-              htmlFor={`note_${data.id}`}
-              className="ms-5 overflow-hidden text-ellipsis"
-            >
+            <label htmlFor={`note_${data.id}`} className="ms-5 overflow-hidden text-ellipsis">
               {data.title}
             </label>
             {(hovered ||
@@ -432,12 +403,8 @@ export default function Note({ data, onPointerDown }) {
                           placeholder={t("title")}
                           className="me-2"
                           readonly={layout.readOnly}
-                          onChange={(value) =>
-                            updateNote(data.id, { title: value })
-                          }
-                          onFocus={(e) =>
-                            setEditField({ title: e.target.value })
-                          }
+                          onChange={(value) => updateNote(data.id, { title: value })}
+                          onFocus={(e) => setEditField({ title: e.target.value })}
                           onBlur={(e) => {
                             if (e.target.value === editField.title) return;
                             setUndoStack((prev) => [

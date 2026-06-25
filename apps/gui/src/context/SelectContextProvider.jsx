@@ -1,7 +1,6 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { ObjectType, Tab } from "../data/constants";
-
-export const SelectContext = createContext(null);
+import { SelectContext } from "./SelectContext";
 
 export default function SelectContextProvider({ children }) {
   const [selectedElement, setSelectedElement] = useState({

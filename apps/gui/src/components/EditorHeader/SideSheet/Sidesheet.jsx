@@ -28,13 +28,7 @@ export default function Sidesheet({ type, title, setTitle, onClose }) {
       case SIDESHEET.TODO:
         return <Todo />;
       case SIDESHEET.VERSIONS:
-        return (
-          <Versions
-            open={type !== SIDESHEET.NONE}
-            title={title}
-            setTitle={setTitle}
-          />
-        );
+        return <Versions open={type !== SIDESHEET.NONE} title={title} setTitle={setTitle} />;
       default:
         break;
     }

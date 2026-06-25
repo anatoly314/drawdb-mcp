@@ -9,13 +9,9 @@ import logo_light from "../assets/logo_light_160.png";
 import template_screenshot from "../assets/template_screenshot.png";
 
 export default function Templates() {
-  const defaultTemplates = useLiveQuery(() =>
-    db.templates.where({ custom: 0 }).toArray()
-  );
+  const defaultTemplates = useLiveQuery(() => db.templates.where({ custom: 0 }).toArray());
 
-  const customTemplates = useLiveQuery(() =>
-    db.templates.where({ custom: 1 }).toArray()
-  );
+  const customTemplates = useLiveQuery(() => db.templates.where({ custom: 1 }).toArray());
 
   const deleteTemplate = async (id) => {
     await db.templates.delete(id);
@@ -41,15 +37,9 @@ export default function Templates() {
         <div className="sm:py-3 py-5 px-12 xl:px-20 sm:px-6 flex justify-between items-center select-none">
           <div className="flex items-center justify-start">
             <Link to="/">
-              <img
-                src={logo_light}
-                alt="logo"
-                className="me-2 sm:h-[28px] md:h-[46px] h-[48px]"
-              />
+              <img src={logo_light} alt="logo" className="me-2 sm:h-[28px] md:h-[46px] h-[48px]" />
             </Link>
-            <div className="ms-4 sm:text-sm xl:text-xl text-xl font-semibold">
-              Templates
-            </div>
+            <div className="ms-4 sm:text-sm xl:text-xl text-xl font-semibold">Templates</div>
           </div>
         </div>
         <hr className="border-zinc-300" />
@@ -59,15 +49,12 @@ export default function Templates() {
               Database schema templates
             </div>
             <div className="text-sm text-neutral-700">
-              A compilation of database entity relationship diagrams to give you
-              a quick start or inspire your application&apos;s architecture.
+              A compilation of database entity relationship diagrams to give you a quick start or
+              inspire your application&apos;s architecture.
             </div>
           </div>
           <Tabs>
-            <TabPane
-              tab={<span className="mx-2">Default templates</span>}
-              itemKey="1"
-            >
+            <TabPane tab={<span className="mx-2">Default templates</span>} itemKey="1">
               <div className="grid xl:grid-cols-3 grid-cols-2 sm:grid-cols-1 gap-10 my-6">
                 {defaultTemplates?.map((t, i) => (
                   <div
@@ -75,18 +62,11 @@ export default function Templates() {
                     className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
                   >
                     <div className="h-48">
-                      <Thumbnail
-                        diagram={t}
-                        i={"1" + i}
-                        zoom={0.3}
-                        theme="light"
-                      />
+                      <Thumbnail diagram={t} i={"1" + i} zoom={0.3} theme="light" />
                     </div>
                     <div className="px-4 py-3">
                       <div className="flex justify-between">
-                        <div className="text-lg font-bold text-zinc-700">
-                          {t.title}
-                        </div>
+                        <div className="text-lg font-bold text-zinc-700">{t.title}</div>
                         <button
                           className="border rounded-sm px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
                           onClick={() => forkTemplate(t.id)}
@@ -100,10 +80,7 @@ export default function Templates() {
                 ))}
               </div>
             </TabPane>
-            <TabPane
-              tab={<span className="mx-2">Your templates</span>}
-              itemKey="2"
-            >
+            <TabPane tab={<span className="mx-2">Your templates</span>} itemKey="2">
               {customTemplates?.length > 0 ? (
                 <div className="grid xl:grid-cols-3 grid-cols-2 sm:grid-cols-1 gap-8 my-6">
                   {customTemplates?.map((c, i) => (
@@ -116,9 +93,7 @@ export default function Templates() {
                       </div>
                       <div className="px-4 py-3 w-full">
                         <div className="flex justify-between">
-                          <div className="text-lg font-bold text-zinc-700">
-                            {c.title}
-                          </div>
+                          <div className="text-lg font-bold text-zinc-700">{c.title}</div>
                           <div>
                             <button
                               className="me-1 border rounded-sm px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
@@ -165,9 +140,7 @@ export default function Templates() {
                       className="border col-span-3 sm:cols-span-1 rounded-sm"
                     />
                     <div className="col-span-2 sm:cols-span-1">
-                      <div className="text-xl font-bold my-4">
-                        How to save a template
-                      </div>
+                      <div className="text-xl font-bold my-4">How to save a template</div>
                       <Steps direction="vertical" style={{ margin: "12px" }}>
                         <Steps.Step
                           title="Build a diagram"

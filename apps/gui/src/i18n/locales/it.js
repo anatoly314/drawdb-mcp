@@ -32,8 +32,7 @@ const it = {
     undo: "Annulla",
     redo: "Ripristina",
     clear: "Resetta",
-    are_you_sure_clear:
-      "Sei sicuro di voler resettare il diagramma? L'operazione è irreversibile.",
+    are_you_sure_clear: "Sei sicuro di voler resettare il diagramma? L'operazione è irreversibile.",
     cut: "Taglia",
     copy: "Copia",
     paste: "Incolla",
@@ -159,13 +158,10 @@ const it = {
     create: "Crea",
     confirm: "Accetta",
     last_modified: "Ultima modifica",
-    drag_and_drop_files:
-      "Trascina e rilascia qui il file o clicca per caricarlo.",
-    upload_sql_to_generate_diagrams:
-      "Carica un file sql per autogenerare le tabelle e le colonne.",
+    drag_and_drop_files: "Trascina e rilascia qui il file o clicca per caricarlo.",
+    upload_sql_to_generate_diagrams: "Carica un file sql per autogenerare le tabelle e le colonne.",
     overwrite_existing_diagram: "Sovrascrivi il diagramma esistente",
-    only_mysql_supported:
-      "*Per il momento è supportato solo il caricamento di script MySQL.",
+    only_mysql_supported: "*Per il momento è supportato solo il caricamento di script MySQL.",
     blank: "In bianco",
     filename: "Nome del file",
     table_w_no_name: "Dichiarata una tabella senza nome",
@@ -180,8 +176,7 @@ const it = {
       "Il campo '{{fieldName}}' della tabella '{{tableName}}' è NOT NULL ma ha NULL come valore predefinito",
     duplicate_fields:
       "Campi della tabella duplicati con il nome '{{fieldName}}' nella tabella '{{tableName}}'",
-    duplicate_index:
-      "Indice duplicato con il nome '{{indexName}}' nella tabella '{{tableName}}'",
+    duplicate_index: "Indice duplicato con il nome '{{indexName}}' nella tabella '{{tableName}}'",
     empty_index: "L'indice nella tabella '{{tableName}}' non indicizza nessuna colonna",
     no_primary_key: "La tabella '{{tableName}}' non ha una chiave primaria",
     type_with_no_name: "Dichiarato un tipo senza nome",

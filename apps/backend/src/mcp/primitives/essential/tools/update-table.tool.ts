@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateTableTool {
@@ -11,16 +11,16 @@ export class UpdateTableTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_table',
+    name: "update_table",
     description:
-      'Update properties of an existing table in the diagram. Can modify name, position, color, comment, or indices.',
+      "Update properties of an existing table in the diagram. Can modify name, position, color, comment, or indices.",
     parameters: z.object({
-      tableId: z.string().describe('ID of the table to update'),
-      name: z.string().optional().describe('New table name'),
-      x: z.number().optional().describe('New X coordinate on canvas'),
-      y: z.number().optional().describe('New Y coordinate on canvas'),
-      color: z.string().optional().describe('New table color (hex format)'),
-      comment: z.string().optional().describe('New table comment'),
+      tableId: z.string().describe("ID of the table to update"),
+      name: z.string().optional().describe("New table name"),
+      x: z.number().optional().describe("New X coordinate on canvas"),
+      y: z.number().optional().describe("New Y coordinate on canvas"),
+      color: z.string().optional().describe("New table color (hex format)"),
+      comment: z.string().optional().describe("New table comment"),
       indices: z
         .array(
           z.object({
@@ -30,14 +30,14 @@ export class UpdateTableTool {
           }),
         )
         .optional()
-        .describe('New indices configuration'),
+        .describe("New indices configuration"),
     }),
   })
   async updateTable(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -66,7 +66,7 @@ export class UpdateTableTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update table', error);
+      this.logger.error("Failed to update table", error);
       throw error;
     }
   }

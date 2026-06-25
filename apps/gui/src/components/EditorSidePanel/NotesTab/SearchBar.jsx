@@ -9,14 +9,10 @@ export default function SearchBar({ setActiveKey }) {
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
 
-  const [filteredResult, setFilteredResult] = useState(
-    notes.map((t) => t.title),
-  );
+  const [filteredResult, setFilteredResult] = useState(notes.map((t) => t.title));
 
   const handleStringSearch = (value) => {
-    setFilteredResult(
-      notes.map((t) => t.title).filter((i) => i.includes(value)),
-    );
+    setFilteredResult(notes.map((t) => t.title).filter((i) => i.includes(value)));
   };
 
   return (
@@ -32,9 +28,7 @@ export default function SearchBar({ setActiveKey }) {
       onSelect={(v) => {
         const { id } = notes.find((t) => t.title === v);
         setActiveKey(`${id}`);
-        document
-          .getElementById(`scroll_note_${id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_note_${id}`).scrollIntoView({ behavior: "smooth" });
       }}
       className="w-full"
     />

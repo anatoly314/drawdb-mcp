@@ -169,8 +169,7 @@ const nl = {
     upload_sql_to_generate_diagrams:
       "Upload een SQL-bestand om uw tabellen en kolommen automatisch te genereren.",
     overwrite_existing_diagram: "Bestaand diagram overschrijven",
-    only_mysql_supported:
-      "*Voorlopig wordt alleen het laden van MySQL-scripts ondersteund.",
+    only_mysql_supported: "*Voorlopig wordt alleen het laden van MySQL-scripts ondersteund.",
     blank: "Leeg",
     filename: "Bestandsnaam",
     table_w_no_name: "Een tabel zonder naam gedeclareerd",
@@ -183,10 +182,8 @@ const nl = {
       "Standaardwaarde voor veld '{{fieldName}}' in tabel '{{tableName}}' komt niet overeen met het type",
     not_null_is_null:
       "Veld '{{fieldName}}' van tabel '{{tableName}}' is NOT NULL maar heeft standaard NULL",
-    duplicate_fields:
-      "Dubbele tabelvelden met de naam '{{fieldName}}' in tabel '{{tableName}}'",
-    duplicate_index:
-      "Dubbele index met de naam '{{indexName}}' in tabel '{{tableName}}'",
+    duplicate_fields: "Dubbele tabelvelden met de naam '{{fieldName}}' in tabel '{{tableName}}'",
+    duplicate_index: "Dubbele index met de naam '{{indexName}}' in tabel '{{tableName}}'",
     empty_index: "Index in tabel '{{tableName}}' indexeert geen kolommen",
     no_primary_key: "Tabel '{{tableName}}' heeft geen primaire sleutel",
     type_with_no_name: "Een type zonder naam gedeclareerd",
@@ -196,8 +193,7 @@ const nl = {
     empty_type_field_type: "Leeg veld `type` in type '{{typeName}}'",
     no_values_for_type_field:
       "Veld '{{fieldName}}' van type '{{typeName}}' is van het type `{{type}}` maar er zijn geen waarden opgegeven",
-    duplicate_type_fields:
-      "Dubbele typevelden met de naam '{{fieldName}}' in type '{{typeName}}'",
+    duplicate_type_fields: "Dubbele typevelden met de naam '{{fieldName}}' in type '{{typeName}}'",
     duplicate_reference: "Dubbele referentie met de naam '{{refName}}'",
     circular_dependency: "Circulaire afhankelijkheid met betrekking tot tabel '{{refName}}'",
     timeline: "Tijdlijn",
@@ -249,8 +245,7 @@ const nl = {
     copy_link: "Link kopiëren",
     readme: "LEESMIJ",
     failed_to_load: "Laden mislukt. Zorg ervoor dat de link correct is.",
-    share_info:
-      "* Het delen van deze link creëert geen live real-time samenwerkingssessie.",
+    share_info: "* Het delen van deze link creëert geen live real-time samenwerkingssessie.",
     show_relationship_labels: "Relatielabels tonen",
     docs: "Documentatie",
     supported_types: "Ondersteunde bestandstypen:",

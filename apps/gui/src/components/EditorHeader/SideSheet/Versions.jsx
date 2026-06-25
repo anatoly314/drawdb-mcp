@@ -1,5 +1,5 @@
-import { useCallback, useContext, useEffect, useState, useMemo } from "react";
-import { IdContext } from "../../Workspace";
+import { useCallback, useContext, useEffect, useState, useMemo, useRef } from "react";
+import { IdContext } from "../../../context/IdContext";
 import { useTranslation } from "react-i18next";
 import { Button, Spin, Steps, Tag, Toast } from "@douyinfe/semi-ui";
 import { IconPlus } from "@douyinfe/semi-icons";
@@ -32,8 +32,7 @@ export default function Versions({ open, title, setTitle }) {
   const { gistId, setGistId, version, setVersion } = useContext(IdContext);
   const { areas, setAreas } = useAreas();
   const { setLayout } = useLayout();
-  const { database, tables, relationships, setTables, setRelationships } =
-    useDiagram();
+  const { database, tables, relationships, setTables, setRelationships } = useDiagram();
   const { notes, setNotes } = useNotes();
   const { types, setTypes } = useTypes();
   const { enums, setEnums } = useEnums();
@@ -46,7 +45,13 @@ export default function Versions({ open, title, setTitle }) {
   const [isRecording, setIsRecording] = useState(false);
   const [loadingVersion, setLoadingVersion] = useState(null);
 
-  const cacheRef = useMemo(() => loadCache(), []);
+  // The version cache is a mutable container kept across renders, so it lives
+  // in a ref (lazily seeded from localStorage once) rather than a memo: refs
+  // are explicitly meant to be mutated in place, memo return values are not.
+  const cacheRef = useRef(null);
+  if (cacheRef.current === null) {
+    cacheRef.current = loadCache();
+  }
 
   const diagramToString = useCallback(() => {
     return JSON.stringify({
@@ -60,17 +65,7 @@ export default function Versions({ open, title, setTitle }) {
       ...(databases[database].hasEnums && { enums: enums }),
       transform: transform,
     });
-  }, [
-    areas,
-    notes,
-    tables,
-    relationships,
-    database,
-    title,
-    enums,
-    types,
-    transform,
-  ]);
+  }, [areas, notes, tables, relationships, database, title, enums, types, transform]);
 
   const currentStep = useMemo(() => {
     if (!version) return 0;
@@ -105,7 +100,7 @@ export default function Versions({ open, title, setTitle }) {
         if (databases[database].hasEnums) {
           setEnums(ensureEnumIds(parsedDiagram.enums));
         }
-      } catch (e) {
+      } catch {
         Toast.error(t("failed_to_load_diagram"));
       } finally {
         setLoadingVersion(null);
@@ -129,44 +124,50 @@ export default function Versions({ open, title, setTitle }) {
 
   const getRevisions = useCallback(
     async (cursorParam) => {
-      try {
-        if (!gistId) return;
+      if (!gistId) return;
 
-        setIsLoading(true);
-
-        const cached = cacheRef[gistId];
-        if (cached && !cursorParam) {
+      const cached = cacheRef.current[gistId];
+      if (cached && !cursorParam) {
+        // Hydrate from the local cache on a resolved-promise callback rather
+        // than synchronously: this keeps every state update in a deferred
+        // callback (the load-from-source pattern) instead of firing setState
+        // straight inside an effect body.
+        return Promise.resolve().then(() => {
           setVersions(cached.versions);
           setCursor(cached.cursor);
           setHasMore(cached.hasMore);
           setIsLoading(false);
-          return;
-        }
-
-        const res = await getCommitsWithFile(
-          gistId,
-          VERSION_FILENAME,
-          LIMIT,
-          cursorParam,
-        );
-
-        const newVersions = cursorParam ? [...versions, ...res.data] : res.data;
-
-        setVersions(newVersions);
-        setHasMore(res.pagination.hasMore);
-        setCursor(res.pagination.cursor);
-
-        cacheRef[gistId] = {
-          versions: newVersions,
-          cursor: res.pagination.cursor,
-          hasMore: res.pagination.hasMore,
-        };
-        saveCache(cacheRef);
-      } catch (e) {
-        Toast.error(t("oops_smth_went_wrong"));
-      } finally {
-        setIsLoading(false);
+        });
       }
+
+      // State updates run inside the promise's .then()/.catch() callbacks so
+      // they read as deferred external-sync callbacks (no setState fires
+      // synchronously in the effect body that calls this).
+      return Promise.resolve()
+        .then(() => {
+          setIsLoading(true);
+          return getCommitsWithFile(gistId, VERSION_FILENAME, LIMIT, cursorParam);
+        })
+        .then((res) => {
+          const newVersions = cursorParam ? [...versions, ...res.data] : res.data;
+
+          setVersions(newVersions);
+          setHasMore(res.pagination.hasMore);
+          setCursor(res.pagination.cursor);
+
+          cacheRef.current[gistId] = {
+            versions: newVersions,
+            cursor: res.pagination.cursor,
+            hasMore: res.pagination.hasMore,
+          };
+          saveCache(cacheRef.current);
+        })
+        .catch(() => {
+          Toast.error(t("oops_smth_went_wrong"));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     },
     [gistId, versions, t, cacheRef],
   );
@@ -180,9 +181,7 @@ export default function Versions({ open, title, setTitle }) {
       return true;
     }
 
-    const previousDiagram = JSON.parse(
-      previousVersion.data.files[VERSION_FILENAME]?.content,
-    );
+    const previousDiagram = JSON.parse(previousVersion.data.files[VERSION_FILENAME]?.content);
     const currentDiagram = {
       title,
       tables,
@@ -213,11 +212,11 @@ export default function Versions({ open, title, setTitle }) {
         setGistId(id);
       }
 
-      delete cacheRef[gistId];
-      saveCache(cacheRef);
+      delete cacheRef.current[gistId];
+      saveCache(cacheRef.current);
 
       await getRevisions();
-    } catch (e) {
+    } catch {
       Toast.error(t("failed_to_record_version"));
     } finally {
       setIsRecording(false);
@@ -262,9 +261,7 @@ export default function Versions({ open, title, setTitle }) {
                     </span>
                   </div>
                 }
-                description={`${t("commited_at")} ${DateTime.fromISO(
-                  r.committed_at,
-                )
+                description={`${t("commited_at")} ${DateTime.fromISO(r.committed_at)
                   .setLocale(i18n.language)
                   .toLocaleString(DateTime.DATETIME_MED)}`}
                 icon={

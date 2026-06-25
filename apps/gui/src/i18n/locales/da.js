@@ -99,8 +99,7 @@ const da = {
     no_types: "Ingen typer",
     no_types_text: "Lav dine egne tilpassede data typer",
     no_issues: "Ingen problemer blev opdaget.",
-    strict_mode_is_on_no_issues:
-      "Streng tilstand er slået fra, så ingen problemer vil blive vist.",
+    strict_mode_is_on_no_issues: "Streng tilstand er slået fra, så ingen problemer vil blive vist.",
     name: "Navn",
     type: "Type",
     null: "Nul",
@@ -110,8 +109,7 @@ const da = {
     autoincrement: "Auto-inkrementel",
     default_value: "Standardværdi",
     check: "Tjek udtryk",
-    this_will_appear_as_is:
-      "*Dette vil fremstå i det generede script som det er.",
+    this_will_appear_as_is: "*Dette vil fremstå i det generede script som det er.",
     comment: "Kommentar",
     add_field: "Tilføj felt",
     values: "værdier",
@@ -155,8 +153,7 @@ const da = {
     upload_sql_to_generate_diagrams:
       "Upload en sql fil for at auto-generere dine tabeller og kolonner.",
     overwrite_existing_diagram: "Overskriv eksisterende diagram",
-    only_mysql_supported:
-      "*For tiden er det kun MySQL scripts der er understøttet.",
+    only_mysql_supported: "*For tiden er det kun MySQL scripts der er understøttet.",
     blank: "Blank",
     filename: "Filnavn",
     table_w_no_name: "Erklærede en tabel med intet navn",
@@ -169,10 +166,8 @@ const da = {
       "Standardværdien for feltet '{{fieldName}}' i tabellen '{{tableName}}' stemmer ikke overens med dens type",
     not_null_is_null:
       "'{{fieldName}}' felt fra tabellen '{{tableName}}' er IKKE NUL, men har standardværdien NUL",
-    duplicate_fields:
-      "Duplikat tabel felter med navn '{{fieldName}}' på tabellen '{{tableName}}'",
-    duplicate_index:
-      "Duplikat indeks med navn '{{indexName}}' på tabellen '{{tableName}}'",
+    duplicate_fields: "Duplikat tabel felter med navn '{{fieldName}}' på tabellen '{{tableName}}'",
+    duplicate_index: "Duplikat indeks med navn '{{indexName}}' på tabellen '{{tableName}}'",
     empty_index: "Indeks på tabel '{{tableName}}' indekser ingen kolonner",
     no_primary_key: "Tabel '{{tableName}}' har ingen primær nøgle",
     type_with_no_name: "Erklæret en type med intet navn",

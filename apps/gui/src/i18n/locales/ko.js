@@ -19,8 +19,7 @@ const ko = {
     template_saved: "템플릿이 저장되었습니다!",
     rename: "이름 변경",
     delete_diagram: "다이어그램 삭제",
-    are_you_sure_delete_diagram:
-      "이 다이어그램을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    are_you_sure_delete_diagram: "이 다이어그램을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
     oops_smth_went_wrong: "이런! 문제가 발생했습니다.",
     import_diagram: "다이어그램 가져오기",
     import_from_source: "SQL에서 가져오기",
@@ -32,8 +31,7 @@ const ko = {
     undo: "실행 취소",
     redo: "다시 실행",
     clear: "지우기",
-    are_you_sure_clear:
-      "이 다이어그램을 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    are_you_sure_clear: "이 다이어그램을 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.",
     cut: "잘라내기",
     copy: "복사",
     paste: "붙여넣기",
@@ -106,8 +104,7 @@ const ko = {
     no_types: "유형 없음",
     no_types_text: "사용자 정의 데이터 유형을 만드세요",
     no_issues: "감지된 이슈가 없습니다.",
-    strict_mode_is_on_no_issues:
-      "엄격 모드가 꺼져 있어 이슈가 표시되지 않습니다.",
+    strict_mode_is_on_no_issues: "엄격 모드가 꺼져 있어 이슈가 표시되지 않습니다.",
     name: "이름",
     type: "유형",
     null: "널",
@@ -158,15 +155,13 @@ const ko = {
     confirm: "확인",
     last_modified: "마지막 수정",
     drag_and_drop_files: "파일을 여기에 끌어다 놓거나 클릭하여 업로드하세요.",
-    upload_sql_to_generate_diagrams:
-      "SQL 파일을 업로드하여 테이블과 열을 자동 생성하세요.",
+    upload_sql_to_generate_diagrams: "SQL 파일을 업로드하여 테이블과 열을 자동 생성하세요.",
     overwrite_existing_diagram: "기존 다이어그램 덮어쓰기",
     only_mysql_supported: "현재는 MySQL 스크립트만 지원합니다.",
     blank: "비어있음",
     filename: "파일 이름",
     table_w_no_name: "이름이 없는 테이블이 선언되었습니다",
-    duplicate_table_by_name:
-      "'{{tableName}}'라는 이름의 테이블이 중복 선언되었습니다",
+    duplicate_table_by_name: "'{{tableName}}'라는 이름의 테이블이 중복 선언되었습니다",
     empty_field_name: "'{{tableName}}' 테이블의 필드 'name'이 비어 있습니다",
     empty_field_type: "'{{tableName}}' 테이블의 필드 'type'이 비어 있습니다",
     no_values_for_field:
@@ -175,16 +170,13 @@ const ko = {
       "'{{tableName}}' 테이블의 '{{fieldName}}' 필드 기본값이 유형과 일치하지 않습니다",
     not_null_is_null:
       "'{{tableName}}' 테이블의 '{{fieldName}}' 필드가 NOT NULL이지만 기본값이 NULL입니다",
-    duplicate_fields:
-      "'{{tableName}}' 테이블에서 '{{fieldName}}' 필드가 중복 선언되었습니다",
-    duplicate_index:
-      "'{{tableName}}' 테이블에서 '{{indexName}}' 인덱스가 중복 선언되었습니다",
+    duplicate_fields: "'{{tableName}}' 테이블에서 '{{fieldName}}' 필드가 중복 선언되었습니다",
+    duplicate_index: "'{{tableName}}' 테이블에서 '{{indexName}}' 인덱스가 중복 선언되었습니다",
     empty_index: "'{{tableName}}' 테이블의 인덱스에 열이 지정되지 않았습니다",
     no_primary_key: "'{{tableName}}' 테이블에 기본 키가 없습니다",
     type_with_no_name: "이름이 없는 유형이 선언되었습니다",
     duplicate_types: "'{{typeName}}'라는 이름의 유형이 중복 선언되었습니다",
-    type_w_no_fields:
-      "'{{typeName}}' 유형에 필드가 없는 빈 유형이 선언되었습니다",
+    type_w_no_fields: "'{{typeName}}' 유형에 필드가 없는 빈 유형이 선언되었습니다",
     empty_type_field_name: "'{{typeName}}' 유형의 필드 'name'이 비어 있습니다",
     empty_type_field_type: "'{{typeName}}' 유형의 필드 'type'이 비어 있습니다",
     no_values_for_type_field:
@@ -234,8 +226,7 @@ const ko = {
     no_enums: "열거형 없음",
     no_enums_text: "여기에 열거형을 정의하세요",
     declare_array: "배열 선언",
-    empty_index_name:
-      "'{{tableName}}' 테이블에 이름 없는 인덱스가 선언되었습니다",
+    empty_index_name: "'{{tableName}}' 테이블에 이름 없는 인덱스가 선언되었습니다",
     didnt_find_diagram: "이런! 다이어그램을 찾을 수 없습니다.",
     unsigned: "부호 없음",
   },

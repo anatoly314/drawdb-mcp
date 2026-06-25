@@ -1,5 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { DrawDBCommand, DrawDBResponse } from './drawdb.types';
+import { Injectable, Logger } from "@nestjs/common";
+import { DrawDBCommand, DrawDBResponse } from "./drawdb.types";
 
 /**
  * Service for managing WebSocket communication with DrawDB client
@@ -31,7 +31,7 @@ export class DrawDBClientService {
     }
 
     if (this.isSettingConnection) {
-      this.logger.error('Connection setup timeout - forcing connection replacement');
+      this.logger.error("Connection setup timeout - forcing connection replacement");
       this.isSettingConnection = false; // Force unlock
     }
 
@@ -45,13 +45,13 @@ export class DrawDBClientService {
         const isOpen = oldWs.readyState === 1; // WebSocket.OPEN = 1
 
         if (isOpen) {
-          this.logger.log('Closing previous DrawDB client connection - new client connecting');
+          this.logger.log("Closing previous DrawDB client connection - new client connecting");
 
           // Remove event handlers from old connection to prevent interference
           oldWs.removeAllListeners();
 
           // Close the old connection
-          oldWs.close(1000, 'Replaced by new connection');
+          oldWs.close(1000, "Replaced by new connection");
 
           // Wait a tiny bit for close to propagate
           await new Promise((resolve) => setTimeout(resolve, 50));
@@ -61,17 +61,17 @@ export class DrawDBClientService {
       }
 
       this.ws = ws;
-      this.logger.log('DrawDB client connected');
+      this.logger.log("DrawDB client connected");
 
       // Setup message handler
-      ws.on('message', (data: string) => {
+      ws.on("message", (data: string) => {
         try {
           const message = JSON.parse(data);
 
           // Handle ping/pong heartbeat
-          if (message.type === 'ping') {
-            this.logger.debug('Received ping, sending pong');
-            ws.send(JSON.stringify({ type: 'pong' }));
+          if (message.type === "ping") {
+            this.logger.debug("Received ping, sending pong");
+            ws.send(JSON.stringify({ type: "pong" }));
             return;
           }
 
@@ -79,18 +79,18 @@ export class DrawDBClientService {
           const response: DrawDBResponse = message;
           this.handleResponse(response);
         } catch (error) {
-          this.logger.error('Failed to parse message from DrawDB client:', error);
+          this.logger.error("Failed to parse message from DrawDB client:", error);
         }
       });
 
       // Setup close handler
-      ws.on('close', () => {
-        this.logger.log('DrawDB client disconnected');
+      ws.on("close", () => {
+        this.logger.log("DrawDB client disconnected");
         this.ws = null;
         // Reject all pending requests
         this.pendingRequests.forEach(({ reject, timeout }) => {
           clearTimeout(timeout);
-          reject(new Error('DrawDB client disconnected'));
+          reject(new Error("DrawDB client disconnected"));
         });
         this.pendingRequests.clear();
       });
@@ -113,7 +113,7 @@ export class DrawDBClientService {
   async sendCommand<T = any>(command: string, params: Record<string, any> = {}): Promise<T> {
     if (!this.isConnected()) {
       throw new Error(
-        'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+        "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
       );
     }
 
@@ -160,7 +160,7 @@ export class DrawDBClientService {
       pending.resolve(response.data);
     } else {
       this.logger.error(`Command ${response.id} failed: ${response.error}`);
-      pending.reject(new Error(response.error || 'Unknown error'));
+      pending.reject(new Error(response.error || "Unknown error"));
     }
   }
 
@@ -168,167 +168,167 @@ export class DrawDBClientService {
    * Get the current diagram state
    */
   async getDiagram() {
-    return this.sendCommand('getDiagram');
+    return this.sendCommand("getDiagram");
   }
 
   /**
    * Add a table to the diagram
    */
   async addTable(data: any, addToHistory = true) {
-    return this.sendCommand('addTable', { data, addToHistory });
+    return this.sendCommand("addTable", { data, addToHistory });
   }
 
   /**
    * Update a table
    */
   async updateTable(id: string, updates: any) {
-    return this.sendCommand('updateTable', { id, updates });
+    return this.sendCommand("updateTable", { id, updates });
   }
 
   /**
    * Delete a table
    */
   async deleteTable(id: string, addToHistory = true) {
-    return this.sendCommand('deleteTable', { id, addToHistory });
+    return this.sendCommand("deleteTable", { id, addToHistory });
   }
 
   /**
    * Add a field to a table
    */
   async addField(tableId: string, field: any) {
-    return this.sendCommand('addField', { tableId, field });
+    return this.sendCommand("addField", { tableId, field });
   }
 
   /**
    * Update a field
    */
   async updateField(tableId: string, fieldId: string, updates: any) {
-    return this.sendCommand('updateField', { tableId, fieldId, updates });
+    return this.sendCommand("updateField", { tableId, fieldId, updates });
   }
 
   /**
    * Delete a field
    */
   async deleteField(tableId: string, fieldId: string, addToHistory = true) {
-    return this.sendCommand('deleteField', { tableId, fieldId, addToHistory });
+    return this.sendCommand("deleteField", { tableId, fieldId, addToHistory });
   }
 
   /**
    * Add a relationship
    */
   async addRelationship(data: any, addToHistory = true) {
-    return this.sendCommand('addRelationship', { data, addToHistory });
+    return this.sendCommand("addRelationship", { data, addToHistory });
   }
 
   /**
    * Update a relationship
    */
   async updateRelationship(id: string, updates: any) {
-    return this.sendCommand('updateRelationship', { id, updates });
+    return this.sendCommand("updateRelationship", { id, updates });
   }
 
   /**
    * Delete a relationship
    */
   async deleteRelationship(id: string, addToHistory = true) {
-    return this.sendCommand('deleteRelationship', { id, addToHistory });
+    return this.sendCommand("deleteRelationship", { id, addToHistory });
   }
 
   /**
    * Add an area
    */
   async addArea(data: any, addToHistory = true) {
-    return this.sendCommand('addArea', { data, addToHistory });
+    return this.sendCommand("addArea", { data, addToHistory });
   }
 
   /**
    * Update an area
    */
   async updateArea(id: string, updates: any) {
-    return this.sendCommand('updateArea', { id, updates });
+    return this.sendCommand("updateArea", { id, updates });
   }
 
   /**
    * Delete an area
    */
   async deleteArea(id: string, addToHistory = true) {
-    return this.sendCommand('deleteArea', { id, addToHistory });
+    return this.sendCommand("deleteArea", { id, addToHistory });
   }
 
   /**
    * Add a note
    */
   async addNote(data: any, addToHistory = true) {
-    return this.sendCommand('addNote', { data, addToHistory });
+    return this.sendCommand("addNote", { data, addToHistory });
   }
 
   /**
    * Update a note
    */
   async updateNote(id: string, updates: any) {
-    return this.sendCommand('updateNote', { id, updates });
+    return this.sendCommand("updateNote", { id, updates });
   }
 
   /**
    * Delete a note
    */
   async deleteNote(id: string, addToHistory = true) {
-    return this.sendCommand('deleteNote', { id, addToHistory });
+    return this.sendCommand("deleteNote", { id, addToHistory });
   }
 
   /**
    * Set database type
    */
   async setDatabase(database: string) {
-    return this.sendCommand('setDatabase', { database });
+    return this.sendCommand("setDatabase", { database });
   }
 
   /**
    * Get all tables
    */
   async getTables() {
-    return this.sendCommand('getTables');
+    return this.sendCommand("getTables");
   }
 
   /**
    * Get a specific table by ID or name
    */
   async getTable(tableId?: string, tableName?: string) {
-    return this.sendCommand('getTable', { tableId, tableName });
+    return this.sendCommand("getTable", { tableId, tableName });
   }
 
   /**
    * Get all relationships
    */
   async getRelationships() {
-    return this.sendCommand('getRelationships');
+    return this.sendCommand("getRelationships");
   }
 
   /**
    * Import a complete diagram from JSON
    */
   async importDiagram(diagram: any, clearCurrent = true) {
-    return this.sendCommand('importDiagram', { diagram, clearCurrent });
+    return this.sendCommand("importDiagram", { diagram, clearCurrent });
   }
 
   /**
    * Export diagram as SQL DDL statements
    */
   async exportSQL() {
-    return this.sendCommand('exportSQL');
+    return this.sendCommand("exportSQL");
   }
 
   /**
    * Export diagram as DBML (Database Markup Language)
    */
   async exportDBML() {
-    return this.sendCommand('exportDBML');
+    return this.sendCommand("exportDBML");
   }
 
   /**
    * Import diagram from DBML (Database Markup Language)
    */
   async importDBML(dbml: string, clearCurrent = true) {
-    return this.sendCommand('importDBML', { dbml, clearCurrent });
+    return this.sendCommand("importDBML", { dbml, clearCurrent });
   }
 }

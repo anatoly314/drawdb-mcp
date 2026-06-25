@@ -1,12 +1,5 @@
 import { useMemo, useState } from "react";
-import {
-  Input,
-  TextArea,
-  Button,
-  TagInput,
-  InputNumber,
-  Checkbox,
-} from "@douyinfe/semi-ui";
+import { Input, TextArea, Button, TagInput, InputNumber, Checkbox } from "@douyinfe/semi-ui";
 import { Action, ObjectType } from "../../../data/constants";
 import { IconDeleteStroked } from "@douyinfe/semi-icons";
 import { useDiagram, useLayout, useUndoRedo } from "../../../hooks";
@@ -63,9 +56,7 @@ export default function FieldDetails({ data, tid }) {
           <TagInput
             separator={[",", ", ", " ,"]}
             value={data.values}
-            validateStatus={
-              !data.values || data.values.length === 0 ? "error" : "default"
-            }
+            validateStatus={!data.values || data.values.length === 0 ? "error" : "default"}
             addOnBlur
             className="my-2"
             placeholder={t("use_for_batch_input")}
@@ -75,10 +66,7 @@ export default function FieldDetails({ data, tid }) {
             }}
             onFocus={() => setEditField({ values: data.values })}
             onBlur={() => {
-              if (
-                JSON.stringify(editField.values) === JSON.stringify(data.values)
-              )
-                return;
+              if (JSON.stringify(editField.values) === JSON.stringify(data.values)) return;
               setUndoStack((prev) => [
                 ...prev,
                 {
@@ -139,11 +127,7 @@ export default function FieldDetails({ data, tid }) {
           <Input
             className="my-2 w-full"
             placeholder={t("set_precision")}
-            validateStatus={
-              !data.size || /^\d+,\s*\d+$|^$/.test(data.size)
-                ? "default"
-                : "error"
-            }
+            validateStatus={!data.size || /^\d+,\s*\d+$|^$/.test(data.size) ? "default" : "error"}
             readonly={layout.readOnly}
             value={data.size}
             onChange={(value) => updateField(tid, data.id, { size: value })}
@@ -241,9 +225,7 @@ export default function FieldDetails({ data, tid }) {
         <Checkbox
           value="increment"
           checked={data.increment}
-          disabled={
-            !dbToTypes[database][data.type].canIncrement || data.isArray || layout.readOnly
-          }
+          disabled={!dbToTypes[database][data.type].canIncrement || data.isArray || layout.readOnly}
           onChange={(checkedValues) => {
             setUndoStack((prev) => [
               ...prev,
@@ -310,45 +292,42 @@ export default function FieldDetails({ data, tid }) {
           />
         </div>
       )}
-      {databases[database].hasUnsignedTypes &&
-        dbToTypes[database][data.type].signed && (
-          <div className="flex justify-between items-center my-3">
-            <div className="font-medium">{t("Unsigned")}</div>
-            <Checkbox
-              value="unsigned"
-              checked={data.unsigned}
-              disabled={layout.readOnly}
-              onChange={(checkedValues) => {
-                setUndoStack((prev) => [
-                  ...prev,
-                  {
-                    action: Action.EDIT,
-                    element: ObjectType.TABLE,
-                    component: "field",
-                    tid: tid,
-                    fid: data.id,
-                    undo: {
-                      [checkedValues.target.value]:
-                        !checkedValues.target.checked,
-                    },
-                    redo: {
-                      [checkedValues.target.value]:
-                        checkedValues.target.checked,
-                    },
-                    message: t("edit_table", {
-                      tableName: table.name,
-                      extra: "[field]",
-                    }),
+      {databases[database].hasUnsignedTypes && dbToTypes[database][data.type].signed && (
+        <div className="flex justify-between items-center my-3">
+          <div className="font-medium">{t("Unsigned")}</div>
+          <Checkbox
+            value="unsigned"
+            checked={data.unsigned}
+            disabled={layout.readOnly}
+            onChange={(checkedValues) => {
+              setUndoStack((prev) => [
+                ...prev,
+                {
+                  action: Action.EDIT,
+                  element: ObjectType.TABLE,
+                  component: "field",
+                  tid: tid,
+                  fid: data.id,
+                  undo: {
+                    [checkedValues.target.value]: !checkedValues.target.checked,
                   },
-                ]);
-                setRedoStack([]);
-                updateField(tid, data.id, {
-                  unsigned: checkedValues.target.checked,
-                });
-              }}
-            />
-          </div>
-        )}
+                  redo: {
+                    [checkedValues.target.value]: checkedValues.target.checked,
+                  },
+                  message: t("edit_table", {
+                    tableName: table.name,
+                    extra: "[field]",
+                  }),
+                },
+              ]);
+              setRedoStack([]);
+              updateField(tid, data.id, {
+                unsigned: checkedValues.target.checked,
+              });
+            }}
+          />
+        </div>
+      )}
       <div className="font-semibold">{t("comment")}</div>
       <TextArea
         className="my-2"

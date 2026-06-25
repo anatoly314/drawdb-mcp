@@ -19,8 +19,7 @@ const cz = {
     template_saved: "Šablona uložena!",
     rename: "Přejmenovat",
     delete_diagram: "Smazat diagram",
-    are_you_sure_delete_diagram:
-      "Opravdu chcete smazat tento diagram? Tato operace je nevratná.",
+    are_you_sure_delete_diagram: "Opravdu chcete smazat tento diagram? Tato operace je nevratná.",
     oops_smth_went_wrong: "Jejda! Něco se pokazilo.",
     import_diagram: "Importní diagram",
     import_from_source: "Import z SQL",
@@ -32,8 +31,7 @@ const cz = {
     undo: "Vrátit zpět",
     redo: "Předělat",
     clear: "čistý",
-    are_you_sure_clear:
-      "Opravdu chcete vymazat diagram? To je nevratné.",
+    are_you_sure_clear: "Opravdu chcete vymazat diagram? To je nevratné.",
     cut: "Střih",
     copy: "Kopie",
     paste: "Vložit",
@@ -163,8 +161,7 @@ const cz = {
     upload_sql_to_generate_diagrams:
       "Nahrajte soubor sql pro automatické generování tabulek a sloupců.",
     overwrite_existing_diagram: "Přepsat existující diagram",
-    only_mysql_supported:
-      "*V současné době je podporováno načítání pouze skriptů MySQL.",
+    only_mysql_supported: "*V současné době je podporováno načítání pouze skriptů MySQL.",
     blank: "Prázdný",
     filename: "Název souboru",
     table_w_no_name: "Deklarována tabulka bez názvu",
@@ -179,8 +176,7 @@ const cz = {
       "'{{fieldName}}' pole tabulky '{{tableName}}' NENÍ NULL, ale má výchozí hodnotu NULL",
     duplicate_fields:
       "Duplicitní pole tabulky podle názvu '{{fieldName}}' v tabulce '{{tableName}}'",
-    duplicate_index:
-      "Duplicitní index podle názvu '{{indexName}}' v tabulce '{{tableName}}'",
+    duplicate_index: "Duplicitní index podle názvu '{{indexName}}' v tabulce '{{tableName}}'",
     empty_index: "Index v tabulce '{{tableName}}' neindexuje žádné sloupce",
     no_primary_key: "Tabulka '{{tableName}}' nemá primární klíč",
     type_with_no_name: "Deklarován typ bez názvu",
@@ -190,8 +186,7 @@ const cz = {
     empty_type_field_type: "Prázdné pole `type` v typu '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' pole typu '{{typeName}}' je typu `{{type}}` ale nebyly zadány žádné hodnoty",
-    duplicate_type_fields:
-      "Duplikujte pole typu podle názvu '{{fieldName}}' v typu '{{typeName}}'",
+    duplicate_type_fields: "Duplikujte pole typu podle názvu '{{fieldName}}' v typu '{{typeName}}'",
     duplicate_reference: "Duplicitní odkaz podle názvu '{{refName}}'",
     circular_dependency: "Kruhová závislost zahrnující tabulku '{{refName}}'",
     timeline: "Časová osa",
@@ -243,8 +238,7 @@ const cz = {
     copy_link: "Zkopírujte odkaz",
     readme: "README",
     failed_to_load: "Načtení se nezdařilo. Ujistěte se, že je odkaz správný.",
-    share_info:
-      "* Sdílením tohoto odkazu nevznikne živá relace spolupráce v reálném čase.",
+    share_info: "* Sdílením tohoto odkazu nevznikne živá relace spolupráce v reálném čase.",
     show_relationship_labels: "Zobrazit štítky vztahů",
     docs: "Docs",
     supported_types: "Podporované typy souborů:",

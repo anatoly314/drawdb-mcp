@@ -32,8 +32,7 @@ function withTypeDefaults(field, database) {
   const typeInfo = dbToTypes[database] && dbToTypes[database][field.type];
   if (!typeInfo) return field;
 
-  const hasSize =
-    field.size !== undefined && field.size !== null && field.size !== "";
+  const hasSize = field.size !== undefined && field.size !== null && field.size !== "";
   if (typeInfo.defaultSize !== undefined && !hasSize) {
     return { ...field, size: typeInfo.defaultSize };
   }
@@ -71,452 +70,441 @@ export function useRemoteControl(enabled = false) {
     }
   }, []);
 
-  const handleCommand = useCallback((message) => {
-    const { id, command, params } = message;
-    // Always use latest context values from ref
-    const { diagram, areas, notes, enums, types } = contextsRef.current;
+  const handleCommand = useCallback(
+    (message) => {
+      const { id, command, params } = message;
+      // Always use latest context values from ref
+      const { diagram, areas, notes, enums, types } = contextsRef.current;
 
-    try {
-      let result;
+      try {
+        let result;
 
-      switch (command) {
-        // Table operations
-        case "addTable": {
-          const tableData = Array.isArray(params.data?.fields)
-            ? {
-                ...params.data,
-                fields: params.data.fields.map((f) =>
-                  withTypeDefaults(f, diagram.database),
-                ),
-              }
-            : params.data;
-          const newTable = diagram.addTable(tableData, params.addToHistory ?? true);
-          result = { success: true, message: "Table added", data: newTable };
-          break;
-        }
-
-        case "deleteTable":
-          diagram.deleteTable(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Table deleted" };
-          break;
-
-        case "updateTable":
-          diagram.updateTable(params.id, params.updates);
-          result = { success: true, message: "Table updated" };
-          break;
-
-        case "addField":
-          {
-            const table = diagram.tables.find((t) => t.id === params.tableId);
-            if (!table) throw new Error(`Table ${params.tableId} not found`);
-            diagram.updateTable(params.tableId, {
-              fields: [
-                ...table.fields,
-                withTypeDefaults(params.field, diagram.database),
-              ],
-            });
-            result = { success: true, message: "Field added" };
+        switch (command) {
+          // Table operations
+          case "addTable": {
+            const tableData = Array.isArray(params.data?.fields)
+              ? {
+                  ...params.data,
+                  fields: params.data.fields.map((f) => withTypeDefaults(f, diagram.database)),
+                }
+              : params.data;
+            const newTable = diagram.addTable(tableData, params.addToHistory ?? true);
+            result = { success: true, message: "Table added", data: newTable };
+            break;
           }
-          break;
 
-        case "updateField": {
-          // When a field is retyped, mirror the GUI and backfill the new
-          // type's defaultSize unless the same update sets a size explicitly.
-          const updates =
-            params.updates && typeof params.updates.type === "string"
-              ? withTypeDefaults(params.updates, diagram.database)
+          case "deleteTable":
+            diagram.deleteTable(params.id, params.addToHistory ?? true);
+            result = { success: true, message: "Table deleted" };
+            break;
+
+          case "updateTable":
+            diagram.updateTable(params.id, params.updates);
+            result = { success: true, message: "Table updated" };
+            break;
+
+          case "addField":
+            {
+              const table = diagram.tables.find((t) => t.id === params.tableId);
+              if (!table) throw new Error(`Table ${params.tableId} not found`);
+              diagram.updateTable(params.tableId, {
+                fields: [...table.fields, withTypeDefaults(params.field, diagram.database)],
+              });
+              result = { success: true, message: "Field added" };
+            }
+            break;
+
+          case "updateField": {
+            // When a field is retyped, mirror the GUI and backfill the new
+            // type's defaultSize unless the same update sets a size explicitly.
+            const updates =
+              params.updates && typeof params.updates.type === "string"
+                ? withTypeDefaults(params.updates, diagram.database)
+                : params.updates;
+            diagram.updateField(params.tableId, params.fieldId, updates);
+            result = { success: true, message: "Field updated" };
+            break;
+          }
+
+          case "deleteField":
+            {
+              const table = diagram.tables.find((t) => t.id === params.tableId);
+              const field = table?.fields.find((f) => f.id === params.fieldId);
+              if (!field) throw new Error("Field not found");
+              diagram.deleteField(field, params.tableId, params.addToHistory ?? true);
+              result = { success: true, message: "Field deleted" };
+            }
+            break;
+
+          // Relationship operations
+          case "addRelationship":
+            diagram.addRelationship(params.data, params.addToHistory ?? true);
+            result = { success: true, message: "Relationship added" };
+            break;
+
+          case "deleteRelationship":
+            diagram.deleteRelationship(params.id, params.addToHistory ?? true);
+            result = { success: true, message: "Relationship deleted" };
+            break;
+
+          case "updateRelationship":
+            diagram.updateRelationship(params.id, params.updates);
+            result = { success: true, message: "Relationship updated" };
+            break;
+
+          // Area operations
+          case "addArea": {
+            const newArea = areas.addArea(params.data, params.addToHistory ?? true);
+            result = { success: true, message: "Area added", data: newArea };
+            break;
+          }
+
+          case "deleteArea":
+            {
+              const areaToDelete = areas.areas.find((a) => a.id === parseInt(params.id, 10));
+              if (areaToDelete) {
+                areas.deleteArea(areaToDelete.id, params.addToHistory ?? true);
+                result = { success: true, message: "Area deleted" };
+              } else {
+                throw new Error(`Area with id "${params.id}" not found`);
+              }
+            }
+            break;
+
+          case "updateArea":
+            {
+              const areaToUpdate = areas.areas.find((a) => a.id === parseInt(params.id, 10));
+              if (areaToUpdate) {
+                areas.updateArea(areaToUpdate.id, params.updates);
+                result = { success: true, message: "Area updated" };
+              } else {
+                throw new Error(`Area with id "${params.id}" not found`);
+              }
+            }
+            break;
+
+          // Note operations
+          case "addNote": {
+            const newNote = notes.addNote(params.data, params.addToHistory ?? true);
+            result = { success: true, message: "Note added", data: newNote };
+            break;
+          }
+
+          case "deleteNote":
+            {
+              const noteToDelete = notes.notes.find((n) => n.id === parseInt(params.id, 10));
+              if (noteToDelete) {
+                notes.deleteNote(noteToDelete.id, params.addToHistory ?? true);
+                result = { success: true, message: "Note deleted" };
+              } else {
+                throw new Error(`Note with id "${params.id}" not found`);
+              }
+            }
+            break;
+
+          case "updateNote":
+            {
+              const noteToUpdate = notes.notes.find((n) => n.id === parseInt(params.id, 10));
+              if (noteToUpdate) {
+                notes.updateNote(noteToUpdate.id, params.updates);
+                result = { success: true, message: "Note updated" };
+              } else {
+                throw new Error(`Note with id "${params.id}" not found`);
+              }
+            }
+            break;
+
+          // Enum operations
+          case "addEnum": {
+            const newEnum = enums.addEnum(params.data, params.addToHistory ?? true);
+            result = { success: true, message: "Enum added", data: newEnum };
+            break;
+          }
+
+          case "deleteEnum": {
+            const enumToDelete = enums.enums.find((e) => e.id === params.id);
+            if (enumToDelete) {
+              enums.deleteEnum(enumToDelete.id, params.addToHistory ?? true);
+              result = { success: true, message: "Enum deleted" };
+            } else {
+              throw new Error(`Enum with id "${params.id}" not found`);
+            }
+            break;
+          }
+
+          case "updateEnum": {
+            // No need to validate - updateEnum uses functional updates so it works even immediately after creation
+            enums.updateEnum(params.id, params.updates);
+            result = { success: true, message: "Enum updated" };
+            break;
+          }
+
+          // Type operations
+          case "addType": {
+            const newType = types.addType(params.data, params.addToHistory ?? true);
+            result = { success: true, message: "Type added", data: newType };
+            break;
+          }
+
+          case "deleteType": {
+            const typeToDelete = types.types.find((t) => t.id === params.id);
+            if (typeToDelete) {
+              types.deleteType(typeToDelete.id, params.addToHistory ?? true);
+              result = { success: true, message: "Type deleted" };
+            } else {
+              throw new Error(`Type with id "${params.id}" not found`);
+            }
+            break;
+          }
+
+          case "updateType": {
+            // No need to validate - updateType uses functional updates so it works even immediately after creation
+            // Back-fill nanoid ids on incoming type fields so they match the GUI data model
+            const updates = params.updates?.fields
+              ? {
+                  ...params.updates,
+                  fields: params.updates.fields.map((f) => (f.id ? f : { ...f, id: nanoid() })),
+                }
               : params.updates;
-          diagram.updateField(params.tableId, params.fieldId, updates);
-          result = { success: true, message: "Field updated" };
-          break;
-        }
-
-        case "deleteField":
-          {
-            const table = diagram.tables.find((t) => t.id === params.tableId);
-            const field = table?.fields.find((f) => f.id === params.fieldId);
-            if (!field) throw new Error("Field not found");
-            diagram.deleteField(field, params.tableId, params.addToHistory ?? true);
-            result = { success: true, message: "Field deleted" };
+            types.updateType(params.id, updates);
+            result = { success: true, message: "Type updated" };
+            break;
           }
-          break;
 
-        // Relationship operations
-        case "addRelationship":
-          diagram.addRelationship(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Relationship added" };
-          break;
+          // Database operations
+          case "setDatabase":
+            diagram.setDatabase(params.database);
+            result = { success: true, message: "Database type set" };
+            break;
 
-        case "deleteRelationship":
-          diagram.deleteRelationship(params.id, params.addToHistory ?? true);
-          result = { success: true, message: "Relationship deleted" };
-          break;
+          // Query operations - read-only
+          case "getTables":
+            result = { success: true, data: diagram.tables };
+            break;
 
-        case "updateRelationship":
-          diagram.updateRelationship(params.id, params.updates);
-          result = { success: true, message: "Relationship updated" };
-          break;
+          case "getTable":
+            {
+              let table = null;
+              if (params.tableId) {
+                table = diagram.tables.find((t) => t.id === params.tableId);
+              } else if (params.tableName) {
+                table = diagram.tables.find((t) => t.name === params.tableName);
+              }
 
-        // Area operations
-        case "addArea": {
-          const newArea = areas.addArea(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Area added", data: newArea };
-          break;
-        }
+              if (!table) {
+                throw new Error(`Table not found: ${params.tableId || params.tableName}`);
+              }
 
-        case "deleteArea":
-          {
-            const areaToDelete = areas.areas.find((a) => a.id === parseInt(params.id, 10));
-            if (areaToDelete) {
-              areas.deleteArea(areaToDelete.id, params.addToHistory ?? true);
-              result = { success: true, message: "Area deleted" };
-            } else {
-              throw new Error(`Area with id "${params.id}" not found`);
+              result = { success: true, data: table };
             }
-          }
-          break;
+            break;
 
-        case "updateArea":
-          {
-            const areaToUpdate = areas.areas.find((a) => a.id === parseInt(params.id, 10));
-            if (areaToUpdate) {
-              areas.updateArea(areaToUpdate.id, params.updates);
-              result = { success: true, message: "Area updated" };
-            } else {
-              throw new Error(`Area with id "${params.id}" not found`);
-            }
-          }
-          break;
+          case "getRelationships":
+            result = { success: true, data: diagram.relationships };
+            break;
 
-        // Note operations
-        case "addNote": {
-          const newNote = notes.addNote(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Note added", data: newNote };
-          break;
-        }
+          case "getAreas":
+            result = { success: true, data: areas.areas };
+            break;
 
-        case "deleteNote":
-          {
-            const noteToDelete = notes.notes.find((n) => n.id === parseInt(params.id, 10));
-            if (noteToDelete) {
-              notes.deleteNote(noteToDelete.id, params.addToHistory ?? true);
-              result = { success: true, message: "Note deleted" };
-            } else {
-              throw new Error(`Note with id "${params.id}" not found`);
-            }
-          }
-          break;
+          case "getNotes":
+            result = { success: true, data: notes.notes };
+            break;
 
-        case "updateNote":
-          {
-            const noteToUpdate = notes.notes.find((n) => n.id === parseInt(params.id, 10));
-            if (noteToUpdate) {
-              notes.updateNote(noteToUpdate.id, params.updates);
-              result = { success: true, message: "Note updated" };
-            } else {
-              throw new Error(`Note with id "${params.id}" not found`);
-            }
-          }
-          break;
+          case "getEnums":
+            result = { success: true, data: enums.enums };
+            break;
 
-        // Enum operations
-        case "addEnum": {
-          const newEnum = enums.addEnum(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Enum added", data: newEnum };
-          break;
-        }
+          case "getTypes":
+            result = { success: true, data: types.types };
+            break;
 
-        case "deleteEnum": {
-          const enumToDelete = enums.enums.find((e) => e.id === params.id);
-          if (enumToDelete) {
-            enums.deleteEnum(enumToDelete.id, params.addToHistory ?? true);
-            result = { success: true, message: "Enum deleted" };
-          } else {
-            throw new Error(`Enum with id "${params.id}" not found`);
-          }
-          break;
-        }
-
-        case "updateEnum": {
-          // No need to validate - updateEnum uses functional updates so it works even immediately after creation
-          enums.updateEnum(params.id, params.updates);
-          result = { success: true, message: "Enum updated" };
-          break;
-        }
-
-        // Type operations
-        case "addType": {
-          const newType = types.addType(params.data, params.addToHistory ?? true);
-          result = { success: true, message: "Type added", data: newType };
-          break;
-        }
-
-        case "deleteType": {
-          const typeToDelete = types.types.find((t) => t.id === params.id);
-          if (typeToDelete) {
-            types.deleteType(typeToDelete.id, params.addToHistory ?? true);
-            result = { success: true, message: "Type deleted" };
-          } else {
-            throw new Error(`Type with id "${params.id}" not found`);
-          }
-          break;
-        }
-
-        case "updateType": {
-          // No need to validate - updateType uses functional updates so it works even immediately after creation
-          // Back-fill nanoid ids on incoming type fields so they match the GUI data model
-          const updates = params.updates?.fields
-            ? {
-                ...params.updates,
-                fields: params.updates.fields.map((f) =>
-                  f.id ? f : { ...f, id: nanoid() },
-                ),
-              }
-            : params.updates;
-          types.updateType(params.id, updates);
-          result = { success: true, message: "Type updated" };
-          break;
-        }
-
-        // Database operations
-        case "setDatabase":
-          diagram.setDatabase(params.database);
-          result = { success: true, message: "Database type set" };
-          break;
-
-        // Query operations - read-only
-        case "getTables":
-          result = { success: true, data: diagram.tables };
-          break;
-
-        case "getTable":
-          {
-            let table = null;
-            if (params.tableId) {
-              table = diagram.tables.find((t) => t.id === params.tableId);
-            } else if (params.tableName) {
-              table = diagram.tables.find((t) => t.name === params.tableName);
-            }
-
-            if (!table) {
-              throw new Error(`Table not found: ${params.tableId || params.tableName}`);
-            }
-
-            result = { success: true, data: table };
-          }
-          break;
-
-        case "getRelationships":
-          result = { success: true, data: diagram.relationships };
-          break;
-
-        case "getAreas":
-          result = { success: true, data: areas.areas };
-          break;
-
-        case "getNotes":
-          result = { success: true, data: notes.notes };
-          break;
-
-        case "getEnums":
-          result = { success: true, data: enums.enums };
-          break;
-
-        case "getTypes":
-          result = { success: true, data: types.types };
-          break;
-
-        case "getDiagram":
-          result = {
-            success: true,
-            data: {
-              database: diagram.database,
-              tables: diagram.tables,
-              relationships: diagram.relationships,
-              areas: areas.areas,
-              notes: notes.notes,
-              enums: enums.enums,
-              types: types.types,
-            },
-          };
-          break;
-
-        case "importDiagram":
-          {
-            const importedDiagram = params.diagram;
-            const clear = params.clearCurrent !== false;
-
-            // Replace each entity collection in a single setter call.
-            // When clearing, missing fields default to empty arrays so the
-            // previous diagram is fully replaced (not merged). When not
-            // clearing, missing fields preserve existing state.
-            if (clear) {
-              diagram.setDatabase(importedDiagram.database ?? DB.GENERIC);
-              diagram.setTables(importedDiagram.tables ?? []);
-              diagram.setRelationships(importedDiagram.relationships ?? []);
-              areas.setAreas(importedDiagram.areas ?? []);
-              notes.setNotes(importedDiagram.notes ?? []);
-              // Imported enums/types may lack stable ids (legacy exports,
-              // hand-written JSON) - back-fill nanoids so id-based lookups work
-              enums.setEnums(ensureEnumIds(importedDiagram.enums));
-              types.setTypes(ensureTypeIds(importedDiagram.types));
-            } else {
-              if (importedDiagram.database !== undefined) {
-                diagram.setDatabase(importedDiagram.database);
-              }
-              if (importedDiagram.tables !== undefined) {
-                diagram.setTables(importedDiagram.tables);
-              }
-              if (importedDiagram.relationships !== undefined) {
-                diagram.setRelationships(importedDiagram.relationships);
-              }
-              if (importedDiagram.areas !== undefined) {
-                areas.setAreas(importedDiagram.areas);
-              }
-              if (importedDiagram.notes !== undefined) {
-                notes.setNotes(importedDiagram.notes);
-              }
-              if (importedDiagram.enums !== undefined) {
-                enums.setEnums(ensureEnumIds(importedDiagram.enums));
-              }
-              if (importedDiagram.types !== undefined) {
-                types.setTypes(ensureTypeIds(importedDiagram.types));
-              }
-            }
-
-            result = { success: true, message: "Diagram imported" };
-          }
-          break;
-
-        // Export operations
-        case "exportSQL":
-          {
-            const currentDiagram = {
-              database: diagram.database,
-              tables: diagram.tables,
-              relationships: diagram.relationships,
-              enums: enums.enums,
-              types: types.types,
-            };
-            const sql = exportSQL(currentDiagram);
+          case "getDiagram":
             result = {
               success: true,
-              message: "SQL exported",
               data: {
-                sql,
                 database: diagram.database,
+                tables: diagram.tables,
+                relationships: diagram.relationships,
+                areas: areas.areas,
+                notes: notes.notes,
+                enums: enums.enums,
+                types: types.types,
               },
             };
-          }
-          break;
+            break;
 
-        case "exportDBML":
-          {
-            const currentDiagram = {
-              database: diagram.database,
-              tables: diagram.tables,
-              relationships: diagram.relationships,
-              enums: enums.enums,
-              types: types.types,
-            };
-            const dbml = toDBML(currentDiagram);
-            result = {
-              success: true,
-              message: "DBML exported",
-              data: {
-                dbml,
-              },
-            };
-          }
-          break;
-
-        // Import operations
-        case "importDBML":
-          {
-            try {
-              const parsed = fromDBML(params.dbml);
+          case "importDiagram":
+            {
+              const importedDiagram = params.diagram;
               const clear = params.clearCurrent !== false;
 
-              // Mirror importDiagram semantics: when clearing, replace every
-              // collection (and database) in a single setter call so previous
-              // state cannot leak through.
+              // Replace each entity collection in a single setter call.
+              // When clearing, missing fields default to empty arrays so the
+              // previous diagram is fully replaced (not merged). When not
+              // clearing, missing fields preserve existing state.
               if (clear) {
-                diagram.setDatabase(parsed.database ?? DB.GENERIC);
-                diagram.setTables(parsed.tables ?? []);
-                diagram.setRelationships(parsed.relationships ?? []);
-                areas.setAreas([]);
-                notes.setNotes([]);
-                enums.setEnums(ensureEnumIds(parsed.enums));
-                types.setTypes([]);
+                diagram.setDatabase(importedDiagram.database ?? DB.GENERIC);
+                diagram.setTables(importedDiagram.tables ?? []);
+                diagram.setRelationships(importedDiagram.relationships ?? []);
+                areas.setAreas(importedDiagram.areas ?? []);
+                notes.setNotes(importedDiagram.notes ?? []);
+                // Imported enums/types may lack stable ids (legacy exports,
+                // hand-written JSON) - back-fill nanoids so id-based lookups work
+                enums.setEnums(ensureEnumIds(importedDiagram.enums));
+                types.setTypes(ensureTypeIds(importedDiagram.types));
               } else {
-                if (parsed.database !== undefined) {
-                  diagram.setDatabase(parsed.database);
+                if (importedDiagram.database !== undefined) {
+                  diagram.setDatabase(importedDiagram.database);
                 }
-                if (parsed.tables !== undefined) {
-                  diagram.setTables(parsed.tables);
+                if (importedDiagram.tables !== undefined) {
+                  diagram.setTables(importedDiagram.tables);
                 }
-                if (parsed.relationships !== undefined) {
-                  diagram.setRelationships(parsed.relationships);
+                if (importedDiagram.relationships !== undefined) {
+                  diagram.setRelationships(importedDiagram.relationships);
                 }
-                if (parsed.enums !== undefined) {
-                  enums.setEnums(ensureEnumIds(parsed.enums));
+                if (importedDiagram.areas !== undefined) {
+                  areas.setAreas(importedDiagram.areas);
+                }
+                if (importedDiagram.notes !== undefined) {
+                  notes.setNotes(importedDiagram.notes);
+                }
+                if (importedDiagram.enums !== undefined) {
+                  enums.setEnums(ensureEnumIds(importedDiagram.enums));
+                }
+                if (importedDiagram.types !== undefined) {
+                  types.setTypes(ensureTypeIds(importedDiagram.types));
                 }
               }
 
+              result = { success: true, message: "Diagram imported" };
+            }
+            break;
+
+          // Export operations
+          case "exportSQL":
+            {
+              const currentDiagram = {
+                database: diagram.database,
+                tables: diagram.tables,
+                relationships: diagram.relationships,
+                enums: enums.enums,
+                types: types.types,
+              };
+              const sql = exportSQL(currentDiagram);
               result = {
                 success: true,
-                message: "DBML imported",
+                message: "SQL exported",
                 data: {
-                  imported: {
-                    tableCount: parsed.tables?.length || 0,
-                    relationshipCount: parsed.relationships?.length || 0,
-                    enumCount: parsed.enums?.length || 0,
-                  },
+                  sql,
+                  database: diagram.database,
                 },
               };
-            } catch (error) {
-              throw new Error(`DBML import failed: ${error.message}`);
             }
-          }
-          break;
+            break;
 
-        default:
-          throw new Error(`Unknown command: ${command}`);
+          case "exportDBML":
+            {
+              const currentDiagram = {
+                database: diagram.database,
+                tables: diagram.tables,
+                relationships: diagram.relationships,
+                enums: enums.enums,
+                types: types.types,
+              };
+              const dbml = toDBML(currentDiagram);
+              result = {
+                success: true,
+                message: "DBML exported",
+                data: {
+                  dbml,
+                },
+              };
+            }
+            break;
+
+          // Import operations
+          case "importDBML":
+            {
+              try {
+                const parsed = fromDBML(params.dbml);
+                const clear = params.clearCurrent !== false;
+
+                // Mirror importDiagram semantics: when clearing, replace every
+                // collection (and database) in a single setter call so previous
+                // state cannot leak through.
+                if (clear) {
+                  diagram.setDatabase(parsed.database ?? DB.GENERIC);
+                  diagram.setTables(parsed.tables ?? []);
+                  diagram.setRelationships(parsed.relationships ?? []);
+                  areas.setAreas([]);
+                  notes.setNotes([]);
+                  enums.setEnums(ensureEnumIds(parsed.enums));
+                  types.setTypes([]);
+                } else {
+                  if (parsed.database !== undefined) {
+                    diagram.setDatabase(parsed.database);
+                  }
+                  if (parsed.tables !== undefined) {
+                    diagram.setTables(parsed.tables);
+                  }
+                  if (parsed.relationships !== undefined) {
+                    diagram.setRelationships(parsed.relationships);
+                  }
+                  if (parsed.enums !== undefined) {
+                    enums.setEnums(ensureEnumIds(parsed.enums));
+                  }
+                }
+
+                result = {
+                  success: true,
+                  message: "DBML imported",
+                  data: {
+                    imported: {
+                      tableCount: parsed.tables?.length || 0,
+                      relationshipCount: parsed.relationships?.length || 0,
+                      enumCount: parsed.enums?.length || 0,
+                    },
+                  },
+                };
+              } catch (error) {
+                throw new Error(`DBML import failed: ${error.message}`, {
+                  cause: error,
+                });
+              }
+            }
+            break;
+
+          default:
+            throw new Error(`Unknown command: ${command}`);
+        }
+
+        sendResponse({ id, ...result });
+      } catch (error) {
+        console.error(`[RemoteControl] Error executing ${command}:`, error);
+        sendResponse({
+          id,
+          success: false,
+          error: error.message,
+        });
       }
-
-      sendResponse({ id, ...result });
-    } catch (error) {
-      console.error(`[RemoteControl] Error executing ${command}:`, error);
-      sendResponse({
-        id,
-        success: false,
-        error: error.message,
-      });
-    }
-  }, [sendResponse]);
+    },
+    [sendResponse],
+  );
 
   useEffect(() => {
     if (!enabled) {
-      // Clean up when disabled
-      if (wsRef.current) {
-        wsRef.current.close();
-        wsRef.current = null;
-      }
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = null;
-      }
-      if (pingIntervalRef.current) {
-        clearInterval(pingIntervalRef.current);
-        pingIntervalRef.current = null;
-      }
-      setIsConnected(false);
+      // Nothing to do here: when `enabled` flips true -> false React first runs
+      // the previous effect's cleanup (the return below), which already closes
+      // the socket, clears the timers and calls setIsConnected(false). Doing it
+      // again here would be redundant, and calling setState in an effect body
+      // isn't allowed -- so we just bail out and establish no connection.
       return;
     }
 
     // Auto-detect WebSocket URL based on current page location
     // This works for local dev, Docker, and production deployments
-    const defaultWsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/remote-control`;
+    const defaultWsUrl = `${window.location.protocol === "https:" ? "wss:" : "ws:"}//${window.location.host}/remote-control`;
     const wsUrl = import.meta.env.VITE_REMOTE_CONTROL_WS || defaultWsUrl;
 
     const maxReconnectAttempts = 10;
@@ -606,13 +594,13 @@ export function useRemoteControl(enabled = false) {
           // Calculate exponential backoff delay with jitter
           const exponentialDelay = Math.min(
             baseDelay * Math.pow(2, reconnectAttemptsRef.current - 1),
-            maxDelay
+            maxDelay,
           );
           const jitter = Math.random() * 1000; // Add random jitter up to 1 second
           const delay = exponentialDelay + jitter;
 
           console.log(
-            `[RemoteControl] Reconnecting in ${Math.round(delay / 1000)}s (attempt ${reconnectAttemptsRef.current}/${maxReconnectAttempts})...`
+            `[RemoteControl] Reconnecting in ${Math.round(delay / 1000)}s (attempt ${reconnectAttemptsRef.current}/${maxReconnectAttempts})...`,
           );
 
           if (reconnectAttemptsRef.current === 1) {

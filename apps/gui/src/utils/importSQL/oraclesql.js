@@ -63,8 +63,7 @@ export function fromOracleSQL(ast, diagramDb = DB.GENERIC) {
             field.primary = false;
 
             for (const c of d.constraints) {
-              if (c.constraint.primary_key === "primary key")
-                field.primary = true;
+              if (c.constraint.primary_key === "primary key") field.primary = true;
               if (c.constraint.not_null === "not null") field.notNull = true;
               if (c.constraint.unique === "unique") field.unique = true;
             }
@@ -88,14 +87,10 @@ export function fromOracleSQL(ast, diagramDb = DB.GENERIC) {
             const endTable = tables.find((t) => t.name === endTableName);
             if (!endTable) return;
 
-            const endField = endTable.fields.find(
-              (f) => f.name === endFieldName,
-            );
+            const endField = endTable.fields.find((f) => f.name === endFieldName);
             if (!endField) return;
 
-            const startField = table.fields.find(
-              (f) => f.name === startFieldName,
-            );
+            const startField = table.fields.find((f) => f.name === startFieldName);
             if (!startField) return;
 
             relationship.id = nanoid();
@@ -109,8 +104,7 @@ export function fromOracleSQL(ast, diagramDb = DB.GENERIC) {
                 ? d.name
                 : `fk_${table.name}_${startFieldName}_${endTableName}`;
             relationship.deleteConstraint =
-              d.constraint.reference.on_delete &&
-              Boolean(d.constraint.reference.on_delete.trim())
+              d.constraint.reference.on_delete && Boolean(d.constraint.reference.on_delete.trim())
                 ? d.constraint.reference.on_delete[0].toUpperCase() +
                   d.constraint.reference.on_delete.substring(1)
                 : Constraint.NONE;

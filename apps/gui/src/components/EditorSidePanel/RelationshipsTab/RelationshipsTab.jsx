@@ -19,15 +19,11 @@ export default function RelationshipsTab() {
     <>
       <SearchBar />
       {relationships.length <= 0 ? (
-        <Empty
-          title={t("no_relationships")}
-          text={t("no_relationships_text")}
-        />
+        <Empty title={t("no_relationships")} text={t("no_relationships_text")} />
       ) : (
         <Collapse
           activeKey={
-            selectedElement.open &&
-            selectedElement.element === ObjectType.RELATIONSHIP
+            selectedElement.open && selectedElement.element === ObjectType.RELATIONSHIP
               ? `${selectedElement.id}`
               : ""
           }

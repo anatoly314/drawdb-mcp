@@ -76,8 +76,7 @@ function cardinality(rel) {
 function fieldSize(field, database) {
   const typeMetadata = dbToTypes[database][field.type];
 
-  if ((typeMetadata?.isSized || typeMetadata?.hasPrecision) && field.size)
-    return `(${field.size})`;
+  if ((typeMetadata?.isSized || typeMetadata?.hasPrecision) && field.size) return `(${field.size})`;
 
   return "";
 }
@@ -111,25 +110,33 @@ export function toDBML(diagram) {
   const generateRelString = (rel) => {
     const startTable = diagram.tables.find((t) => t.id === rel.startTableId);
     if (!startTable) {
-      console.warn(`Relationship "${rel.name}" references non-existent start table: ${rel.startTableId}`);
+      console.warn(
+        `Relationship "${rel.name}" references non-existent start table: ${rel.startTableId}`,
+      );
       return null;
     }
 
     const startField = startTable.fields.find((f) => f.id === rel.startFieldId);
     if (!startField) {
-      console.warn(`Relationship "${rel.name}" references non-existent start field: ${rel.startFieldId}`);
+      console.warn(
+        `Relationship "${rel.name}" references non-existent start field: ${rel.startFieldId}`,
+      );
       return null;
     }
 
     const endTable = diagram.tables.find((t) => t.id === rel.endTableId);
     if (!endTable) {
-      console.warn(`Relationship "${rel.name}" references non-existent end table: ${rel.endTableId}`);
+      console.warn(
+        `Relationship "${rel.name}" references non-existent end table: ${rel.endTableId}`,
+      );
       return null;
     }
 
     const endField = endTable.fields.find((f) => f.id === rel.endFieldId);
     if (!endField) {
-      console.warn(`Relationship "${rel.name}" references non-existent end field: ${rel.endFieldId}`);
+      console.warn(
+        `Relationship "${rel.name}" references non-existent end field: ${rel.endFieldId}`,
+      );
       return null;
     }
 
@@ -140,10 +147,7 @@ export function toDBML(diagram) {
 
   for (const table of diagram.tables) {
     for (const field of table.fields) {
-      if (
-        (field.type === "ENUM" || field.type === "SET") &&
-        Array.isArray(field.values)
-      ) {
+      if ((field.type === "ENUM" || field.type === "SET") && Array.isArray(field.values)) {
         enumDefinitions += `enum ${quoteIdentifier(`${field.name}_${field.values.join("_")}_t`)} {\n\t${field.values.map((v) => quoteIdentifier(v)).join("\n\t")}\n}\n\n`;
       }
     }
@@ -164,10 +168,7 @@ export function toDBML(diagram) {
                 field.type === "ENUM" || field.type === "SET"
                   ? quoteIdentifier(`${field.name}_${field.values.join("_")}_t`)
                   : processType(field.type)
-              }${fieldSize(
-                field,
-                diagram.database,
-              )}${columnSettings(field, diagram.database)}`,
+              }${fieldSize(field, diagram.database)}${columnSettings(field, diagram.database)}`,
           )
           .join("\n")}${
           table.indices.length > 0
@@ -175,9 +176,7 @@ export function toDBML(diagram) {
               table.indices
                 .map(
                   (index) =>
-                    `\t\t(${index.fields
-                      .map((f) => quoteIdentifier(f))
-                      .join(", ")}) [ name: '${
+                    `\t\t(${index.fields.map((f) => quoteIdentifier(f)).join(", ")}) [ name: '${
                       index.name
                     }'${index.unique ? ", unique" : ""} ]`,
                 )

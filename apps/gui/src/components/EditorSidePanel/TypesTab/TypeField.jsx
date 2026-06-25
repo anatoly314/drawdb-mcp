@@ -1,23 +1,8 @@
 import { useState } from "react";
 import { Action, ObjectType } from "../../../data/constants";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Select,
-  TagInput,
-  InputNumber,
-  Popover,
-} from "@douyinfe/semi-ui";
+import { Row, Col, Input, Button, Select, TagInput, InputNumber, Popover } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconMore } from "@douyinfe/semi-icons";
-import {
-  useUndoRedo,
-  useTypes,
-  useDiagram,
-  useEnums,
-  useLayout,
-} from "../../../hooks";
+import { useUndoRedo, useTypes, useDiagram, useEnums, useLayout } from "../../../hooks";
 import { useTranslation } from "react-i18next";
 import { dbToTypes } from "../../../data/datatypes";
 
@@ -40,9 +25,7 @@ export default function TypeField({ data, tid, fid }) {
           placeholder={t("name")}
           onChange={(value) =>
             updateType(tid, {
-              fields: types[tid].fields.map((e, id) =>
-                id === fid ? { ...data, name: value } : e,
-              ),
+              fields: types[tid].fields.map((e, id) => (id === fid ? { ...data, name: value } : e)),
             })
           }
           onFocus={(e) => setEditField({ name: e.target.value })}
@@ -77,9 +60,7 @@ export default function TypeField({ data, tid, fid }) {
               value: value,
             })),
             ...types
-              .filter(
-                (type) => type.name.toLowerCase() !== types[tid].name.toLowerCase(),
-              )
+              .filter((type) => type.name.toLowerCase() !== types[tid].name.toLowerCase())
               .map((type) => ({
                 label: type.name.toUpperCase(),
                 value: type.name.toUpperCase(),
@@ -162,11 +143,7 @@ export default function TypeField({ data, tid, fid }) {
                   <TagInput
                     separator={[",", ", ", " ,"]}
                     value={data.values}
-                    validateStatus={
-                      !data.values || data.values.length === 0
-                        ? "error"
-                        : "default"
-                    }
+                    validateStatus={!data.values || data.values.length === 0 ? "error" : "default"}
                     className="my-2"
                     placeholder={t("use_for_batch_input")}
                     onChange={(v) => {
@@ -179,11 +156,7 @@ export default function TypeField({ data, tid, fid }) {
                     }}
                     onFocus={() => setEditField({ values: data.values })}
                     onBlur={() => {
-                      if (
-                        JSON.stringify(editField.values) ===
-                        JSON.stringify(data.values)
-                      )
-                        return;
+                      if (JSON.stringify(editField.values) === JSON.stringify(data.values)) return;
                       setUndoStack((prev) => [
                         ...prev,
                         {
@@ -251,11 +224,7 @@ export default function TypeField({ data, tid, fid }) {
                     className="my-2 w-full"
                     placeholder={t("set_precision")}
                     readonly={layout.readOnly}
-                    validateStatus={
-                      /^\(\d+,\s*\d+\)$|^$/.test(data.size)
-                        ? "default"
-                        : "error"
-                    }
+                    validateStatus={/^\(\d+,\s*\d+\)$|^$/.test(data.size) ? "default" : "error"}
                     value={data.size}
                     onChange={(value) =>
                       updateType(tid, {

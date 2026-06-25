@@ -1,10 +1,6 @@
 import { dbToTypes } from "../data/datatypes";
 
-import {
-  tableFieldHeight,
-  tableHeaderHeight,
-  tableColorStripHeight,
-} from "../data/constants";
+import { tableFieldHeight, tableHeaderHeight, tableColorStripHeight } from "../data/constants";
 
 export function dataURItoBlob(dataUrl) {
   const byteString = atob(dataUrl.split(",")[1]);

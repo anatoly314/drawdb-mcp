@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+coverage
+
+# Caches
+.turbo
+.vite
+*.tsbuildinfo
+
+# Lockfiles & generated
+pnpm-lock.yaml

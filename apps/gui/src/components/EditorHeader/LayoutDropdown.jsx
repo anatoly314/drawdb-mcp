@@ -1,8 +1,4 @@
-import {
-  IconCaretdown,
-  IconCheckboxTick,
-  IconRowsStroked,
-} from "@douyinfe/semi-icons";
+import { IconCaretdown, IconCheckboxTick, IconRowsStroked } from "@douyinfe/semi-icons";
 import { Dropdown } from "@douyinfe/semi-ui";
 import { useFullscreen, useLayout } from "../../hooks";
 import { enterFullscreen, exitFullscreen } from "../../utils/fullscreen";
@@ -28,25 +24,19 @@ export default function LayoutDropdown() {
       render={
         <Dropdown.Menu>
           <Dropdown.Item
-            icon={
-              layout.header ? <IconCheckboxTick /> : <div className="px-2" />
-            }
+            icon={layout.header ? <IconCheckboxTick /> : <div className="px-2" />}
             onClick={() => invertLayout("header")}
           >
             {t("header")}
           </Dropdown.Item>
           <Dropdown.Item
-            icon={
-              layout.sidebar ? <IconCheckboxTick /> : <div className="px-2" />
-            }
+            icon={layout.sidebar ? <IconCheckboxTick /> : <div className="px-2" />}
             onClick={() => invertLayout("sidebar")}
           >
             {t("sidebar")}
           </Dropdown.Item>
           <Dropdown.Item
-            icon={
-              layout.issues ? <IconCheckboxTick /> : <div className="px-2" />
-            }
+            icon={layout.issues ? <IconCheckboxTick /> : <div className="px-2" />}
             onClick={() => invertLayout("issues")}
           >
             {t("issues")}

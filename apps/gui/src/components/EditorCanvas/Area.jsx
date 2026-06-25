@@ -1,12 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Button, Popover, Input } from "@douyinfe/semi-ui";
 import ColorPicker from "../EditorSidePanel/ColorPicker";
-import {
-  IconEdit,
-  IconDeleteStroked,
-  IconLock,
-  IconUnlock,
-} from "@douyinfe/semi-icons";
+import { IconEdit, IconDeleteStroked, IconLock, IconUnlock } from "@douyinfe/semi-icons";
 import { Tab, Action, ObjectType, State } from "../../data/constants";
 import {
   useLayout,
@@ -19,24 +14,15 @@ import {
 import { useTranslation } from "react-i18next";
 import { useHover } from "usehooks-ts";
 
-export default function Area({
-  data,
-  onPointerDown,
-  setResize,
-  setInitDimensions,
-}) {
+export default function Area({ data, onPointerDown, setResize, setInitDimensions }) {
   const ref = useRef(null);
   const isHovered = useHover(ref);
   const { layout } = useLayout();
   const { settings } = useSettings();
   const { setSaveState } = useSaveState();
   const { updateArea } = useAreas();
-  const {
-    selectedElement,
-    setSelectedElement,
-    bulkSelectedElements,
-    setBulkSelectedElements,
-  } = useSelect();
+  const { selectedElement, setSelectedElement, bulkSelectedElements, setBulkSelectedElements } =
+    useSelect();
 
   const handleResize = (e, dir) => {
     setResize({ id: data.id, dir: dir });
@@ -101,9 +87,7 @@ export default function Area({
         open: true,
       }));
       if (selectedElement.currentTab !== Tab.AREAS) return;
-      document
-        .getElementById(`scroll_area_${data.id}`)
-        .scrollIntoView({ behavior: "smooth" });
+      document.getElementById(`scroll_area_${data.id}`).scrollIntoView({ behavior: "smooth" });
     } else {
       setSelectedElement((prev) => ({
         ...prev,
@@ -136,11 +120,8 @@ export default function Area({
 
   const isSelected = useMemo(() => {
     return (
-      (selectedElement.id === data.id &&
-        selectedElement.element === ObjectType.AREA) ||
-      bulkSelectedElements.some(
-        (e) => e.type === ObjectType.AREA && e.id === data.id,
-      )
+      (selectedElement.id === data.id && selectedElement.element === ObjectType.AREA) ||
+      bulkSelectedElements.some((e) => e.type === ObjectType.AREA && e.id === data.id)
     );
   }, [selectedElement, data, bulkSelectedElements]);
 
@@ -166,9 +147,7 @@ export default function Area({
           onDoubleClick={edit}
         >
           <div className="flex justify-between gap-1 w-full">
-            <div className="text-color select-none overflow-hidden text-ellipsis">
-              {data.name}
-            </div>
+            <div className="text-color select-none overflow-hidden text-ellipsis">{data.name}</div>
             {(isHovered || (areaIsOpen() && !layout.sidebar)) && (
               <div className="flex items-center gap-1.5">
                 <Button

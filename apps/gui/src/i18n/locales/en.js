@@ -37,8 +37,7 @@ const en = {
     undo: "Undo",
     redo: "Redo",
     clear: "Clear",
-    are_you_sure_clear:
-      "Are you sure you want to clear the diagram? This is irreversible.",
+    are_you_sure_clear: "Are you sure you want to clear the diagram? This is irreversible.",
     cut: "Cut",
     copy: "Copy",
     paste: "Paste",
@@ -113,8 +112,7 @@ const en = {
     no_types: "No types",
     no_types_text: "Make your own custom data types",
     no_issues: "No issues were detected.",
-    strict_mode_is_on_no_issues:
-      "Strict mode is off so no issues will be displayed.",
+    strict_mode_is_on_no_issues: "Strict mode is off so no issues will be displayed.",
     name: "Name",
     type: "Type",
     null: "Null",
@@ -166,11 +164,9 @@ const en = {
     confirm: "Confirm",
     last_modified: "Last modified",
     drag_and_drop_files: "Drag and drop the file here or click to upload.",
-    upload_sql_to_generate_diagrams:
-      "Upload an sql file to autogenerate your tables and columns.",
+    upload_sql_to_generate_diagrams: "Upload an sql file to autogenerate your tables and columns.",
     overwrite_existing_diagram: "Overwrite existing diagram",
-    only_mysql_supported:
-      "*For the time being loading only MySQL scripts is supported.",
+    only_mysql_supported: "*For the time being loading only MySQL scripts is supported.",
     blank: "Blank",
     filename: "Filename",
     table_w_no_name: "Declared a table with no name",
@@ -183,10 +179,8 @@ const en = {
       "Default value for field '{{fieldName}}' in table '{{tableName}}' does not match its type",
     not_null_is_null:
       "'{{fieldName}}' field of table '{{tableName}}' is NOT NULL but has default NULL",
-    duplicate_fields:
-      "Duplicate table fields by name '{{fieldName}}' in table '{{tableName}}'",
-    duplicate_index:
-      "Duplicate index by name '{{indexName}}' in table '{{tableName}}'",
+    duplicate_fields: "Duplicate table fields by name '{{fieldName}}' in table '{{tableName}}'",
+    duplicate_index: "Duplicate index by name '{{indexName}}' in table '{{tableName}}'",
     empty_index: "Index in table '{{tableName}}' indexes no columns",
     no_primary_key: "Table '{{tableName}}' has no primary key",
     type_with_no_name: "Declared a type with no name",
@@ -196,8 +190,7 @@ const en = {
     empty_type_field_type: "Empty field `type` in type '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' field of type '{{typeName}}' is of type `{{type}}` but no values have been specified",
-    duplicate_type_fields:
-      "Duplicate type fields by name '{{fieldName}}' in type '{{typeName}}'",
+    duplicate_type_fields: "Duplicate type fields by name '{{fieldName}}' in type '{{typeName}}'",
     duplicate_reference: "Duplicate reference by the name '{{refName}}'",
     circular_dependency: "Circular dependency involving table '{{refName}}'",
     timeline: "Timeline",
@@ -250,8 +243,7 @@ const en = {
     copy_link: "Copy link",
     readme: "README",
     failed_to_load: "Failed to load. Make sure the link is correct.",
-    share_info:
-      "* Sharing this link will not create a live real-time collaboration session.",
+    share_info: "* Sharing this link will not create a live real-time collaboration session.",
     show_relationship_labels: "Show relationship labels",
     docs: "Docs",
     about: "About",

@@ -23,9 +23,7 @@ function getElementNodesInSelection(selection) {
     ]);
   }
 
-  return new Set(
-    nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow()))
-  );
+  return new Set(nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow())));
 }
 
 function isIndentPermitted(maxDepth) {
@@ -46,7 +44,7 @@ function isIndentPermitted(maxDepth) {
       const parent = elementNode.getParent();
       if (!$isListNode(parent)) {
         throw new Error(
-          "ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent."
+          "ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent.",
         );
       }
 
@@ -64,7 +62,7 @@ export default function ListMaxIndentLevelPlugin({ maxDepth }) {
     return editor.registerCommand(
       INDENT_CONTENT_COMMAND,
       () => !isIndentPermitted(maxDepth ?? 7),
-      COMMAND_PRIORITY_HIGH
+      COMMAND_PRIORITY_HIGH,
     );
   }, [editor, maxDepth]);
 

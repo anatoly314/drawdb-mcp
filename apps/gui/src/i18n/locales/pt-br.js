@@ -32,8 +32,7 @@ const pt = {
     undo: "Desfazer",
     redo: "Refazer",
     clear: "Limpar",
-    are_you_sure_clear:
-      "Tem certeza de que deseja limpar o diagrama? Isso é irreversível.",
+    are_you_sure_clear: "Tem certeza de que deseja limpar o diagrama? Isso é irreversível.",
     cut: "Recortar",
     copy: "Copiar",
     paste: "Colar",
@@ -99,8 +98,7 @@ const pt = {
     no_tables: "Sem tabelas",
     no_tables_text: "Comece a construir seu diagrama!",
     no_relationships: "Sem relacionamentos",
-    no_relationships_text:
-      "Arraste para conectar campos e formar relacionamentos!",
+    no_relationships_text: "Arraste para conectar campos e formar relacionamentos!",
     no_subject_areas: "Sem áreas de assunto",
     no_subject_areas_text: "Adicione áreas de assunto para agrupar tabelas!",
     no_notes: "Sem notas",
@@ -160,13 +158,11 @@ const pt = {
     create: "Criar",
     confirm: "Confirmar",
     last_modified: "Última modificação",
-    drag_and_drop_files:
-      "Arraste e solte o arquivo aqui ou clique para fazer upload.",
+    drag_and_drop_files: "Arraste e solte o arquivo aqui ou clique para fazer upload.",
     upload_sql_to_generate_diagrams:
       "Faça o upload de um arquivo SQL para gerar automaticamente suas tabelas e colunas.",
     overwrite_existing_diagram: "Substituir diagrama existente",
-    only_mysql_supported:
-      "*Por enquanto, apenas o carregamento de scripts MySQL é suportado.",
+    only_mysql_supported: "*Por enquanto, apenas o carregamento de scripts MySQL é suportado.",
     blank: "Em branco",
     filename: "Nome do arquivo",
     table_w_no_name: "Declarada uma tabela sem nome",
@@ -181,8 +177,7 @@ const pt = {
       "O campo '{{fieldName}}' da tabela '{{tableName}}' é NOT NULL mas tem o valor padrão NULL",
     duplicate_fields:
       "Campos de tabela duplicados pelo nome '{{fieldName}}' na tabela '{{tableName}}'",
-    duplicate_index:
-      "Índice duplicado pelo nome '{{indexName}}' na tabela '{{tableName}}'",
+    duplicate_index: "Índice duplicado pelo nome '{{indexName}}' na tabela '{{tableName}}'",
     empty_index: "O índice na tabela '{{tableName}}' não indexa colunas",
     no_primary_key: "A tabela '{{tableName}}' não tem chave primária",
     type_with_no_name: "Declarado um tipo sem nome",
@@ -245,8 +240,7 @@ const pt = {
     copy_link: "Copiar link",
     readme: "LEIAME",
     failed_to_load: "Falha ao carregar. Verifique se o link está correto.",
-    share_info:
-      "* Compartilhar este link não criará uma sessão de colaboração em tempo real.",
+    share_info: "* Compartilhar este link não criará uma sessão de colaboração em tempo real.",
     show_relationship_labels: "Mostrar rótulos de relacionamento",
     docs: "Documentação",
     supported_types: "Tipos de arquivo suportados:",

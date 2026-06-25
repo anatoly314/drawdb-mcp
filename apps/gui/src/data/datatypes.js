@@ -193,9 +193,7 @@ const defaultTypesBase = {
       }
       const content = field.default.split(" ");
       const date = content[0].split("-");
-      return (
-        Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038
-      );
+      return Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038;
     },
     hasCheck: false,
     isSized: false,
@@ -251,9 +249,7 @@ const defaultTypesBase = {
     type: "BINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -265,9 +261,7 @@ const defaultTypesBase = {
     type: "VARBINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -501,9 +495,7 @@ const mysqlTypesBase = {
       }
       const content = field.default.split(" ");
       const date = content[0].split("-");
-      return (
-        Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038
-      );
+      return Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038;
     },
     hasCheck: false,
     isSized: false,
@@ -584,9 +576,7 @@ const mysqlTypesBase = {
     type: "BINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -598,9 +588,7 @@ const mysqlTypesBase = {
     type: "VARBINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -840,13 +828,7 @@ const postgresTypesBase = {
     isSized: false,
     hasPrecision: false,
     canIncrement: true,
-    compatibleWith: [
-      "SMALLSERIAL",
-      "SERIAL",
-      "BIGSERIAL",
-      "SMALLINT",
-      "BIGINT",
-    ],
+    compatibleWith: ["SMALLSERIAL", "SERIAL", "BIGSERIAL", "SMALLINT", "BIGINT"],
   },
   BIGINT: {
     type: "BIGINT",
@@ -858,13 +840,7 @@ const postgresTypesBase = {
     isSized: false,
     hasPrecision: false,
     canIncrement: true,
-    compatibleWith: [
-      "SMALLSERIAL",
-      "SERIAL",
-      "BIGSERIAL",
-      "INTEGER",
-      "SMALLINT",
-    ],
+    compatibleWith: ["SMALLSERIAL", "SERIAL", "BIGSERIAL", "INTEGER", "SMALLINT"],
   },
   DECIMAL: {
     type: "DECIMAL",
@@ -926,13 +902,7 @@ const postgresTypesBase = {
     hasCheck: true,
     isSized: false,
     hasPrecision: false,
-    compatibleWith: [
-      "INTEGER",
-      "SMALLSERIAL",
-      "BIGSERIAL",
-      "SMALLINT",
-      "BIGINT",
-    ],
+    compatibleWith: ["INTEGER", "SMALLSERIAL", "BIGSERIAL", "SMALLINT", "BIGINT"],
   },
   BIGSERIAL: {
     type: "BIGSERIAL",
@@ -1058,9 +1028,8 @@ const postgresTypesBase = {
     checkDefault: (field) => {
       const specialValues = ["now", "allballs"];
       return (
-        /^(?:[01]?\d|2[0-3]):[0-5]?\d:[0-5]?\d([+-]\d{2}:\d{2})?$/.test(
-          field.default,
-        ) || specialValues.includes(field.default.toLowerCase())
+        /^(?:[01]?\d|2[0-3]):[0-5]?\d:[0-5]?\d([+-]\d{2}:\d{2})?$/.test(field.default) ||
+        specialValues.includes(field.default.toLowerCase())
       );
     },
     hasCheck: false,
@@ -1086,8 +1055,7 @@ const postgresTypesBase = {
       ];
       return (
         /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(field.default) ||
-        (Number.parseInt(date[0]) >= 1970 &&
-          Number.parseInt(date[0]) <= 2038) ||
+        (Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038) ||
         specialValues.includes(field.default.toLowerCase())
       );
     },
@@ -1111,9 +1079,8 @@ const postgresTypesBase = {
         "current_timestamp",
       ];
       return (
-        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2})?$/.test(
-          field.default,
-        ) || specialValues.includes(field.default.toLowerCase())
+        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2})?$/.test(field.default) ||
+        specialValues.includes(field.default.toLowerCase())
       );
     },
     hasCheck: false,
@@ -1170,9 +1137,7 @@ const postgresTypesBase = {
     type: "BOX",
     color: geometricColor,
     checkDefault: (field) =>
-      /^\(\d+(\.\d+)?,\d+(\.\d+)?\),\(\d+(\.\d+)?,\d+(\.\d+)?\)$/.test(
-        field.default,
-      ),
+      /^\(\d+(\.\d+)?,\d+(\.\d+)?\),\(\d+(\.\d+)?,\d+(\.\d+)?\)$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1182,9 +1147,7 @@ const postgresTypesBase = {
     type: "PATH",
     color: geometricColor,
     checkDefault: (field) =>
-      /^\((\d+(\.\d+)?,\d+(\.\d+)?(,\d+(\.\d+)?,\d+(\.\d+)?)*?)\)$/.test(
-        field.default,
-      ),
+      /^\((\d+(\.\d+)?,\d+(\.\d+)?(,\d+(\.\d+)?,\d+(\.\d+)?)*?)\)$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1194,9 +1157,7 @@ const postgresTypesBase = {
     type: "POLYGON",
     color: geometricColor,
     checkDefault: (field) =>
-      /^\((\d+(\.\d+)?,\d+(\.\d+)?(,\d+(\.\d+)?,\d+(\.\d+)?)*?)\)$/.test(
-        field.default,
-      ),
+      /^\((\d+(\.\d+)?,\d+(\.\d+)?(,\d+(\.\d+)?,\d+(\.\d+)?)*?)\)$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1205,8 +1166,7 @@ const postgresTypesBase = {
   CIRCLE: {
     type: "CIRCLE",
     color: geometricColor,
-    checkDefault: (field) =>
-      /^<\(\d+(\.\d+)?,\d+(\.\d+)?\),\d+(\.\d+)?\\>$/.test(field.default),
+    checkDefault: (field) => /^<\(\d+(\.\d+)?,\d+(\.\d+)?\),\d+(\.\d+)?\\>$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1215,8 +1175,7 @@ const postgresTypesBase = {
   CIDR: {
     type: "CIDR",
     color: networkIdColor,
-    checkDefault: (field) =>
-      /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/.test(field.default),
+    checkDefault: (field) => /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1225,8 +1184,7 @@ const postgresTypesBase = {
   INET: {
     type: "INET",
     color: networkIdColor,
-    checkDefault: (field) =>
-      /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/.test(field.default),
+    checkDefault: (field) => /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1235,8 +1193,7 @@ const postgresTypesBase = {
   MACADDR: {
     type: "MACADDR",
     color: networkIdColor,
-    checkDefault: (field) =>
-      /^([A-Fa-f0-9]{2}:){5}[A-Fa-f0-9]{2}$/.test(field.default),
+    checkDefault: (field) => /^([A-Fa-f0-9]{2}:){5}[A-Fa-f0-9]{2}$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1245,8 +1202,7 @@ const postgresTypesBase = {
   MACADDR8: {
     type: "MACADDR8",
     color: networkIdColor,
-    checkDefault: (field) =>
-      /^([A-Fa-f0-9]{2}:){7}[A-Fa-f0-9]{2}$/.test(field.default),
+    checkDefault: (field) => /^([A-Fa-f0-9]{2}:){7}[A-Fa-f0-9]{2}$/.test(field.default),
     hasCheck: false,
     isSized: false,
     hasPrecision: false,
@@ -1510,9 +1466,7 @@ const sqliteTypesBase = {
       }
       const content = field.default.split(" ");
       const date = content[0].split("-");
-      return (
-        Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038
-      );
+      return Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038;
     },
     hasCheck: false,
     isSized: false,
@@ -1737,9 +1691,7 @@ const mssqlTypesBase = {
         return true;
       }
       if (
-        !/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,7})?([+-]\d{2}:\d{2})?$/.test(
-          field.default,
-        )
+        !/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,7})?([+-]\d{2}:\d{2})?$/.test(field.default)
       ) {
         return false;
       }
@@ -1794,9 +1746,7 @@ const mssqlTypesBase = {
       }
       const content = field.default.split(" ");
       const date = content[0].split("-");
-      return (
-        Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038
-      );
+      return Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038;
     },
     hasCheck: false,
     isSized: false,
@@ -1887,9 +1837,7 @@ const mssqlTypesBase = {
     type: "BINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -1901,9 +1849,7 @@ const mssqlTypesBase = {
     type: "VARBINARY",
     color: binaryColor,
     checkDefault: (field) => {
-      return (
-        field.default.length <= field.size && binaryRegex.test(field.default)
-      );
+      return field.default.length <= field.size && binaryRegex.test(field.default);
     },
     hasCheck: false,
     isSized: true,
@@ -2152,9 +2098,7 @@ const oraclesqlTypesBase = {
       if (field.default.toUpperCase() === "CURRENT_TIMESTAMP") {
         return true;
       }
-      return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?$/.test(
-        field.default,
-      );
+      return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?$/.test(field.default);
     },
     hasCheck: false,
     isSized: false,
@@ -2165,9 +2109,7 @@ const oraclesqlTypesBase = {
     type: "INTERVAL",
     color: dateColor,
     checkDefault: (field) => {
-      return /^INTERVAL\s'\d+'(\s+DAY|HOUR|MINUTE|SECOND)?$/.test(
-        field.default,
-      );
+      return /^INTERVAL\s'\d+'(\s+DAY|HOUR|MINUTE|SECOND)?$/.test(field.default);
     },
     hasCheck: false,
     isSized: false,

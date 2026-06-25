@@ -32,8 +32,7 @@ const ug = {
     undo: "قايتۇرۇش",
     redo: "يېڭىدىن قىلىش",
     clear: "تازىلاش",
-    are_you_sure_clear:
-      "سىز ھەقىقەتەن بۇ رەسمنى تازىلاشنى خالايمسىز؟ بۇ قايتا قۇرغىلى بولمايدۇ.",
+    are_you_sure_clear: "سىز ھەقىقەتەن بۇ رەسمنى تازىلاشنى خالايمسىز؟ بۇ قايتا قۇرغىلى بولمايدۇ.",
     cut: "كېسىش",
     copy: "نۇسخا ئېلىش",
     paste: "قويۇش",
@@ -99,8 +98,7 @@ const ug = {
     no_types: "تۈرلەر يوق",
     no_types_text: "خاس سانلىق مەلۇمات تۈرلىرىنى ياساڭ",
     no_issues: "مەسىلىلەر تېپىلمىدى.",
-    strict_mode_is_on_no_issues:
-      "تىزىملىك رېژىمى قوزغىتىلغان، شۇڭا مەسىلىلەر كۆرۈلمەيدۇ.",
+    strict_mode_is_on_no_issues: "تىزىملىك رېژىمى قوزغىتىلغان، شۇڭا مەسىلىلەر كۆرۈلمەيدۇ.",
     name: "ئاد",
     type: "تۈر",
     null: "Null",
@@ -150,8 +148,7 @@ const ug = {
     create: "ياساش",
     confirm: "تاسدىقلاش",
     last_modified: "ئاخىرىدا ئۆزگەرتىلگەن",
-    drag_and_drop_files:
-      "ھۆججەتلەرنى بۇ يەرگە تارتىپ قويۇڭ ياكى يۈكلەش ئۈچۈن بېسىڭ.",
+    drag_and_drop_files: "ھۆججەتلەرنى بۇ يەرگە تارتىپ قويۇڭ ياكى يۈكلەش ئۈچۈن بېسىڭ.",
     upload_sql_to_generate_diagrams:
       "جەدۋەل ۋە بۆلەكلىرىڭىزنى ئاپتوماتىك ياساش ئۈچۈن SQL ھۆججىتىنى يۈكلەڭ.",
     overwrite_existing_diagram: "بار بولغان رەسمنى يېڭىدىن يازماق",
@@ -168,10 +165,8 @@ const ug = {
       "جەدۋەل '{{tableName}}' دا بۆلەك '{{fieldName}}' نىڭ ئادىتتىكى قىممىتى تۈرىگە ماس كەلمەيدۇ",
     not_null_is_null:
       "جەدۋەل '{{tableName}}' نىڭ بۆلەك '{{fieldName}}' نىڭ قىممىتى NOT NULL، ئەمما ئادىتتىكى NULL",
-    duplicate_fields:
-      "جەدۋەل '{{tableName}}' دا نام '{{fieldName}}' بولغان نۇسخا بۆلەك",
-    duplicate_index:
-      "جەدۋەل '{{tableName}}' دا نام '{{indexName}}' بولغان نۇسخا ئىنكس",
+    duplicate_fields: "جەدۋەل '{{tableName}}' دا نام '{{fieldName}}' بولغان نۇسخا بۆلەك",
+    duplicate_index: "جەدۋەل '{{tableName}}' دا نام '{{indexName}}' بولغان نۇسخا ئىنكس",
     empty_index: "جەدۋەل '{{tableName}}' دا ئىنكس بۆلەك ئىنكس قىلمايدۇ",
     no_primary_key: "جەدۋەل '{{tableName}}' دا بىرلەشمىسى يوق",
     type_with_no_name: "نامسىز تۈر ئېلان قىلىندى",
@@ -181,8 +176,7 @@ const ug = {
     empty_type_field_type: "تۈر '{{typeName}}' دا بوش بۆلەك تۈرى",
     no_values_for_type_field:
       "تۈر '{{typeName}}' نىڭ بۆلەك '{{fieldName}}' نىڭ تۈرى {{type}}، ئەمما قىممەت بەلگىلەلمىدى",
-    duplicate_type_fields:
-      "تۈر '{{typeName}}' دا نام '{{fieldName}}' بولغان نۇسخا تۈر بۆلەكلىرى",
+    duplicate_type_fields: "تۈر '{{typeName}}' دا نام '{{fieldName}}' بولغان نۇسخا تۈر بۆلەكلىرى",
     duplicate_reference: "نام '{{refName}}' بولغان نۇسخا نىشان",
     circular_dependency: "جەدۋەل '{{refName}}' دا دائىرىلىك باغلىقلىق",
     timeline: "ۋاقىت جەدۋىلى",

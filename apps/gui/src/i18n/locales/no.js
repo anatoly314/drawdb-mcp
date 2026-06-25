@@ -32,8 +32,7 @@ const no = {
     undo: "Angre",
     redo: "Gjør om",
     clear: "Tøm",
-    are_you_sure_clear:
-      "Er du sikker på at du vil tømme diagrammet? Dette er ugjenkallelig.",
+    are_you_sure_clear: "Er du sikker på at du vil tømme diagrammet? Dette er ugjenkallelig.",
     cut: "Klipp ut",
     copy: "Kopier",
     paste: "Lim inn",
@@ -106,8 +105,7 @@ const no = {
     no_types: "Ingen typer",
     no_types_text: "Lag dine egne egendefinerte datatyper",
     no_issues: "Ingen problemer ble oppdaget.",
-    strict_mode_is_on_no_issues:
-      "Streng modus er av, så ingen problemer vil bli vist.",
+    strict_mode_is_on_no_issues: "Streng modus er av, så ingen problemer vil bli vist.",
     name: "Navn",
     type: "Type",
     null: "Null",
@@ -117,8 +115,7 @@ const no = {
     autoincrement: "Autoinkrement",
     default_value: "Standardverdi",
     check: "Sjekk uttrykk",
-    this_will_appear_as_is:
-      "*Dette vil vises i det genererte skriptet som det er.",
+    this_will_appear_as_is: "*Dette vil vises i det genererte skriptet som det er.",
     comment: "Kommentar",
     add_field: "Legg til felt",
     values: "Verdier",
@@ -175,10 +172,8 @@ const no = {
       "Standardverdien for feltet '{{fieldName}}' i tabellen '{{tableName}}' samsvarer ikke med dens type",
     not_null_is_null:
       "'{{fieldName}}' feltet i tabellen '{{tableName}}' er IKKE NULL, men har standardverdi NULL",
-    duplicate_fields:
-      "Duplikatfelter med navnet '{{fieldName}}' i tabell '{{tableName}}'",
-    duplicate_index:
-      "Duplikatindeks med navnet '{{indexName}}' i tabell '{{tableName}}'",
+    duplicate_fields: "Duplikatfelter med navnet '{{fieldName}}' i tabell '{{tableName}}'",
+    duplicate_index: "Duplikatindeks med navnet '{{indexName}}' i tabell '{{tableName}}'",
     empty_index: "Indeks i tabell '{{tableName}}' indekserer ingen kolonner",
     no_primary_key: "Tabellen '{{tableName}}' har ingen primærnøkkel",
     type_with_no_name: "Deklarerte en type uten navn",
@@ -188,11 +183,9 @@ const no = {
     empty_type_field_type: "Tomt felt `type` i type '{{typeName}}'",
     no_values_for_type_field:
       "'{{fieldName}}' feltet i typen '{{typeName}}' er av typen `{{type}}`, men ingen verdier er spesifisert",
-    duplicate_type_fields:
-      "Duplikatfelter med navnet '{{fieldName}}' i type '{{typeName}}'",
+    duplicate_type_fields: "Duplikatfelter med navnet '{{fieldName}}' i type '{{typeName}}'",
     duplicate_reference: "Duplikatreferanse med navnet '{{refName}}'",
-    circular_dependency:
-      "Sirkulær avhengighet som involverer tabell '{{refName}}'",
+    circular_dependency: "Sirkulær avhengighet som involverer tabell '{{refName}}'",
     timeline: "Tidslinje",
     priority: "Prioritet",
     none: "Ingen",
@@ -241,8 +234,7 @@ const no = {
     copy_link: "Kopier lenke",
     readme: "README",
     failed_to_load: "Kunne ikke laste. Forsikre deg om at lenken er korrekt.",
-    share_info:
-      "* Å dele denne lenken vil ikke opprette en live sanntidssamarbeidssession.",
+    share_info: "* Å dele denne lenken vil ikke opprette en live sanntidssamarbeidssession.",
   },
 };
 

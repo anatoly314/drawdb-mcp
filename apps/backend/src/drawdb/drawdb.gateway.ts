@@ -3,19 +3,19 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   WebSocketServer,
-} from '@nestjs/websockets';
-import { Logger } from '@nestjs/common';
-import { Server } from 'ws';
-import { DrawDBClientService } from './drawdb-client.service';
+} from "@nestjs/websockets";
+import { Logger } from "@nestjs/common";
+import { Server } from "ws";
+import { DrawDBClientService } from "./drawdb-client.service";
 
 /**
  * WebSocket Gateway for DrawDB client connections
  * Listens on /remote-control path
  */
 @WebSocketGateway({
-  path: '/remote-control',
+  path: "/remote-control",
   cors: {
-    origin: '*', // In production, restrict this to your DrawDB frontend origin
+    origin: "*", // In production, restrict this to your DrawDB frontend origin
   },
 })
 export class DrawDBGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -27,7 +27,7 @@ export class DrawDBGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   async handleConnection(client: any) {
-    this.logger.log('DrawDB client attempting to connect...');
+    this.logger.log("DrawDB client attempting to connect...");
 
     // Set the client connection in the service
     // This is async to properly handle connection replacement and prevent race conditions
@@ -35,6 +35,6 @@ export class DrawDBGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect() {
-    this.logger.log('DrawDB client disconnected');
+    this.logger.log("DrawDB client disconnected");
   }
 }

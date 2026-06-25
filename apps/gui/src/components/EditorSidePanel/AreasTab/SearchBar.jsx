@@ -9,14 +9,10 @@ export default function SearchBar() {
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
 
-  const [filteredResult, setFilteredResult] = useState(
-    areas.map((t) => t.name),
-  );
+  const [filteredResult, setFilteredResult] = useState(areas.map((t) => t.name));
 
   const handleStringSearch = (value) => {
-    setFilteredResult(
-      areas.map((t) => t.name).filter((i) => i.includes(value)),
-    );
+    setFilteredResult(areas.map((t) => t.name).filter((i) => i.includes(value)));
   };
 
   return (
@@ -31,9 +27,7 @@ export default function SearchBar() {
       onChange={(v) => setSearchText(v)}
       onSelect={(v) => {
         const { id } = areas.find((t) => t.name === v);
-        document
-          .getElementById(`scroll_area_${id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_area_${id}`).scrollIntoView({ behavior: "smooth" });
       }}
       className="w-full"
     />

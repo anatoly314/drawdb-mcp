@@ -41,15 +41,10 @@ export function toMSSQL(diagram) {
 
           return `\t[${field.name}] ${field.type}${field.size && isSized ? `(${field.size})` : ""}${
             field.notNull ? " NOT NULL" : ""
-          }${field.increment ? " IDENTITY" : ""}${
-            field.unique ? " UNIQUE" : ""
+          }${field.increment ? " IDENTITY" : ""}${field.unique ? " UNIQUE" : ""}${
+            field.default !== "" ? ` DEFAULT ${parseDefault(field, diagram.database)}` : ""
           }${
-            field.default !== ""
-              ? ` DEFAULT ${parseDefault(field, diagram.database)}`
-              : ""
-          }${
-            field.check === "" ||
-            !dbToTypes[diagram.database][field.type].hasCheck
+            field.check === "" || !dbToTypes[diagram.database][field.type].hasCheck
               ? ""
               : ` CHECK(${field.check})`
           }`;
@@ -59,30 +54,21 @@ export function toMSSQL(diagram) {
       const primaryKeys = table.fields.filter((f) => f.primary);
       const primaryKeySql =
         primaryKeys.length > 0
-          ? `,\n\tPRIMARY KEY(${primaryKeys
-              .map((f) => `[${f.name}]`)
-              .join(", ")})`
+          ? `,\n\tPRIMARY KEY(${primaryKeys.map((f) => `[${f.name}]`).join(", ")})`
           : "";
 
       const createTableSql = `CREATE TABLE [${table.name}] (\n${fieldsSql}${primaryKeySql}\n);\nGO\n`;
 
-      const tableCommentSql = generateAddExtendedPropertySQL(
-        table.comment,
-        table.name,
-      );
+      const tableCommentSql = generateAddExtendedPropertySQL(table.comment, table.name);
 
       const columnCommentsSql = table.fields
-        .map((field) =>
-          generateAddExtendedPropertySQL(field.comment, table.name, field.name),
-        )
+        .map((field) => generateAddExtendedPropertySQL(field.comment, table.name, field.name))
         .join("");
 
       const indicesSql = table.indices
         .map(
           (i) =>
-            `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX [${
-              i.name
-            }]\nON [${table.name}] (${i.fields
+            `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX [${i.name}]\nON [${table.name}] (${i.fields
               .map((f) => `[${f}]`)
               .join(", ")});\nGO\n`,
         )

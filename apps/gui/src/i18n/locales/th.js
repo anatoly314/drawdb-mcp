@@ -37,8 +37,7 @@ const th = {
     undo: "เลิกทำ",
     redo: "ทำซ้ำ",
     clear: "ล้าง",
-    are_you_sure_clear:
-      "คุณแน่ใจหรือไม่ว่าต้องการล้างไดอะแกรม? สิ่งนี้ไม่สามารถย้อนกลับได้",
+    are_you_sure_clear: "คุณแน่ใจหรือไม่ว่าต้องการล้างไดอะแกรม? สิ่งนี้ไม่สามารถย้อนกลับได้",
     cut: "ตัด",
     copy: "คัดลอก",
     paste: "วาง",
@@ -113,8 +112,7 @@ const th = {
     no_types: "ไม่มีชนิด",
     no_types_text: "สร้างชนิดข้อมูลของคุณเอง",
     no_issues: "ไม่พบปัญหา",
-    strict_mode_is_on_no_issues:
-      "โหมดเข้มงวดปิดอยู่ ดังนั้นจะไม่แสดงปัญหา",
+    strict_mode_is_on_no_issues: "โหมดเข้มงวดปิดอยู่ ดังนั้นจะไม่แสดงปัญหา",
     name: "ชื่อ",
     type: "ชนิด",
     null: "ค่าว่าง",
@@ -164,8 +162,7 @@ const th = {
     confirm: "ยืนยัน",
     last_modified: "แก้ไขล่าสุด",
     drag_and_drop_files: "ลากและวางไฟล์ที่นี่ หรือคลิกเพื่ออัปโหลด",
-    upload_sql_to_generate_diagrams:
-      "อัปโหลดไฟล์ SQL เพื่อสร้างตารางและคอลัมน์อัตโนมัติ",
+    upload_sql_to_generate_diagrams: "อัปโหลดไฟล์ SQL เพื่อสร้างตารางและคอลัมน์อัตโนมัติ",
     overwrite_existing_diagram: "เขียนทับไดอะแกรมที่มีอยู่",
     only_mysql_supported: "*ขณะนี้รองรับเฉพาะสคริปต์ MySQL เท่านั้น",
     blank: "ว่างเปล่า",

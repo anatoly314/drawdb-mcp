@@ -80,8 +80,7 @@ export default function EnumDetails({ data }) {
         }}
         onFocus={() => setEditField({ values: data.values })}
         onBlur={() => {
-          if (JSON.stringify(editField.values) === JSON.stringify(data.values))
-            return;
+          if (JSON.stringify(editField.values) === JSON.stringify(data.values)) return;
           setUndoStack((prev) => [
             ...prev,
             {

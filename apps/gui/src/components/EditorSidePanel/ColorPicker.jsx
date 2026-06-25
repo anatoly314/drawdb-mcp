@@ -17,11 +17,7 @@ export default function ColorPicker({
   };
 
   return (
-    <div
-      onPointerUp={handleColorPick}
-      onBlur={handleColorPick}
-      onMouseLeave={handleColorPick}
-    >
+    <div onPointerUp={handleColorPick} onBlur={handleColorPick} onMouseLeave={handleColorPick}>
       <SemiColorPicker
         {...props}
         value={SemiColorPicker.colorStringToValue(value)}
@@ -31,12 +27,7 @@ export default function ColorPicker({
           onChange(color);
         }}
       >
-        {children || (
-          <div
-            className="h-8 w-8 rounded-md"
-            style={{ backgroundColor: value }}
-          />
-        )}
+        {children || <div className="h-8 w-8 rounded-md" style={{ backgroundColor: value }} />}
       </SemiColorPicker>
     </div>
   );

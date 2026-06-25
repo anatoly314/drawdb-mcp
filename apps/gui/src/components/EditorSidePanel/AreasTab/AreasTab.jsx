@@ -16,21 +16,13 @@ export default function AreasTab() {
       <div className="flex gap-2">
         <SearchBar />
         <div>
-          <Button
-            icon={<IconPlus />}
-            block
-            onClick={() => addArea()}
-            disabled={layout.readOnly}
-          >
+          <Button icon={<IconPlus />} block onClick={() => addArea()} disabled={layout.readOnly}>
             {t("add_area")}
           </Button>
         </div>
       </div>
       {areas.length <= 0 ? (
-        <Empty
-          title={t("no_subject_areas")}
-          text={t("no_subject_areas_text")}
-        />
+        <Empty title={t("no_subject_areas")} text={t("no_subject_areas_text")} />
       ) : (
         <div className="p-2">
           {areas.map((a, i) => (

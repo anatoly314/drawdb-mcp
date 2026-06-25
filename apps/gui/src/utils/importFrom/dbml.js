@@ -44,8 +44,7 @@ export function fromDBML(src) {
 
         parsedIndex.id = idx.id - 1;
         parsedIndex.fields = idx.columns.map((x) => x.value);
-        parsedIndex.name =
-          idx.name ?? `${parsedTable.name}_index_${parsedIndex.id}`;
+        parsedIndex.name = idx.name ?? `${parsedTable.name}_index_${parsedIndex.id}`;
         parsedIndex.unique = !!idx.unique;
 
         parsedTable.indices.push(parsedIndex);
@@ -69,15 +68,12 @@ export function fromDBML(src) {
       const endField = endTable.fields.find((f) => f.name === endFieldName);
       if (!endField) continue;
 
-      const startField = startTable.fields.find(
-        (f) => f.name === startFieldName,
-      );
+      const startField = startTable.fields.find((f) => f.name === startFieldName);
       if (!startField) continue;
 
       const relationship = {};
 
-      relationship.name =
-        "fk_" + startTableName + "_" + startFieldName + "_" + endTableName;
+      relationship.name = "fk_" + startTableName + "_" + startFieldName + "_" + endTableName;
       relationship.startTableId = startTable.id;
       relationship.endTableId = endTable.id;
       relationship.endFieldId = endField.id;

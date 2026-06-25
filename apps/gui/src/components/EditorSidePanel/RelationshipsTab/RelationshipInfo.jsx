@@ -1,23 +1,6 @@
-import {
-  Row,
-  Col,
-  Select,
-  Button,
-  Popover,
-  Table,
-  Input,
-} from "@douyinfe/semi-ui";
-import {
-  IconDeleteStroked,
-  IconLoopTextStroked,
-  IconMore,
-} from "@douyinfe/semi-icons";
-import {
-  Cardinality,
-  Constraint,
-  Action,
-  ObjectType,
-} from "../../../data/constants";
+import { Row, Col, Select, Button, Popover, Table, Input } from "@douyinfe/semi-ui";
+import { IconDeleteStroked, IconLoopTextStroked, IconMore } from "@douyinfe/semi-icons";
+import { Cardinality, Constraint, Action, ObjectType } from "../../../data/constants";
 import { useDiagram, useLayout, useUndoRedo } from "../../../hooks";
 import i18n from "../../../i18n/i18n";
 import { useTranslation } from "react-i18next";
@@ -45,15 +28,11 @@ export default function RelationshipInfo({ data }) {
     const { fields: startTableFields, name: startTableName } = tables.find(
       (t) => t.id === data.startTableId,
     );
-    const { name: startFieldName } = startTableFields.find(
-      (f) => f.id === data.startFieldId,
-    );
+    const { name: startFieldName } = startTableFields.find((f) => f.id === data.startFieldId);
     const { fields: endTableFields, name: endTableName } = tables.find(
       (t) => t.id === data.endTableId,
     );
-    const { name: endFieldName } = endTableFields.find(
-      (f) => f.id === data.endFieldId,
-    );
+    const { name: endFieldName } = endTableFields.find((f) => f.id === data.endFieldId);
     return {
       startTableName,
       startFieldName,
@@ -233,9 +212,7 @@ export default function RelationshipInfo({ data }) {
 
       {data.cardinality !== Cardinality.ONE_TO_ONE && (
         <>
-          <div className="text-md font-semibold break-keep mt-2">
-            {t("many_side_label")}:
-          </div>
+          <div className="text-md font-semibold break-keep mt-2">{t("many_side_label")}:</div>
           <Input
             value={data.manyLabel}
             placeholder={t("label")}

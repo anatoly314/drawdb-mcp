@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useDiagram, useEnums, useLayout } from "../../hooks";
 import { toDBML } from "../../utils/exportAs/dbml";
 import { Button, Tooltip } from "@douyinfe/semi-ui";
@@ -8,26 +8,27 @@ import CodeEditor from "../CodeEditor";
 
 export default function DBMLEditor() {
   const { tables: currentTables, relationships } = useDiagram();
-  const diagram = useDiagram();
   const { enums } = useEnums();
-  const [value, setValue] = useState(() => toDBML({ ...diagram, enums }));
   const { setLayout } = useLayout();
   const { t } = useTranslation();
+
+  // The editor is read-only, so its content is purely derived from the
+  // diagram. Compute it during render instead of mirroring it into state via
+  // an effect (which forced an extra render on every diagram change).
+  const value = useMemo(
+    () => toDBML({ tables: currentTables, enums, relationships }),
+    [currentTables, enums, relationships],
+  );
 
   const toggleDBMLEditor = () => {
     setLayout((prev) => ({ ...prev, dbmlEditor: !prev.dbmlEditor }));
   };
-
-  useEffect(() => {
-    setValue(toDBML({ tables: currentTables, enums, relationships }));
-  }, [currentTables, enums, relationships]);
 
   return (
     <CodeEditor
       showCopyButton
       value={value}
       language="dbml"
-      onChange={setValue}
       height="100%"
       options={{
         readOnly: true,

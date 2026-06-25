@@ -21,12 +21,7 @@ export default function TablesTab() {
       <div className="flex gap-2">
         <SearchBar tables={tables} />
         <div>
-          <Button
-            block
-            icon={<IconPlus />}
-            onClick={() => addTable()}
-            disabled={layout.readOnly}
-          >
+          <Button block icon={<IconPlus />} onClick={() => addTable()} disabled={layout.readOnly}>
             {t("add_table")}
           </Button>
         </div>
@@ -76,9 +71,7 @@ function TableListItem({ table }) {
           <>
             <div className="flex items-center gap-2">
               <DragHandle readOnly={layout.readOnly} id={table.id} />
-              <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                {table.name}
-              </div>
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{table.name}</div>
             </div>
             <div
               className="w-1 h-full absolute top-0 left-0 bottom-0"

@@ -5,6 +5,7 @@ This directory contains a detailed architectural analysis of the [wwwsqldesigner
 ## Documents Included
 
 ### 1. WWWSQLDESIGNER_ANALYSIS.md (13 KB, 426 lines)
+
 **Comprehensive deep-dive into the wwwsqldesigner codebase**
 
 - Tech stack and architecture (vanilla JS, no build system)
@@ -20,6 +21,7 @@ This directory contains a detailed architectural analysis of the [wwwsqldesigner
 ---
 
 ### 2. COMPARISON_SUMMARY.md (6.7 KB, 273 lines)
+
 **Side-by-side comparison of wwwsqldesigner vs DrawDB**
 
 - Architecture differences at a glance
@@ -34,9 +36,11 @@ This directory contains a detailed architectural analysis of the [wwwsqldesigner
 ---
 
 ### 3. TECHNICAL_CHALLENGES.md (11 KB, 399 lines)
+
 **In-depth technical analysis of integration challenges**
 
 8 major architectural challenges explained:
+
 1. Monolithic singleton pattern
 2. State stored in DOM (not separate)
 3. No clear command boundaries
@@ -47,6 +51,7 @@ This directory contains a detailed architectural analysis of the [wwwsqldesigner
 8. No type definitions
 
 Includes:
+
 - Effort estimates for each challenge
 - Why each problem is fundamentally hard
 - DrawDB's solutions for comparison
@@ -59,28 +64,31 @@ Includes:
 ## Key Findings
 
 ### Quick Summary
-| Aspect | WWW SQL Designer | DrawDB |
-|--------|------------------|--------|
-| **Age** | 15+ years (2007-2025) | Modern (React 18 + Vite) |
-| **Framework** | Vanilla JavaScript | React + TypeScript |
-| **Backend** | 12 separate PHP/Perl/ColdFusion scripts | Single unified NestJS server |
-| **API** | XML export/import only | 40+ MCP tools |
-| **Real-time** | None | WebSocket + heartbeat |
-| **State Model** | Monolithic singleton | Modular contexts |
-| **Build System** | None | Turborepo + Vite |
-| **Type Safety** | None | Full TypeScript |
-| **Undo/Redo** | None | Full system |
-| **WebSocket Ready** | NO - requires complete rewrite | YES - already built in |
+
+| Aspect              | WWW SQL Designer                        | DrawDB                       |
+| ------------------- | --------------------------------------- | ---------------------------- |
+| **Age**             | 15+ years (2007-2025)                   | Modern (React 18 + Vite)     |
+| **Framework**       | Vanilla JavaScript                      | React + TypeScript           |
+| **Backend**         | 12 separate PHP/Perl/ColdFusion scripts | Single unified NestJS server |
+| **API**             | XML export/import only                  | 40+ MCP tools                |
+| **Real-time**       | None                                    | WebSocket + heartbeat        |
+| **State Model**     | Monolithic singleton                    | Modular contexts             |
+| **Build System**    | None                                    | Turborepo + Vite             |
+| **Type Safety**     | None                                    | Full TypeScript              |
+| **Undo/Redo**       | None                                    | Full system                  |
+| **WebSocket Ready** | NO - requires complete rewrite          | YES - already built in       |
 
 ### Integration Effort Comparison
 
 **Adding WebSocket/MCP to WWW SQL Designer:**
+
 - Estimated effort: 3-4 weeks
 - Risk level: Very High
 - Result: Would essentially rewrite entire app
 - Alternative approach: easier to rewrite as React like DrawDB
 
 **Using DrawDB as-is:**
+
 - Effort: 0 weeks (already done!)
 - Risk: Minimal (battle-tested)
 - Result: Professional-grade MCP integration immediately available
@@ -92,18 +100,21 @@ Includes:
 The core issue: **Architecture mismatch**
 
 WWW SQL Designer was designed (2007-2012) for:
+
 - Single browser instance
 - Manual save button
 - Optional server backend for persistence
 - XML data format
 
 DrawDB was designed for:
+
 - Multiple simultaneous users
 - Real-time synchronization
 - Integrated server with MCP
 - Programmatic API
 
 Adding real-time sync to WWW SQL Designer would require:
+
 1. Extracting state from DOM
 2. Breaking up monolithic singleton
 3. Creating command/transaction model
@@ -120,6 +131,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 ## Codebase Statistics
 
 **WWW SQL Designer:**
+
 - Total JavaScript: 4,122 lines (18 files)
 - No build tools, no package.json
 - Largest file: io.js (605 lines)
@@ -127,12 +139,14 @@ Each step has cascading dependencies and high risk of breaking existing function
 - Actively maintained (15+ years)
 
 **Backend implementations:**
+
 - PHP (6 variants)
 - ColdFusion, Perl, ASP.NET, Web2Py
 - 12+ different languages/platforms
 - No unified interface
 
 **Frontend data model:**
+
 - Tables (with rows/fields and keys/indices)
 - Relations (foreign keys)
 - Visual state (positions, z-index, colors)
@@ -143,6 +157,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 ## Architectural Lessons
 
 ### What DrawDB Got Right
+
 1. **Modular contexts** - enable efficient WebSocket sync
 2. **Unified backend** - single source of truth
 3. **TypeScript** - catches integration bugs
@@ -150,6 +165,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 5. **React state management** - predictable updates
 
 ### What WWW SQL Designer Teaches Us
+
 1. **Vanilla JS has limits** - no framework makes extensibility hard
 2. **Singleton pattern doesn't scale** - can't support multiple instances
 3. **State in DOM is a trap** - makes real-time sync nearly impossible
@@ -161,9 +177,11 @@ Each step has cascading dependencies and high risk of breaking existing function
 ## Recommendations
 
 ### If you want AI integration:
+
 **Use DrawDB.** It's already built for this.
 
 ### If you want to understand wwwsqldesigner:
+
 1. Start with `/js/oz.js` - the utility framework
 2. Then `/js/visual.js` - the base class
 3. Then `/js/table.js` and `/js/row.js` - the data model
@@ -171,6 +189,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 5. Finally `/js/wwwsqldesigner.js` - the main Designer class
 
 ### If you want to add WebSocket to wwwsqldesigner:
+
 1. Fork it
 2. Add TypeScript
 3. Extract state from DOM
@@ -183,6 +202,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 ## Files Explored
 
 ### Frontend Code (`/js`)
+
 - `oz.js` (466 lines) - Utility framework
 - `visual.js` (43 lines) - Base class
 - `table.js` (396 lines) - Table entity
@@ -198,6 +218,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 - And 6 more files...
 
 ### Backend Code (`/backend`)
+
 - php-mysql (MySQL database)
 - php-postgresql (PostgreSQL)
 - php-sqlite (SQLite)
@@ -209,6 +230,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 - Web2Py (Python)
 
 ### Data Definitions (`/db`)
+
 - MySQL, PostgreSQL, SQLite, MSSQL, Oracle
 - Web2Py, SQLAlchemy, CUBRID, VFP9
 - Each with datatype definitions in XML
@@ -231,6 +253,7 @@ Each step has cascading dependencies and high risk of breaking existing function
 ## Related DrawDB Documentation
 
 For comparison, see DrawDB's architecture docs:
+
 - `/apps/backend/README.md` - Backend architecture
 - `/CLAUDE.md` - Project overview (includes MCP design)
 - `/apps/backend/src/mcp/primitives/` - MCP tools implementation

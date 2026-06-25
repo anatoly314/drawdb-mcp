@@ -1,11 +1,10 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { Action, DB, ObjectType, defaultBlue } from "../data/constants";
 import { useTransform, useUndoRedo, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 import { nanoid } from "nanoid";
-
-export const DiagramContext = createContext(null);
+import { DiagramContext } from "./DiagramContext";
 
 export default function DiagramContextProvider({ children }) {
   const { t } = useTranslation();
@@ -113,9 +112,7 @@ export default function DiagramContextProvider({ children }) {
   };
 
   const updateTable = (id, updatedValues) => {
-    setTables((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)),
-    );
+    setTables((prev) => prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)));
   };
 
   const updateField = (tid, fid, updatedValues) => {
@@ -229,10 +226,7 @@ export default function DiagramContextProvider({ children }) {
       setRedoStack([]);
     }
     setRelationships((prev) => prev.filter((e) => e.id !== id));
-    if (
-      selectedElement.element === ObjectType.RELATIONSHIP &&
-      selectedElement.id === id
-    ) {
+    if (selectedElement.element === ObjectType.RELATIONSHIP && selectedElement.id === id) {
       setSelectedElement((prev) => ({
         ...prev,
         element: ObjectType.NONE,
@@ -243,9 +237,7 @@ export default function DiagramContextProvider({ children }) {
   };
 
   const updateRelationship = (id, updatedValues) => {
-    setRelationships((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)),
-    );
+    setRelationships((prev) => prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)));
   };
 
   return (

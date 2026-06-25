@@ -1,11 +1,10 @@
-import { createContext, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { useUndoRedo } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 import { nanoid } from "nanoid";
-
-export const TypesContext = createContext(null);
+import { TypesContext } from "./TypesContext";
 
 export default function TypesContextProvider({ children }) {
   const { t } = useTranslation();
@@ -76,9 +75,7 @@ export default function TypesContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
-    setTypes((prev) =>
-      prev.filter((e, i) => (typeof id === "number" ? i !== id : e.id !== id)),
-    );
+    setTypes((prev) => prev.filter((e, i) => (typeof id === "number" ? i !== id : e.id !== id)));
   };
 
   const updateType = useCallback((id, values) => {

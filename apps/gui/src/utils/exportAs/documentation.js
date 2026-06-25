@@ -51,11 +51,7 @@ export function jsonToDocumentation(obj) {
           `${field.increment ? ", autoincrement" : ""}` +
           `${field.default ? `, default: ${field.default}` : ""}`;
 
-        const references = relationshipByField(
-          table.id,
-          obj.relationships,
-          field.id,
-        ).join(", ");
+        const references = relationshipByField(table.id, obj.relationships, field.id).join(", ");
 
         return [`**${field.name}**`, fieldType, settings, references, field.comment ?? ""];
       });
@@ -73,8 +69,7 @@ export function jsonToDocumentation(obj) {
           index.fields.join(", "),
         ]);
         indexesSection =
-          "\n#### Indexes\n" +
-          formatMarkdownTable(["Name", "Unique", "Fields"], indexRows);
+          "\n#### Indexes\n" + formatMarkdownTable(["Name", "Unique", "Fields"], indexRows);
       }
 
       return (
@@ -94,9 +89,7 @@ export function jsonToDocumentation(obj) {
   const documentationRelationships = obj.relationships?.length
     ? obj.relationships
         .map((r) => {
-          const startTable = obj.tables.find(
-            (t) => t.id === r.startTableId,
-          ).name;
+          const startTable = obj.tables.find((t) => t.id === r.startTableId).name;
           const endTable = obj.tables.find((t) => t.id === r.endTableId).name;
           return `- **${startTable} to ${endTable}**: ${r.cardinality}\n`;
         })
@@ -107,7 +100,9 @@ export function jsonToDocumentation(obj) {
     databases[obj.database].hasTypes && obj.types.length > 0
       ? obj.types
           .map((type) => {
-            const rows = [[type.name, type.fields.map((f) => f.name).join(", "), type.comment ?? ""]];
+            const rows = [
+              [type.name, type.fields.map((f) => f.name).join(", "), type.comment ?? ""],
+            ];
             return formatMarkdownTable(["Name", "Fields", "Note"], rows);
           })
           .join("\n")

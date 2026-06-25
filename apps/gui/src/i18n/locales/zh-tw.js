@@ -24,8 +24,7 @@ const zh_tw = {
     template_saved: "範本已儲存！",
     rename: "重新命名",
     delete_diagram: "刪除圖表",
-    are_you_sure_delete_diagram:
-      "確定要刪除此圖表嗎？此操作無法復原。",
+    are_you_sure_delete_diagram: "確定要刪除此圖表嗎？此操作無法復原。",
     oops_smth_went_wrong: "糟糕！發生錯誤。",
     import_diagram: "匯入圖表",
     import_from_source: "從 SQL 匯入",
@@ -37,8 +36,7 @@ const zh_tw = {
     undo: "復原",
     redo: "重做",
     clear: "清除",
-    are_you_sure_clear:
-      "確定要清除圖表嗎？此操作無法復原。",
+    are_you_sure_clear: "確定要清除圖表嗎？此操作無法復原。",
     cut: "剪下",
     copy: "複製",
     paste: "貼上",
@@ -77,8 +75,7 @@ const zh_tw = {
     table_width: "資料表寬度",
     language: "語言",
     flush_storage: "清除儲存空間",
-    are_you_sure_flush_storage:
-      "確定要清除儲存空間嗎？這將會永久刪除所有圖表和自訂範本。",
+    are_you_sure_flush_storage: "確定要清除儲存空間嗎？這將會永久刪除所有圖表和自訂範本。",
     storage_flushed: "儲存空間已清除",
     help: "說明",
     shortcuts: "快速鍵",
@@ -113,8 +110,7 @@ const zh_tw = {
     no_types: "尚無型別",
     no_types_text: "建立自訂資料型別",
     no_issues: "未偵測到問題。",
-    strict_mode_is_on_no_issues:
-      "嚴謹模式已關閉，因此不會顯示任何問題。",
+    strict_mode_is_on_no_issues: "嚴謹模式已關閉，因此不會顯示任何問題。",
     name: "名稱",
     type: "型別",
     null: "允許空值",
@@ -166,11 +162,9 @@ const zh_tw = {
     confirm: "確認",
     last_modified: "最後修改",
     drag_and_drop_files: "將檔案拖曳至此處或點選以上傳。",
-    upload_sql_to_generate_diagrams:
-      "上傳 SQL 檔案以自動產出資料表及欄位。",
+    upload_sql_to_generate_diagrams: "上傳 SQL 檔案以自動產出資料表及欄位。",
     overwrite_existing_diagram: "覆蓋現有圖表",
-    only_mysql_supported:
-      "*目前僅支援載入 MySQL 指令碼。",
+    only_mysql_supported: "*目前僅支援載入 MySQL 指令碼。",
     blank: "空白",
     filename: "檔案名稱",
     table_w_no_name: "有未命名的資料表",
@@ -179,14 +173,11 @@ const zh_tw = {
     empty_field_type: "資料表「{{tableName}}」中有未指定型別的欄位",
     no_values_for_field:
       "資料表「{{tableName}}」中的欄位「{{fieldName}}」型別為「{{type}}」但未指定任何值",
-    default_doesnt_match_type:
-      "資料表「{{tableName}}」中欄位「{{fieldName}}」的預設值與其型別不符",
+    default_doesnt_match_type: "資料表「{{tableName}}」中欄位「{{fieldName}}」的預設值與其型別不符",
     not_null_is_null:
       "資料表「{{tableName}}」中的欄位「{{fieldName}}」設定為不可為空值但預設為空值",
-    duplicate_fields:
-      "資料表「{{tableName}}」中欄位名稱「{{fieldName}}」重複",
-    duplicate_index:
-      "資料表「{{tableName}}」中索引名稱「{{indexName}}」重複",
+    duplicate_fields: "資料表「{{tableName}}」中欄位名稱「{{fieldName}}」重複",
+    duplicate_index: "資料表「{{tableName}}」中索引名稱「{{indexName}}」重複",
     empty_index: "資料表「{{tableName}}」中有未包含任何欄位的索引",
     no_primary_key: "資料表「{{tableName}}」未設定主鍵",
     type_with_no_name: "有未命名的型別",
@@ -196,8 +187,7 @@ const zh_tw = {
     empty_type_field_type: "型別「{{typeName}}」中有未指定型別的欄位",
     no_values_for_type_field:
       "型別「{{typeName}}」中的欄位「{{fieldName}}」型別為「{{type}}」但未指定任何值",
-    duplicate_type_fields:
-      "型別「{{typeName}}」中欄位名稱「{{fieldName}}」重複",
+    duplicate_type_fields: "型別「{{typeName}}」中欄位名稱「{{fieldName}}」重複",
     duplicate_reference: "關聯名稱「{{refName}}」重複",
     circular_dependency: "資料表「{{refName}}」存在循環相依性問題",
     timeline: "時間軸",
@@ -229,8 +219,7 @@ const zh_tw = {
     not_found: "找不到",
     pick_db: "選擇資料庫",
     generic: "通用",
-    generic_description:
-      "通用圖表可匯出至任何 SQL 格式，但僅支援少數資料型別。",
+    generic_description: "通用圖表可匯出至任何 SQL 格式，但僅支援少數資料型別。",
     enums: "列舉",
     add_enum: "新增列舉",
     edit_enum: "{{extra}} 編輯列舉「{{enumName}}」",
@@ -249,8 +238,7 @@ const zh_tw = {
     copy_link: "複製連結",
     readme: "README",
     failed_to_load: "載入失敗。請確認連結是否正確。",
-    share_info:
-      "* 分享此連結不會建立即時的協作工作階段。",
+    share_info: "* 分享此連結不會建立即時的協作工作階段。",
     show_relationship_labels: "顯示關聯標籤",
     docs: "文件",
     supported_types: "支援的檔案類型：",

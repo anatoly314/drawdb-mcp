@@ -41,9 +41,9 @@ import { ug, uyghur } from "./locales/ug";
 import { pa_pk, punjabipk } from "./locales/pa-pk";
 import { cz, czech } from "./locales/cz";
 import { ml, malayalam } from "./locales/ml";
-import { nl, dutch } from './locales/nl';
-import { sd, sindhi } from './locales/sd';
-import { th, thai } from './locales/th';
+import { nl, dutch } from "./locales/nl";
+import { sd, sindhi } from "./locales/sd";
+import { th, thai } from "./locales/th";
 
 export const languages = [
   english,

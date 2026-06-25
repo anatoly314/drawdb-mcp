@@ -11,10 +11,8 @@ export default function Open({ selectedDiagramId, setSelectedDiagramId }) {
   const getDiagramSize = (d) => {
     const size = JSON.stringify(d).length;
     let sizeStr;
-    if (size >= 1024 && size < 1024 * 1024)
-      sizeStr = (size / 1024).toFixed(1) + "KB";
-    else if (size >= 1024 * 1024)
-      sizeStr = (size / (1024 * 1024)).toFixed(1) + "MB";
+    if (size >= 1024 && size < 1024 * 1024) sizeStr = (size / 1024).toFixed(1) + "KB";
+    else if (size >= 1024 * 1024) sizeStr = (size / (1024 * 1024)).toFixed(1) + "MB";
     else sizeStr = size + "B";
 
     return sizeStr;
@@ -46,9 +44,7 @@ export default function Open({ selectedDiagramId, setSelectedDiagramId }) {
                 return (
                   <tr
                     key={d.id}
-                    className={`${
-                      selectedDiagramId === d.id ? "bg-blue-300/30" : "hover-1"
-                    }`}
+                    className={`${selectedDiagramId === d.id ? "bg-blue-300/30" : "hover-1"}`}
                     onClick={() => {
                       setSelectedDiagramId(d.id);
                     }}
@@ -63,9 +59,7 @@ export default function Open({ selectedDiagramId, setSelectedDiagramId }) {
                         d.lastModified.toLocaleTimeString()}
                     </td>
                     <td className="py-1">{getDiagramSize(d)}</td>
-                    <td className="py-1">
-                      {databases[d.database].name ?? "Generic"}
-                    </td>
+                    <td className="py-1">{databases[d.database].name ?? "Generic"}</td>
                   </tr>
                 );
               })}

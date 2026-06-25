@@ -60,7 +60,7 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
             if (d.primary_key) field.primary = true;
             field.default = "";
             if (d.default_val) {
-              let defaultValue = "";
+              let defaultValue;
               if (d.default_val.value.type === "function") {
                 defaultValue = d.default_val.value.name.name[0].value;
                 if (d.default_val.value.args) {
@@ -68,10 +68,7 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
                     "(" +
                     d.default_val.value.args.value
                       .map((v) => {
-                        if (
-                          v.type === "single_quote_string" ||
-                          v.type === "double_quote_string"
-                        )
+                        if (v.type === "single_quote_string" || v.type === "double_quote_string")
                           return "'" + v.value + "'";
                         return v.value;
                       })
@@ -118,14 +115,10 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
               const endTable = tables.find((t) => t.name === endTableName);
               if (!endTable) return;
 
-              const endField = endTable.fields.find(
-                (f) => f.name === endFieldName,
-              );
+              const endField = endTable.fields.find((f) => f.name === endFieldName);
               if (!endField) return;
 
-              const startField = table.fields.find(
-                (f) => f.name === startFieldName,
-              );
+              const startField = table.fields.find((f) => f.name === startFieldName);
               if (!startField) return;
 
               relationship.name = `fk_${startTableName}_${startFieldName}_${endTableName}`;
@@ -133,20 +126,18 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
               relationship.endTableId = endTable.id;
               relationship.endFieldId = endField.id;
               relationship.startFieldId = startField.id;
-              relationship.id = nanoid()
+              relationship.id = nanoid();
               let updateConstraint = "No action";
               let deleteConstraint = "No action";
               d.reference_definition.on_action.forEach((c) => {
                 if (c.type === "on update") {
                   updateConstraint = c.value.value;
                   updateConstraint =
-                    updateConstraint[0].toUpperCase() +
-                    updateConstraint.substring(1);
+                    updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
                 } else if (c.type === "on delete") {
                   deleteConstraint = c.value.value;
                   deleteConstraint =
-                    deleteConstraint[0].toUpperCase() +
-                    deleteConstraint.substring(1);
+                    deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
                 }
               });
 
@@ -191,33 +182,24 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
       e.expr.forEach((expr) => {
         if (
           expr.action === "add" &&
-          expr.create_definitions.constraint_type.toLowerCase() ===
-            "foreign key"
+          expr.create_definitions.constraint_type.toLowerCase() === "foreign key"
         ) {
           const relationship = {};
           const startTableName = e.table[0].table;
           const startFieldName = expr.create_definitions.definition[0].column;
-          const endTableName =
-            expr.create_definitions.reference_definition.table[0].table;
-          const endFieldName =
-            expr.create_definitions.reference_definition.definition[0].column;
+          const endTableName = expr.create_definitions.reference_definition.table[0].table;
+          const endFieldName = expr.create_definitions.reference_definition.definition[0].column;
           let updateConstraint = "No action";
           let deleteConstraint = "No action";
-          expr.create_definitions.reference_definition.on_action.forEach(
-            (c) => {
-              if (c.type === "on update") {
-                updateConstraint = c.value.value;
-                updateConstraint =
-                  updateConstraint[0].toUpperCase() +
-                  updateConstraint.substring(1);
-              } else if (c.type === "on delete") {
-                deleteConstraint = c.value.value;
-                deleteConstraint =
-                  deleteConstraint[0].toUpperCase() +
-                  deleteConstraint.substring(1);
-              }
-            },
-          );
+          expr.create_definitions.reference_definition.on_action.forEach((c) => {
+            if (c.type === "on update") {
+              updateConstraint = c.value.value;
+              updateConstraint = updateConstraint[0].toUpperCase() + updateConstraint.substring(1);
+            } else if (c.type === "on delete") {
+              deleteConstraint = c.value.value;
+              deleteConstraint = deleteConstraint[0].toUpperCase() + deleteConstraint.substring(1);
+            }
+          });
 
           const startTable = tables.find((t) => t.name === startTableName);
           if (!startTable) return;
@@ -228,13 +210,10 @@ export function fromMariaDB(ast, diagramDb = DB.GENERIC) {
           const endField = endTable.fields.find((f) => f.name === endFieldName);
           if (!endField) return;
 
-          const startField = startTable.fields.find(
-            (f) => f.name === startFieldName,
-          );
+          const startField = startTable.fields.find((f) => f.name === startFieldName);
           if (!startField) return;
 
-          relationship.name =
-            "fk_" + startTableName + "_" + startFieldName + "_" + endTableName;
+          relationship.name = "fk_" + startTableName + "_" + startFieldName + "_" + endTableName;
           relationship.startTableId = startTable.id;
           relationship.startFieldId = startField.id;
           relationship.endTableId = endTable.id;

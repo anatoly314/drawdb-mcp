@@ -16,8 +16,7 @@ export function toSqlite(diagram) {
             }" ${field.type}${field.notNull ? " NOT NULL" : ""}${
               field.unique ? " UNIQUE" : ""
             }${field.default !== "" ? ` DEFAULT ${parseDefault(field, diagram.database)}` : ""}${
-              field.check === "" ||
-              !dbToTypes[diagram.database][field.type].hasCheck
+              field.check === "" || !dbToTypes[diagram.database][field.type].hasCheck
                 ? ""
                 : ` CHECK(${field.check})`
             }`,
@@ -34,9 +33,7 @@ export function toSqlite(diagram) {
           (i) =>
             `\nCREATE ${i.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS "${
               i.name
-            }"\nON "${table.name}" (${i.fields
-              .map((f) => `"${f}"`)
-              .join(", ")});`,
+            }"\nON "${table.name}" (${i.fields.map((f) => `"${f}"`).join(", ")});`,
         )
         .join("\n")}`;
     })

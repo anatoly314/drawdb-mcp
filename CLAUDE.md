@@ -214,6 +214,7 @@ Each tool is an injectable NestJS service decorated with `@McpTool()`, validates
 **Tool catalog** is defined by the directory `apps/backend/src/mcp/primitives/essential/tools/` (one file per tool). Frontend command catalog lives in `apps/gui/src/hooks/useRemoteControl.js` (the switch statement) and `apps/backend/src/drawdb/drawdb-client.service.ts`. Read those rather than relying on a list here — they drift.
 
 **Notes on a few non-obvious tools:**
+
 - `export-sql` requires a specific database type. The `generic` database type returns an empty string.
 - `export-dbml` / `import-dbml` work with any database type.
 - `import-diagram` replaces the current diagram entirely.
@@ -283,6 +284,7 @@ For step-through debugging: `npm run inspector:stdio:debug` in `apps/backend`, t
 ## Documentation
 
 Additional docs in `docs/`:
+
 - `CONTRIBUTING.md` - Contribution guide
 - `DOCKER_BUILD.md` - Detailed Docker build instructions
 - `GHCR_DEPLOYMENT.md` - GHCR tags and deployment options

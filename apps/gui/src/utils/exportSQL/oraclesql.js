@@ -13,18 +13,13 @@ export function toOracleSQL(diagram) {
               `${field.comment === "" ? "" : `\t-- ${field.comment}\n`}\t"${
                 field.name
               }" ${field.type}${
-                field.size !== undefined && field.size !== ""
-                  ? "(" + field.size + ")"
-                  : ""
+                field.size !== undefined && field.size !== "" ? "(" + field.size + ")" : ""
               }${field.notNull ? " NOT NULL" : ""}${
                 field.increment ? " GENERATED ALWAYS AS IDENTITY" : ""
               }${field.unique ? " UNIQUE" : ""}${
-                field.default !== ""
-                  ? ` DEFAULT ${parseDefault(field, diagram.database)}`
-                  : ""
+                field.default !== "" ? ` DEFAULT ${parseDefault(field, diagram.database)}` : ""
               }${
-                field.check === "" ||
-                !dbToTypes[diagram.database][field.type].hasCheck
+                field.check === "" || !dbToTypes[diagram.database][field.type].hasCheck
                   ? ""
                   : ` CHECK(${field.check})`
               }${field.comment ? ` -- ${field.comment}` : ""}`,

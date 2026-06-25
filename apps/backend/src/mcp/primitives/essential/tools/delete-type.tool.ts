@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class DeleteTypeTool {
@@ -11,24 +11,24 @@ export class DeleteTypeTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_type',
+    name: "delete_type",
     description:
-      'Delete a custom composite TYPE from the diagram. This will remove the type definition but may affect tables that reference it.',
+      "Delete a custom composite TYPE from the diagram. This will remove the type definition but may affect tables that reference it.",
     parameters: z.object({
-      typeId: z.string().describe('ID of the type to delete'),
+      typeId: z.string().describe("ID of the type to delete"),
     }),
   })
   async deleteType(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
       await context.reportProgress({ progress: 25, total: 100 });
 
-      await this.drawdbClient.sendCommand('deleteType', {
+      await this.drawdbClient.sendCommand("deleteType", {
         id: input.typeId,
         addToHistory: true,
       });
@@ -43,7 +43,7 @@ export class DeleteTypeTool {
         typeId: input.typeId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete type', error);
+      this.logger.error("Failed to delete type", error);
       throw error;
     }
   }

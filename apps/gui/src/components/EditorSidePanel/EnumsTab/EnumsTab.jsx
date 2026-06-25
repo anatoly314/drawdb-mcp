@@ -16,12 +16,7 @@ export default function EnumsTab() {
       <div className="flex gap-2">
         <SearchBar />
         <div>
-          <Button
-            block
-            icon={<IconPlus />}
-            onClick={() => addEnum()}
-            disabled={layout.readOnly}
-          >
+          <Button block icon={<IconPlus />} onClick={() => addEnum()} disabled={layout.readOnly}>
             {t("add_enum")}
           </Button>
         </div>
@@ -35,9 +30,7 @@ export default function EnumsTab() {
               key={`enum_${e.id}`}
               id={`scroll_enum_${e.id}`}
               header={
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                  {e.name}
-                </div>
+                <div className="overflow-hidden text-ellipsis whitespace-nowrap">{e.name}</div>
               }
               itemKey={e.id}
             >

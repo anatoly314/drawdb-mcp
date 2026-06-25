@@ -1,24 +1,8 @@
-import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
 
-export function SortableList({
-  items,
-  onChange,
-  afterChange,
-  renderItem,
-  keyPrefix,
-}) {
+export function SortableList({ items, onChange, afterChange, renderItem, keyPrefix }) {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event) => {
@@ -34,17 +18,10 @@ export function SortableList({
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
         {items.map((item, i) => (
-          <SortableItem
-            id={item.id}
-            key={`${keyPrefix}-sortable-item-${item.id}`}
-          >
+          <SortableItem id={item.id} key={`${keyPrefix}-sortable-item-${item.id}`}>
             {renderItem(item, i)}
           </SortableItem>
         ))}

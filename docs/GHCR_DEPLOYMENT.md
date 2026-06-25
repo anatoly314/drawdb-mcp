@@ -37,15 +37,15 @@ Then access:
 ### Using docker-compose (recommended for production)
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   drawdb:
     image: ghcr.io/anatoly314/drawdb:latest
     container_name: drawdb
     ports:
-      - '8080:80' # GUI and WebSocket (proxied through nginx)
-      - '3000:3000' # Direct MCP server access for Claude Desktop/LLM clients
+      - "8080:80" # GUI and WebSocket (proxied through nginx)
+      - "3000:3000" # Direct MCP server access for Claude Desktop/LLM clients
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -124,7 +124,7 @@ spec:
               name: mcp
           env:
             - name: NODE_ENV
-              value: 'production'
+              value: "production"
 ```
 
 ### Environment Variables

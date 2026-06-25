@@ -19,8 +19,7 @@ const mr = {
     template_saved: "टेम्पलेट जतन झाले!",
     rename: "नाव बदला",
     delete_diagram: "डायग्राम हटवा",
-    are_you_sure_delete_diagram:
-      "आपण खरोखर हा डायग्राम हटवू इच्छिता? ही क्रिया अपरिवर्तनीय आहे.",
+    are_you_sure_delete_diagram: "आपण खरोखर हा डायग्राम हटवू इच्छिता? ही क्रिया अपरिवर्तनीय आहे.",
     oops_smth_went_wrong: "अरे! काहीतरी चूक झाली.",
     import_diagram: "डायग्राम आयात करा",
     import_from_source: "SQL मधून आयात करा",
@@ -32,8 +31,7 @@ const mr = {
     undo: "पूर्ववत करा",
     redo: "पुन्हा करा",
     clear: "साफ करा",
-    are_you_sure_clear:
-      "आपण खरोखर हा डायग्राम साफ करू इच्छिता? ही क्रिया अपरिवर्तनीय आहे.",
+    are_you_sure_clear: "आपण खरोखर हा डायग्राम साफ करू इच्छिता? ही क्रिया अपरिवर्तनीय आहे.",
     cut: "कापा",
     copy: "कॉपी करा",
     paste: "पेस्ट करा",
@@ -99,8 +97,7 @@ const mr = {
     no_types: "कोणतेही प्रकार नाहीत",
     no_types_text: "आपले स्वतःचे कस्टम डेटा प्रकार तयार करा",
     no_issues: "कोणत्याही समस्या आढळल्या नाहीत.",
-    strict_mode_is_on_no_issues:
-      "कडक मोड बंद आहे म्हणून कोणत्याही समस्या दाखवल्या जाणार नाहीत.",
+    strict_mode_is_on_no_issues: "कडक मोड बंद आहे म्हणून कोणत्याही समस्या दाखवल्या जाणार नाहीत.",
     name: "नाव",
     type: "प्रकार",
     null: "Null",
@@ -150,8 +147,7 @@ const mr = {
     create: "तयार करा",
     confirm: "पुष्टी करा",
     last_modified: "शेवटचे बदलले",
-    drag_and_drop_files:
-      "फाइल येथे खेचा आणि सोडा किंवा अपलोड करण्यासाठी क्लिक करा.",
+    drag_and_drop_files: "फाइल येथे खेचा आणि सोडा किंवा अपलोड करण्यासाठी क्लिक करा.",
     upload_sql_to_generate_diagrams:
       "आपल्या टेबल आणि कॉलम स्वयंचलितपणे जेनरेट करण्यासाठी SQL फाइल अपलोड करा.",
     overwrite_existing_diagram: "मौजूदा डायग्राम अधिलेखित करा",
@@ -170,10 +166,8 @@ const mr = {
       "टेबल '{{tableName}}' च्या फील्ड '{{fieldName}}' ची व्हॅल्यू NOT NULL आहे पण डिफ़ॉल्ट NULL आहे",
     duplicate_fields:
       "टेबल '{{tableName}}' मध्ये नाव '{{fieldName}}' असलेले डुप्लिकेट टेबल फील्ड्स",
-    duplicate_index:
-      "टेबल '{{tableName}}' मध्ये नाव '{{indexName}}' असलेला डुप्लिकेट इंडेक्स",
-    empty_index:
-      "टेबल '{{tableName}}' मध्ये इंडेक्स कोणताही कॉलम इंडेक्स करत नाही",
+    duplicate_index: "टेबल '{{tableName}}' मध्ये नाव '{{indexName}}' असलेला डुप्लिकेट इंडेक्स",
+    empty_index: "टेबल '{{tableName}}' मध्ये इंडेक्स कोणताही कॉलम इंडेक्स करत नाही",
     no_primary_key: "टेबल '{{tableName}}' मध्ये कोणतीही प्राथमिक कुंजी नाही",
     type_with_no_name: "नाव नसलेला प्रकार घोषित केला",
     duplicate_types: "नाव '{{typeName}}' असलेले डुप्लिकेट प्रकार",

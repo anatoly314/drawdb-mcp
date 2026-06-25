@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
-import { nanoid } from 'nanoid';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
+import { nanoid } from "nanoid";
 
 @Injectable()
 export class AddTableTool {
@@ -12,13 +12,13 @@ export class AddTableTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'add_table',
+    name: "add_table",
     description:
-      'Add a new table to the database diagram. Creates a table with specified fields at given coordinates.',
+      "Add a new table to the database diagram. Creates a table with specified fields at given coordinates.",
     parameters: z.object({
-      name: z.string().describe('Table name'),
-      x: z.number().optional().describe('X coordinate on canvas (optional, defaults to 100)'),
-      y: z.number().optional().describe('Y coordinate on canvas (optional, defaults to 100)'),
+      name: z.string().describe("Table name"),
+      x: z.number().optional().describe("X coordinate on canvas (optional, defaults to 100)"),
+      y: z.number().optional().describe("Y coordinate on canvas (optional, defaults to 100)"),
       fields: z
         .array(
           z.object({
@@ -34,22 +34,22 @@ export class AddTableTool {
             unique: z.boolean().optional().default(false),
             notNull: z.boolean().optional().default(false),
             increment: z.boolean().optional().default(false),
-            default: z.string().optional().default(''),
-            check: z.string().optional().default(''),
-            comment: z.string().optional().default(''),
+            default: z.string().optional().default(""),
+            check: z.string().optional().default(""),
+            comment: z.string().optional().default(""),
           }),
         )
         .optional()
-        .describe('Array of fields (optional, will create default id field if not provided)'),
-      color: z.string().optional().describe('Table color (optional, defaults to #175e7a)'),
-      comment: z.string().optional().describe('Table comment (optional)'),
+        .describe("Array of fields (optional, will create default id field if not provided)"),
+      color: z.string().optional().describe("Table color (optional, defaults to #175e7a)"),
+      comment: z.string().optional().describe("Table comment (optional)"),
     }),
   })
   async addTable(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -59,7 +59,7 @@ export class AddTableTool {
       const createdTable = await this.drawdbClient.addTable(null, true);
 
       if (!createdTable || !createdTable.id) {
-        throw new Error('Failed to create table: invalid response from frontend');
+        throw new Error("Failed to create table: invalid response from frontend");
       }
 
       await context.reportProgress({ progress: 40, total: 100 });
@@ -70,9 +70,9 @@ export class AddTableTool {
           ? input.fields.map((field: any) => ({
               ...field,
               id: nanoid(),
-              default: field.default || '',
-              check: field.check || '',
-              comment: field.comment || '',
+              default: field.default || "",
+              check: field.check || "",
+              comment: field.comment || "",
             }))
           : createdTable.fields || []; // Keep default fields if none provided
 
@@ -82,7 +82,7 @@ export class AddTableTool {
         x: input.x ?? createdTable.x,
         y: input.y ?? createdTable.y,
         fields,
-        comment: input.comment || '',
+        comment: input.comment || "",
         color: input.color || createdTable.color,
       };
 
@@ -110,7 +110,7 @@ export class AddTableTool {
         fieldIds,
       };
     } catch (error) {
-      this.logger.error('Failed to add table', error);
+      this.logger.error("Failed to add table", error);
       throw error;
     }
   }

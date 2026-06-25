@@ -1,14 +1,14 @@
-import LayoutContextProvider from "../context/LayoutContext";
-import TransformContextProvider from "../context/TransformContext";
-import TablesContextProvider from "../context/DiagramContext";
-import UndoRedoContextProvider from "../context/UndoRedoContext";
-import SelectContextProvider from "../context/SelectContext";
-import AreasContextProvider from "../context/AreasContext";
-import NotesContextProvider from "../context/NotesContext";
-import TypesContextProvider from "../context/TypesContext";
-import TasksContextProvider from "../context/TasksContext";
-import SaveStateContextProvider from "../context/SaveStateContext";
-import EnumsContextProvider from "../context/EnumsContext";
+import LayoutContextProvider from "../context/LayoutContextProvider";
+import TransformContextProvider from "../context/TransformContextProvider";
+import TablesContextProvider from "../context/DiagramContextProvider";
+import UndoRedoContextProvider from "../context/UndoRedoContextProvider";
+import SelectContextProvider from "../context/SelectContextProvider";
+import AreasContextProvider from "../context/AreasContextProvider";
+import NotesContextProvider from "../context/NotesContextProvider";
+import TypesContextProvider from "../context/TypesContextProvider";
+import TasksContextProvider from "../context/TasksContextProvider";
+import SaveStateContextProvider from "../context/SaveStateContextProvider";
+import EnumsContextProvider from "../context/EnumsContextProvider";
 import WorkSpace from "../components/Workspace";
 import { useThemedPage } from "../hooks";
 

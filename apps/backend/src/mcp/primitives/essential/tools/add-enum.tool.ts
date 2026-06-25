@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class AddEnumTool {
@@ -11,9 +11,9 @@ export class AddEnumTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'add_enum',
+    name: "add_enum",
     description:
-      'Add a new ENUM type to the diagram (PostgreSQL). ENUMs define a list of allowed values for a column, such as status types or categories.',
+      "Add a new ENUM type to the diagram (PostgreSQL). ENUMs define a list of allowed values for a column, such as status types or categories.",
     parameters: z.object({
       name: z.string().describe('ENUM type name (e.g., "user_status", "priority_level")'),
       values: z
@@ -25,14 +25,14 @@ export class AddEnumTool {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
       await context.reportProgress({ progress: 10, total: 100 });
 
       // Step 1: Create default enum (frontend generates a nanoid string ID)
-      const createdEnum = await this.drawdbClient.sendCommand('addEnum', {
+      const createdEnum = await this.drawdbClient.sendCommand("addEnum", {
         data: null,
         addToHistory: true,
       });
@@ -45,7 +45,7 @@ export class AddEnumTool {
         values: input.values || [],
       };
 
-      await this.drawdbClient.sendCommand('updateEnum', {
+      await this.drawdbClient.sendCommand("updateEnum", {
         id: createdEnum.id,
         updates,
       });
@@ -62,7 +62,7 @@ export class AddEnumTool {
         values: input.values,
       };
     } catch (error) {
-      this.logger.error('Failed to add enum', error);
+      this.logger.error("Failed to add enum", error);
       throw error;
     }
   }

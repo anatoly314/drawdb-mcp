@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
-import { nanoid } from 'nanoid';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
+import { nanoid } from "nanoid";
 
 @Injectable()
 export class AddFieldTool {
@@ -12,33 +12,33 @@ export class AddFieldTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'add_field',
+    name: "add_field",
     description:
-      'Add a new field to an existing table in the diagram. Use this to add columns after table creation.',
+      "Add a new field to an existing table in the diagram. Use this to add columns after table creation.",
     parameters: z.object({
-      tableId: z.string().describe('ID of the table to add the field to'),
-      name: z.string().describe('Field name'),
-      type: z.string().describe('Field data type (e.g., INTEGER, VARCHAR, TEXT)'),
+      tableId: z.string().describe("ID of the table to add the field to"),
+      name: z.string().describe("Field name"),
+      type: z.string().describe("Field data type (e.g., INTEGER, VARCHAR, TEXT)"),
       size: z
         .union([z.number(), z.string()])
         .optional()
         .describe(
           "Length/size for sized types like VARCHAR or CHAR (e.g. 255). Optional — when omitted, the type's standard default size is applied.",
         ),
-      primary: z.boolean().optional().default(false).describe('Is primary key'),
-      unique: z.boolean().optional().default(false).describe('Has unique constraint'),
-      notNull: z.boolean().optional().default(false).describe('Has NOT NULL constraint'),
-      increment: z.boolean().optional().default(false).describe('Auto-increment'),
-      default: z.string().optional().default('').describe('Default value'),
-      check: z.string().optional().default('').describe('Check constraint'),
-      comment: z.string().optional().default('').describe('Field comment'),
+      primary: z.boolean().optional().default(false).describe("Is primary key"),
+      unique: z.boolean().optional().default(false).describe("Has unique constraint"),
+      notNull: z.boolean().optional().default(false).describe("Has NOT NULL constraint"),
+      increment: z.boolean().optional().default(false).describe("Auto-increment"),
+      default: z.string().optional().default("").describe("Default value"),
+      check: z.string().optional().default("").describe("Check constraint"),
+      comment: z.string().optional().default("").describe("Field comment"),
     }),
   })
   async addField(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -54,9 +54,9 @@ export class AddFieldTool {
         unique: input.unique || false,
         notNull: input.notNull || false,
         increment: input.increment || false,
-        default: input.default || '',
-        check: input.check || '',
-        comment: input.comment || '',
+        default: input.default || "",
+        check: input.check || "",
+        comment: input.comment || "",
       };
 
       await context.reportProgress({ progress: 50, total: 100 });
@@ -74,7 +74,7 @@ export class AddFieldTool {
         tableId: input.tableId,
       };
     } catch (error) {
-      this.logger.error('Failed to add field', error);
+      this.logger.error("Failed to add field", error);
       throw error;
     }
   }

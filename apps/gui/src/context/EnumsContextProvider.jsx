@@ -1,11 +1,10 @@
-import { createContext, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Action, ObjectType } from "../data/constants";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 import { useUndoRedo } from "../hooks";
 import { nanoid } from "nanoid";
-
-export const EnumsContext = createContext(null);
+import { EnumsContext } from "./EnumsContext";
 
 export default function EnumsContextProvider({ children }) {
   const { t } = useTranslation();

@@ -1,6 +1,6 @@
-import { Command } from 'commander';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { Command } from "commander";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 export interface CliOptions {
   port: number;
@@ -9,9 +9,9 @@ export interface CliOptions {
 
 function getPackageJson() {
   try {
-    return JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
+    return JSON.parse(readFileSync(join(__dirname, "../package.json"), "utf-8"));
   } catch {
-    return { version: '0.1.0', name: 'drawdb-mcp-server' };
+    return { version: "0.1.0", name: "drawdb-mcp-server" };
   }
 }
 
@@ -23,13 +23,13 @@ export function parseCliArgs(): CliOptions {
   const program = new Command();
 
   program
-    .name('drawdb-mcp')
-    .description('DrawDB MCP Server - Model Context Protocol server for DrawDB')
+    .name("drawdb-mcp")
+    .description("DrawDB MCP Server - Model Context Protocol server for DrawDB")
     .version(getVersion())
-    .option('-p, --port <number>', 'Port to listen on', '3000')
-    .option('-h, --host <address>', 'Host to bind to', '127.0.0.1')
+    .option("-p, --port <number>", "Port to listen on", "3000")
+    .option("-h, --host <address>", "Host to bind to", "127.0.0.1")
     .addHelpText(
-      'after',
+      "after",
       `
 Examples:
   $ drawdb-mcp                                 # Use defaults
@@ -63,12 +63,12 @@ For more information, visit: https://github.com/anatoly314/drawdb-mcp
 }
 
 export function displayStartupBanner(options: CliOptions): void {
-  console.log('\n🎨 DrawDB MCP Server started\n');
+  console.log("\n🎨 DrawDB MCP Server started\n");
   console.log(`  HTTP server listening on http://${options.host}:${options.port}`);
   console.log(`  MCP endpoint: http://${options.host}:${options.port}/`);
   console.log(`  WebSocket endpoint: ws://${options.host}:${options.port}/remote-control`);
-  console.log('\n  Configure your DrawDB frontend with:');
+  console.log("\n  Configure your DrawDB frontend with:");
   console.log(`    VITE_REMOTE_CONTROL_ENABLED=true`);
   console.log(`    VITE_REMOTE_CONTROL_WS=ws://${options.host}:${options.port}/remote-control`);
-  console.log('\n  Press Ctrl+C to stop the server\n');
+  console.log("\n  Press Ctrl+C to stop the server\n");
 }

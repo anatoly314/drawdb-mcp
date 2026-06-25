@@ -18,11 +18,7 @@ import {
   $getNodeByKey,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
-import {
-  $isParentElementRTL,
-  $wrapNodes,
-  $isAtNodeEnd,
-} from "@lexical/selection";
+import { $isParentElementRTL, $wrapNodes, $isAtNodeEnd } from "@lexical/selection";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
   INSERT_ORDERED_LIST_COMMAND,
@@ -32,11 +28,7 @@ import {
   ListNode,
 } from "@lexical/list";
 import { createPortal } from "react-dom";
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode,
-} from "@lexical/rich-text";
+import { $createHeadingNode, $createQuoteNode, $isHeadingNode } from "@lexical/rich-text";
 import {
   $createCodeNode,
   $isCodeNode,
@@ -159,8 +151,8 @@ function FloatingLinkEditor({ editor }) {
           updateLinkEditor();
           return true;
         },
-        LowPriority
-      )
+        LowPriority,
+      ),
     );
   }, [editor, updateLinkEditor]);
 
@@ -357,19 +349,13 @@ function BlockOptionsDropdownList({ editor, blockType }) {
           >
             Quote
           </Dropdown.Item>
-          <Dropdown.Item
-            onClick={formatCode}
-            icon={<i className={`bi ${blockTypeToIcon.code}`} />}
-          >
+          <Dropdown.Item onClick={formatCode} icon={<i className={`bi ${blockTypeToIcon.code}`} />}>
             Code Block
           </Dropdown.Item>
         </Dropdown.Menu>
       }
     >
-      <button
-        className="flex mx-2 justify-center items-center"
-        aria-label="Formatting Options"
-      >
+      <button className="flex mx-2 justify-center items-center" aria-label="Formatting Options">
         <i className={`bi ${blockTypeToIcon[blockType]} me-3`} />
         <span className="me-3 text-sm">{blockTypeToBlockName[blockType]}</span>
         <i className="bi bi-chevron-down" />
@@ -399,9 +385,7 @@ export default function ToolbarPlugin() {
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
       const element =
-        anchorNode.getKey() === "root"
-          ? anchorNode
-          : anchorNode.getTopLevelElementOrThrow();
+        anchorNode.getKey() === "root" ? anchorNode : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
       if (elementDOM !== null) {
@@ -411,9 +395,7 @@ export default function ToolbarPlugin() {
           const type = parentList ? parentList.getTag() : element.getTag();
           setBlockType(type);
         } else {
-          const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
+          const type = $isHeadingNode(element) ? element.getTag() : element.getType();
           setBlockType(type);
           if ($isCodeNode(element)) {
             setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage());
@@ -451,7 +433,7 @@ export default function ToolbarPlugin() {
           updateToolbar();
           return false;
         },
-        LowPriority
+        LowPriority,
       ),
       editor.registerCommand(
         CAN_UNDO_COMMAND,
@@ -459,7 +441,7 @@ export default function ToolbarPlugin() {
           setCanUndo(payload);
           return false;
         },
-        LowPriority
+        LowPriority,
       ),
       editor.registerCommand(
         CAN_REDO_COMMAND,
@@ -467,8 +449,8 @@ export default function ToolbarPlugin() {
           setCanRedo(payload);
           return false;
         },
-        LowPriority
-      )
+        LowPriority,
+      ),
     );
   }, [editor, updateToolbar]);
 
@@ -484,7 +466,7 @@ export default function ToolbarPlugin() {
         }
       });
     },
-    [editor, selectedElementKey]
+    [editor, selectedElementKey],
   );
 
   const insertLink = useCallback(() => {
@@ -503,11 +485,7 @@ export default function ToolbarPlugin() {
         className="toolbar-item spaced"
         aria-label="Undo"
       >
-        <i
-          className={`bi bi-arrow-counterclockwise ${
-            canUndo ? "" : "opacity-30"
-          }`}
-        />
+        <i className={`bi bi-arrow-counterclockwise ${canUndo ? "" : "opacity-30"}`} />
       </button>
       <button
         disabled={!canRedo}
@@ -540,30 +518,22 @@ export default function ToolbarPlugin() {
             <i className="bi bi-type-bold" />
           </button>
           <button
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")
-            }
+            onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
             className={"toolbar-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format Italics"
           >
             <i className="bi bi-type-italic" />
           </button>
           <button
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
-            }
+            onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
             className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
             aria-label="Format Underline"
           >
             <i className="bi bi-type-underline" />
           </button>
           <button
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
-            }
-            className={
-              "toolbar-item spaced " + (isStrikethrough ? "active" : "")
-            }
+            onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")}
+            className={"toolbar-item spaced " + (isStrikethrough ? "active" : "")}
             aria-label="Format Strikethrough"
           >
             <i className="bi bi-type-strikethrough" />
@@ -582,25 +552,17 @@ export default function ToolbarPlugin() {
           >
             <i className="bi bi-link" />
           </button>
-          {isLink &&
-            createPortal(
-              <FloatingLinkEditor editor={editor} />,
-              document.body
-            )}
+          {isLink && createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider />
           <button
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")
-            }
+            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
             className="toolbar-item spaced"
             aria-label="Left Align"
           >
             <i className="bi bi-text-left" />
           </button>
           <button
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
-            }
+            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")}
             className="toolbar-item spaced"
             aria-label="Center Align"
           >

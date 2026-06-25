@@ -4,7 +4,7 @@ import Editor from "./pages/Editor";
 import Templates from "./pages/Templates";
 import Docs from "./pages/Docs";
 import About from "./pages/About";
-import SettingsContextProvider from "./context/SettingsContext";
+import SettingsContextProvider from "./context/SettingsContextProvider";
 import NotFound from "./pages/NotFound";
 
 export default function App() {

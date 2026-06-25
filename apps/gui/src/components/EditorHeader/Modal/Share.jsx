@@ -1,16 +1,9 @@
 import { Banner, Button, Input, Spin, Toast } from "@douyinfe/semi-ui";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IdContext } from "../../Workspace";
+import { IdContext } from "../../../context/IdContext";
 import { IconLink } from "@douyinfe/semi-icons";
-import {
-  useAreas,
-  useDiagram,
-  useEnums,
-  useNotes,
-  useTransform,
-  useTypes,
-} from "../../../hooks";
+import { useAreas, useDiagram, useEnums, useNotes, useTransform, useTypes } from "../../../hooks";
 import { databases } from "../../../data/databases";
 import { MODAL } from "../../../data/constants";
 import { create, patch, SHARE_FILENAME } from "../../../api/gists";
@@ -26,8 +19,7 @@ export default function Share({ title, setModal }) {
   const { enums } = useEnums();
   const { transform } = useTransform();
   const [error, setError] = useState(null);
-  const url =
-    window.location.origin + window.location.pathname + "?shareId=" + gistId;
+  const url = window.location.origin + window.location.pathname + "?shareId=" + gistId;
 
   const diagramToString = useCallback(() => {
     return JSON.stringify({
@@ -41,17 +33,7 @@ export default function Share({ title, setModal }) {
       ...(databases[database].hasEnums && { enums: enums }),
       transform: transform,
     });
-  }, [
-    areas,
-    notes,
-    tables,
-    relationships,
-    database,
-    title,
-    enums,
-    types,
-    transform,
-  ]);
+  }, [areas, notes, tables, relationships, database, title, enums, types, transform]);
 
   const unshare = useCallback(async () => {
     try {

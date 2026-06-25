@@ -362,49 +362,49 @@ For update/delete constraints:
 ## Example Backend (Node.js)
 
 ```javascript
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 8080, path: '/remote-control' });
+const wss = new WebSocket.Server({ port: 8080, path: "/remote-control" });
 
-wss.on('connection', (ws) => {
-  console.log('DrawDB client connected');
+wss.on("connection", (ws) => {
+  console.log("DrawDB client connected");
 
   // Example: Create a table when client connects
   ws.send(
     JSON.stringify({
-      id: 'cmd_' + Date.now(),
-      command: 'addTable',
+      id: "cmd_" + Date.now(),
+      command: "addTable",
       params: {
         data: {
-          id: 'tbl_' + Date.now(),
-          name: 'users',
+          id: "tbl_" + Date.now(),
+          name: "users",
           x: 100,
           y: 100,
           fields: [
             {
-              id: 'fld_1',
-              name: 'id',
-              type: 'INTEGER',
+              id: "fld_1",
+              name: "id",
+              type: "INTEGER",
               primary: true,
               notNull: true,
               increment: true,
-              default: '',
-              check: '',
-              comment: '',
+              default: "",
+              check: "",
+              comment: "",
             },
           ],
-          color: '#175e7a',
+          color: "#175e7a",
           indices: [],
-          comment: '',
+          comment: "",
         },
       },
     }),
   );
 
   // Listen for responses
-  ws.on('message', (data) => {
+  ws.on("message", (data) => {
     const response = JSON.parse(data);
-    console.log('Response:', response);
+    console.log("Response:", response);
   });
 });
 ```

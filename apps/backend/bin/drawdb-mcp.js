@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../dist/main-http');
+require("../dist/main-http");

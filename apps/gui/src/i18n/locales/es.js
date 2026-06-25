@@ -37,8 +37,7 @@ const es = {
     undo: "Deshacer",
     redo: "Rehacer",
     clear: "limpiar",
-    are_you_sure_clear:
-      "Estás seguro de que quieres borrar el diagrama? Esto es irreversible.",
+    are_you_sure_clear: "Estás seguro de que quieres borrar el diagrama? Esto es irreversible.",
     cut: "Cortar",
     copy: "Copiar",
     paste: "Pegar",
@@ -113,8 +112,7 @@ const es = {
     no_types: "Sin tipos",
     no_types_text: " ¡Añade tipos!",
     no_issues: " Sin problemas",
-    strict_mode_is_on_no_issues:
-      "El modo estricto está activado y no hay problemas.",
+    strict_mode_is_on_no_issues: "El modo estricto está activado y no hay problemas.",
     name: "Nombre",
     type: "Tipo",
     null: "Nulo",
@@ -166,11 +164,9 @@ const es = {
     confirm: "Confirmar",
     last_modified: "Última modificación",
     drag_and_drop_files: "Arrastra y suelta el archivo aquí o haz clic para subir.",
-    upload_sql_to_generate_diagrams:
-      "Sube un archivo sql para autogenerar tus tablas y columnas.",
+    upload_sql_to_generate_diagrams: "Sube un archivo sql para autogenerar tus tablas y columnas.",
     overwrite_existing_diagram: "Sobrescribir diagrama existente",
-    only_mysql_supported:
-      "*Por el momento, solo se admite la carga de scripts de MySQL.",
+    only_mysql_supported: "*Por el momento, solo se admite la carga de scripts de MySQL.",
     blank: "En blanco",
     filename: "Nombre del archivo",
     table_w_no_name: "Declarada una tabla sin nombre",
@@ -185,8 +181,7 @@ const es = {
       "El campo '{{fieldName}}' de la tabla '{{tableName}}' es NOT NULL pero tiene NULL por defecto",
     duplicate_fields:
       "Campos de tabla duplicados por nombre '{{fieldName}}' en la tabla '{{tableName}}'",
-    duplicate_index:
-      "Índice duplicado por nombre '{{indexName}}' en la tabla '{{tableName}}'",
+    duplicate_index: "Índice duplicado por nombre '{{indexName}}' en la tabla '{{tableName}}'",
     empty_index: "Índice en la tabla '{{tableName}}' no indexa columnas",
     no_primary_key: "La tabla '{{tableName}}' no tiene clave primaria",
     type_with_no_name: "Declarado un tipo sin nombre",
@@ -229,8 +224,8 @@ const es = {
     not_found: "No encontrado",
     pick_db: "Elegir base de datos",
     generic: "Genérico",
-    generic_description: 
-      "Los diagramas genéricos se pueden exportar a cualquier formato SQL, pero soportan un número limitado de tipos de datos.", 
+    generic_description:
+      "Los diagramas genéricos se pueden exportar a cualquier formato SQL, pero soportan un número limitado de tipos de datos.",
     enums: "Enumeraciones",
     add_enum: "Añadir enumeración",
     edit_enum: "{{extra}} Editar enumeración {{enumName}}",
@@ -249,8 +244,7 @@ const es = {
     copy_link: "Copiar enlace",
     readme: "README",
     failed_to_load: "Error al cargar. Asegurate de que el enlace sea correcto.",
-    share_info: 
-      "* Compartir este enlace no creará una sesión de colaboración en tiempo real.",
+    share_info: "* Compartir este enlace no creará una sesión de colaboración en tiempo real.",
     show_relationship_labels: "Mostrar etiquetas de relación",
     docs: "Documentación",
     supported_types: "Tipos de archivo compatibles:",

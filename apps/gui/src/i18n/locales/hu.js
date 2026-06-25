@@ -19,8 +19,7 @@ const hu = {
     template_saved: "Sablon elmentve!",
     rename: "Átnevezés",
     delete_diagram: "Diagram törlése",
-    are_you_sure_delete_diagram:
-      "Biztosan törli ezt a diagramot? Ez a művelet végleges.",
+    are_you_sure_delete_diagram: "Biztosan törli ezt a diagramot? Ez a művelet végleges.",
     oops_smth_went_wrong: "Hoppá! Valami hiba történt.",
     import_diagram: "Diagram importálása",
     import_from_source: "Importálás SQL-ből",
@@ -32,8 +31,7 @@ const hu = {
     undo: "Visszavonás",
     redo: "Ismétlés",
     clear: "Kitörlés",
-    are_you_sure_clear:
-      "Biztosan törli a diagram tartalmát? Ez a művelet végleges.",
+    are_you_sure_clear: "Biztosan törli a diagram tartalmát? Ez a művelet végleges.",
     cut: "Kivágás",
     copy: "Másolás",
     paste: "Beillesztés",
@@ -100,11 +98,9 @@ const hu = {
     no_tables: "Nincs tábla",
     no_tables_text: "Vágjon bele diagramja elkészítésébe!",
     no_relationships: "Nincs kapcsolat létrehozva",
-    no_relationships_text:
-      "Egérhúzással összeköthet mezőket kapcsolatok létrehozásához",
+    no_relationships_text: "Egérhúzással összeköthet mezőket kapcsolatok létrehozásához",
     no_subject_areas: "Nincs terület hozzáadva",
-    no_subject_areas_text:
-      "Adjon hozzá területeket a táblák csoportosításához!",
+    no_subject_areas_text: "Adjon hozzá területeket a táblák csoportosításához!",
     no_notes: "Nincs jegyzet",
     no_notes_text: "Használjon jegyzeteket további információk feljegyzéséhez",
     no_types: "Nincs típus",
@@ -122,8 +118,7 @@ const hu = {
     autoincrement: "Automatikus növelés",
     default_value: "Alapért.",
     check: "'Check' kifejezés",
-    this_will_appear_as_is:
-      "*Ez a generált parancsfájlban ugyanígy fog megjelenni.",
+    this_will_appear_as_is: "*Ez a generált parancsfájlban ugyanígy fog megjelenni.",
     comment: "Megjegyzés",
     add_field: "Új mező",
     values: "Értékek",
@@ -152,8 +147,7 @@ const hu = {
     note_deleted: "A jegyzet törölve",
     relationship_deleted: "A kapcsolat törölve",
     type_deleted: "A típus törölve",
-    cannot_connect:
-      "A kapcsolatot nem lehet létrehozni, az oszlopok eltérő típusúak",
+    cannot_connect: "A kapcsolatot nem lehet létrehozni, az oszlopok eltérő típusúak",
     copied_to_clipboard: "Másolva a vágólapra",
     create_new_diagram: "Új diagram létrehozása",
     cancel: "Mégse",
@@ -164,8 +158,7 @@ const hu = {
     create: "Létrehozás",
     confirm: "Megerősítés",
     last_modified: "Utoljára módosítva",
-    drag_and_drop_files:
-      "Húzzon ide egy fájlt vagy kattintson a feltöltendő fájl kiválasztásához.",
+    drag_and_drop_files: "Húzzon ide egy fájlt vagy kattintson a feltöltendő fájl kiválasztásához.",
     upload_sql_to_generate_diagrams:
       "Töltsön fel egy sql fájlt a táblák és oszlopok automatikus generálásához.",
     overwrite_existing_diagram: "Meglévő diagram felülírása",
@@ -173,26 +166,19 @@ const hu = {
     blank: "Üres",
     filename: "Fájlnév",
     table_w_no_name: "Nincs megadva név egy táblának",
-    duplicate_table_by_name:
-      "Több tábla is létezik ezzel a névvel: '{{tableName}}'",
-    empty_field_name:
-      "Nincs megadva egy mező `neve` a(z) '{{tableName}}' táblában",
-    empty_field_type:
-      "Nincs megadva egy mező `típusa` a(z) '{{tableName}}' táblában",
+    duplicate_table_by_name: "Több tábla is létezik ezzel a névvel: '{{tableName}}'",
+    empty_field_name: "Nincs megadva egy mező `neve` a(z) '{{tableName}}' táblában",
+    empty_field_type: "Nincs megadva egy mező `típusa` a(z) '{{tableName}}' táblában",
     no_values_for_field:
       "A(z) '{{tableName}}' tábla '{{fieldName}}' mezője `{{type}}` típusú, de nincs megadva érték",
     default_doesnt_match_type:
       "A(z) '{{tableName}}' tábla '{{fieldName}}' mezőjének alapértelmezett értéke nem egyezik a mező típusával",
     not_null_is_null:
       "A(z) '{{tableName}}' tábla '{{fieldName}}' mezője NOT NULL-ként van beállítva, de a megadott alapért. érték NULL",
-    duplicate_fields:
-      "Több '{{fieldName}}' nevű mező is létezik a(z) '{{tableName}}' táblában",
-    duplicate_index:
-      "Több '{{indexName}}' nevű index is létezik a(z) '{{tableName}}' táblában",
-    empty_index:
-      "A(z) '{{tableName}}' táblában levő index egyetlen oszlopot sem indexel",
-    no_primary_key:
-      "A(z) '{{tableName}}' tábla nem rendelkezik elsődleges kulccsal",
+    duplicate_fields: "Több '{{fieldName}}' nevű mező is létezik a(z) '{{tableName}}' táblában",
+    duplicate_index: "Több '{{indexName}}' nevű index is létezik a(z) '{{tableName}}' táblában",
+    empty_index: "A(z) '{{tableName}}' táblában levő index egyetlen oszlopot sem indexel",
+    no_primary_key: "A(z) '{{tableName}}' tábla nem rendelkezik elsődleges kulccsal",
     type_with_no_name: "Nincs megadva egy egyedi típus neve",
     duplicate_types: "Több típus is létezik a(z) '{{typeName}}' névvel",
     type_w_no_fields: "Nincs megadva mező a(z) '{{typeName}}' típusnak",
@@ -200,11 +186,9 @@ const hu = {
     empty_type_field_type: "Nincs megadva a(z) '{{typeName}}' típus `típusa`",
     no_values_for_type_field:
       "A(z) '{{typeName}}' típus '{{fieldName}}' mezője `{{type}}` típusú, de nincs megadva érték",
-    duplicate_type_fields:
-      "Több '{{fieldName}}' nevű mező is létezik a(z) '{{typeName}}' típussal",
+    duplicate_type_fields: "Több '{{fieldName}}' nevű mező is létezik a(z) '{{typeName}}' típussal",
     duplicate_reference: "Több hivatkozás is létezik a(z) '{{refName}}' névvel",
-    circular_dependency:
-      "Körkörös hivatkozás a(z) '{{refName}}' táblával kapcsolatban",
+    circular_dependency: "Körkörös hivatkozás a(z) '{{refName}}' táblával kapcsolatban",
     timeline: "Előzmények",
     priority: "Prioritás",
     none: "Nincs",
@@ -246,16 +230,14 @@ const hu = {
     no_enums: "Nincs enum",
     no_enums_text: "Itt adhat meg enum-okat",
     declare_array: "Tömb megadása",
-    empty_index_name:
-      "A(z) '{{tableName}}' táblában egy indexnek nincs megadva név",
+    empty_index_name: "A(z) '{{tableName}}' táblában egy indexnek nincs megadva név",
     didnt_find_diagram: "Hoppá! A diagram nem található.",
     unsigned: "Előjel nélküli",
     share: "Megosztás",
     unshare: "Megosztás megszüntetése",
     copy_link: "Hivatkozás másolása",
     readme: "OLVASS_EL",
-    failed_to_load:
-      "A betöltés sikertelen. Ellenőrizze a hivatkozás helyességét!",
+    failed_to_load: "A betöltés sikertelen. Ellenőrizze a hivatkozás helyességét!",
     share_info:
       "* Ezen hivatkozás megosztása nem fog létrehozni élő, valósidejű együttműködési munkamenetet.",
     show_relationship_labels: "Kapcsolatcímkék",

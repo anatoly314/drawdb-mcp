@@ -32,8 +32,7 @@ const tm = {
     undo: "செயல்தவிர்",
     redo: "மீண்டும் செய்",
     clear: "அழி",
-    are_you_sure_clear:
-      "வரைபடத்தை அழிக்க நிச்சயமாக விரும்புகிறீர்களா? இது மீட்டெடுக்க முடியாதது.",
+    are_you_sure_clear: "வரைபடத்தை அழிக்க நிச்சயமாக விரும்புகிறீர்களா? இது மீட்டெடுக்க முடியாதது.",
     cut: "வெட்டு",
     copy: "நகலெடு",
     paste: "ஒட்டு",
@@ -163,8 +162,7 @@ const tm = {
     upload_sql_to_generate_diagrams:
       "உங்கள் அட்டவணைகள் மற்றும் நெடுவரிசைகளை தானாக உருவாக்க ஒரு SQL கோப்பைப் பதிவேற்றவும்.",
     overwrite_existing_diagram: "ஏற்கனவே உள்ள வரைபடத்தை மேலெழுது",
-    only_mysql_supported:
-      "*தற்போதைக்கு MySQL ஸ்கிரிப்ட்களை மட்டுமே ஏற்றுவது ஆதரிக்கப்படுகிறது.",
+    only_mysql_supported: "*தற்போதைக்கு MySQL ஸ்கிரிப்ட்களை மட்டுமே ஏற்றுவது ஆதரிக்கப்படுகிறது.",
     blank: "வெற்று",
     filename: "கோப்புப்பெயர்",
     table_w_no_name: "பெயர் இல்லாத அட்டவணை அறிவிக்கப்பட்டது",
@@ -179,9 +177,9 @@ const tm = {
       "'{{tableName}}' அட்டவணையின் '{{fieldName}}' புலம் NOT NULL ஆக உள்ளது ஆனால் இயல்புநிலை NULL ஐக் கொண்டுள்ளது",
     duplicate_fields:
       "'{{tableName}}' அட்டவணையில் '{{fieldName}}' என்ற பெயரில் நகல் அட்டவணை புலங்கள்",
-    duplicate_index:
-      "'{{tableName}}' அட்டவணையில் '{{indexName}}' என்ற பெயரில் நகல் குறியீடு",
-    empty_index: "'{{tableName}}' அட்டவணையில் உள்ள குறியீடு எந்த நெடுவரிசைகளையும் குறியீடு செய்யவில்லை",
+    duplicate_index: "'{{tableName}}' அட்டவணையில் '{{indexName}}' என்ற பெயரில் நகல் குறியீடு",
+    empty_index:
+      "'{{tableName}}' அட்டவணையில் உள்ள குறியீடு எந்த நெடுவரிசைகளையும் குறியீடு செய்யவில்லை",
     no_primary_key: "'{{tableName}}' அட்டவணைக்கு முதன்மை விசை இல்லை",
     type_with_no_name: "பெயர் இல்லாத வகை அறிவிக்கப்பட்டது",
     duplicate_types: "'{{typeName}}' என்ற பெயரில் நகல் வகைகள்",
@@ -190,8 +188,7 @@ const tm = {
     empty_type_field_type: "'{{typeName}}' வகையில் வெற்று புலம் `type`",
     no_values_for_type_field:
       "'{{typeName}}' வகையின் '{{fieldName}}' புலம் `{{type}}` வகையைக் கொண்டுள்ளது, ஆனால் மதிப்புகள் எதுவும் குறிப்பிடப்படவில்லை",
-    duplicate_type_fields:
-      "'{{typeName}}' வகையில் '{{fieldName}}' என்ற பெயரில் நகல் வகை புலங்கள்",
+    duplicate_type_fields: "'{{typeName}}' வகையில் '{{fieldName}}' என்ற பெயரில் நகல் வகை புலங்கள்",
     duplicate_reference: "'{{refName}}' என்ற பெயரில் நகல் குறிப்பு",
     circular_dependency: "'{{refName}}' அட்டவணையை உள்ளடக்கிய வட்ட சார்பு",
     timeline: "காலவரிசை",
@@ -243,8 +240,7 @@ const tm = {
     copy_link: "இணைப்பை நகலெடு",
     readme: "README",
     failed_to_load: "ஏற்ற முடியவில்லை. இணைப்பு சரியாக இருப்பதை உறுதி செய்யவும்.",
-    share_info:
-      "* இந்த இணைப்பைப் பகிர்வது நேரலை நேரடி ஒத்துழைப்பு அமர்வை உருவாக்காது.",
+    share_info: "* இந்த இணைப்பைப் பகிர்வது நேரலை நேரடி ஒத்துழைப்பு அமர்வை உருவாக்காது.",
     show_relationship_labels: "உறவு லேபிள்களைக் காட்டு",
     docs: "ஆவணங்கள்",
     supported_types: "ஆதரிக்கப்படும் கோப்பு வகைகள்:",
@@ -269,7 +265,7 @@ const tm = {
     show_constraints: "கட்டுப்பாடுகளைக் காட்டு",
     show_triggers: "ட்ரிகர்களைக் காட்டு",
     show_procedures: "நடைமுறைகளைக் காட்டு",
-    show_functions: "செயல்பாடுகளைக் காட்டு"
+    show_functions: "செயல்பாடுகளைக் காட்டு",
   },
 };
 

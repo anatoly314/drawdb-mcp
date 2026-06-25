@@ -77,7 +77,7 @@ import { databases } from "../../data/databases";
 import { jsonToMermaid } from "../../utils/exportAs/mermaid";
 import { isRtl } from "../../i18n/utils/rtl";
 import { jsonToDocumentation } from "../../utils/exportAs/documentation";
-import { IdContext } from "../Workspace";
+import { IdContext } from "../../context/IdContext";
 import { socials } from "../../data/socials";
 import { toDBML } from "../../utils/exportAs/dbml";
 import { exportSavedData } from "../../utils/exportSavedData";
@@ -186,16 +186,10 @@ export default function ControlPanel({
         setRedoStack((prev) => [...prev, { ...a, x, y }]);
         updateTable(a.id, { x: a.x, y: a.y });
       } else if (a.element === ObjectType.AREA) {
-        setRedoStack((prev) => [
-          ...prev,
-          { ...a, x: areas[a.id].x, y: areas[a.id].y },
-        ]);
+        setRedoStack((prev) => [...prev, { ...a, x: areas[a.id].x, y: areas[a.id].y }]);
         updateArea(a.id, { x: a.x, y: a.y });
       } else if (a.element === ObjectType.NOTE) {
-        setRedoStack((prev) => [
-          ...prev,
-          { ...a, x: notes[a.id].x, y: notes[a.id].y },
-        ]);
+        setRedoStack((prev) => [...prev, { ...a, x: notes[a.id].x, y: notes[a.id].y }]);
         updateNote(a.id, { x: a.x, y: a.y });
       }
     } else if (a.action === Action.DELETE) {
@@ -279,9 +273,7 @@ export default function ControlPanel({
         }
         if (a.component === "field") {
           updateType(a.tid, {
-            fields: types[a.tid].fields.map((e, i) =>
-              i === a.fid ? { ...e, ...a.undo } : e,
-            ),
+            fields: types[a.tid].fields.map((e, i) => (i === a.fid ? { ...e, ...a.undo } : e)),
           });
         } else if (a.component === "field_delete") {
           setTypes((prev) =>
@@ -358,16 +350,10 @@ export default function ControlPanel({
         setUndoStack((prev) => [...prev, { ...a, x, y }]);
         updateTable(a.id, { x: a.x, y: a.y });
       } else if (a.element === ObjectType.AREA) {
-        setUndoStack((prev) => [
-          ...prev,
-          { ...a, x: areas[a.id].x, y: areas[a.id].y },
-        ]);
+        setUndoStack((prev) => [...prev, { ...a, x: areas[a.id].x, y: areas[a.id].y }]);
         updateArea(a.id, { x: a.x, y: a.y });
       } else if (a.element === ObjectType.NOTE) {
-        setUndoStack((prev) => [
-          ...prev,
-          { ...a, x: notes[a.id].x, y: notes[a.id].y },
-        ]);
+        setUndoStack((prev) => [...prev, { ...a, x: notes[a.id].x, y: notes[a.id].y }]);
         updateNote(a.id, { x: a.x, y: a.y });
       }
     } else if (a.action === Action.DELETE) {
@@ -457,9 +443,7 @@ export default function ControlPanel({
           });
         } else if (a.component === "field") {
           updateType(a.tid, {
-            fields: types[a.tid].fields.map((e, i) =>
-              i === a.fid ? { ...e, ...a.redo } : e,
-            ),
+            fields: types[a.tid].fields.map((e, i) => (i === a.fid ? { ...e, ...a.redo } : e)),
           });
         } else if (a.component === "field_delete") {
           updateType(a.tid, {
@@ -490,14 +474,10 @@ export default function ControlPanel({
   };
 
   const fileImport = () => setModal(MODAL.IMPORT);
-  const viewGrid = () =>
-    setSettings((prev) => ({ ...prev, showGrid: !prev.showGrid }));
-  const snapToGrid = () =>
-    setSettings((prev) => ({ ...prev, snapToGrid: !prev.snapToGrid }));
-  const zoomIn = () =>
-    setTransform((prev) => ({ ...prev, zoom: prev.zoom * 1.2 }));
-  const zoomOut = () =>
-    setTransform((prev) => ({ ...prev, zoom: prev.zoom / 1.2 }));
+  const viewGrid = () => setSettings((prev) => ({ ...prev, showGrid: !prev.showGrid }));
+  const snapToGrid = () => setSettings((prev) => ({ ...prev, snapToGrid: !prev.snapToGrid }));
+  const zoomIn = () => setTransform((prev) => ({ ...prev, zoom: prev.zoom * 1.2 }));
+  const zoomOut = () => setTransform((prev) => ({ ...prev, zoom: prev.zoom / 1.2 }));
   const viewStrictMode = () => {
     setSettings((prev) => ({ ...prev, strictMode: !prev.strictMode }));
   };
@@ -522,8 +502,7 @@ export default function ControlPanel({
         });
     });
   };
-  const resetView = () =>
-    setTransform((prev) => ({ ...prev, zoom: 1, pan: { x: 0, y: 0 } }));
+  const resetView = () => setTransform((prev) => ({ ...prev, zoom: 1, pan: { x: 0, y: 0 } }));
   const fitWindow = () => {
     const canvas = document.getElementById("canvas").getBoundingClientRect();
 
@@ -538,7 +517,10 @@ export default function ControlPanel({
       minMaxXY.minX = Math.min(minMaxXY.minX, table.x);
       minMaxXY.minY = Math.min(minMaxXY.minY, table.y);
       minMaxXY.maxX = Math.max(minMaxXY.maxX, table.x + settings.tableWidth);
-      minMaxXY.maxY = Math.max(minMaxXY.maxY, table.y + getTableHeight(table, settings.tableWidth, settings.showComments));
+      minMaxXY.maxY = Math.max(
+        minMaxXY.maxY,
+        table.y + getTableHeight(table, settings.tableWidth, settings.showComments),
+      );
     });
 
     areas.forEach((area) => {
@@ -551,10 +533,7 @@ export default function ControlPanel({
     notes.forEach((note) => {
       minMaxXY.minX = Math.min(minMaxXY.minX, note.x);
       minMaxXY.minY = Math.min(minMaxXY.minY, note.y);
-      minMaxXY.maxX = Math.max(
-        minMaxXY.maxX,
-        note.x + (note.width ?? noteWidth),
-      );
+      minMaxXY.maxX = Math.max(minMaxXY.maxX, note.x + (note.width ?? noteWidth));
       minMaxXY.maxY = Math.max(minMaxXY.maxY, note.y + note.height);
     });
 
@@ -688,9 +667,7 @@ export default function ControlPanel({
     switch (selectedElement.element) {
       case ObjectType.TABLE:
         navigator.clipboard
-          .writeText(
-            JSON.stringify(tables.find((t) => t.id === selectedElement.id)),
-          )
+          .writeText(JSON.stringify(tables.find((t) => t.id === selectedElement.id)))
           .catch(() => Toast.error(t("oops_smth_went_wrong")));
         break;
       case ObjectType.NOTE:
@@ -712,10 +689,10 @@ export default function ControlPanel({
       return;
     }
     navigator.clipboard.readText().then((text) => {
-      let obj = null;
+      let obj;
       try {
         obj = JSON.parse(text);
-      } catch (error) {
+      } catch {
         return;
       }
       const v = new Validator();
@@ -1130,15 +1107,13 @@ export default function ControlPanel({
           {
             name: "JPEG",
             function: () => {
-              toJpeg(document.getElementById("canvas"), { quality: 0.95 }).then(
-                function (dataUrl) {
-                  setExportData((prev) => ({
-                    ...prev,
-                    data: dataUrl,
-                    extension: "jpeg",
-                  }));
-                },
-              );
+              toJpeg(document.getElementById("canvas"), { quality: 0.95 }).then(function (dataUrl) {
+                setExportData((prev) => ({
+                  ...prev,
+                  data: dataUrl,
+                  extension: "jpeg",
+                }));
+              });
               openExportModal(MODAL.IMG);
             },
           },
@@ -1146,15 +1121,13 @@ export default function ControlPanel({
             name: "SVG",
             function: () => {
               const filter = (node) => node.tagName !== "i";
-              toSvg(document.getElementById("canvas"), { filter: filter }).then(
-                function (dataUrl) {
-                  setExportData((prev) => ({
-                    ...prev,
-                    data: dataUrl,
-                    extension: "svg",
-                  }));
-                },
-              );
+              toSvg(document.getElementById("canvas"), { filter: filter }).then(function (dataUrl) {
+                setExportData((prev) => ({
+                  ...prev,
+                  data: dataUrl,
+                  extension: "svg",
+                }));
+              });
               openExportModal(MODAL.IMG);
             },
           },
@@ -1206,18 +1179,8 @@ export default function ControlPanel({
               const canvas = document.getElementById("canvas");
               const filename = `${title}_${new Date().toISOString()}`;
               toJpeg(canvas).then(function (dataUrl) {
-                const doc = new jsPDF("l", "px", [
-                  canvas.offsetWidth,
-                  canvas.offsetHeight,
-                ]);
-                doc.addImage(
-                  dataUrl,
-                  "jpeg",
-                  0,
-                  0,
-                  canvas.offsetWidth,
-                  canvas.offsetHeight,
-                );
+                const doc = new jsPDF("l", "px", [canvas.offsetWidth, canvas.offsetHeight]);
+                doc.addImage(dataUrl, "jpeg", 0, 0, canvas.offsetWidth, canvas.offsetHeight);
                 doc.save(`${filename}.pdf`);
               });
             },
@@ -1307,10 +1270,7 @@ export default function ControlPanel({
             .delete(diagramId)
             .catch((error) => {
               Toast.error(t("oops_smth_went_wrong"));
-              console.error(
-                `Error deleting records with gistId '${diagramId}':`,
-                error,
-              );
+              console.error(`Error deleting records with gistId '${diagramId}':`, error);
             });
         },
         disabled: layout.readOnly,
@@ -1356,8 +1316,7 @@ export default function ControlPanel({
         ) : (
           <i className="bi bi-toggle-off" />
         ),
-        function: () =>
-          setLayout((prev) => ({ ...prev, header: !prev.header })),
+        function: () => setLayout((prev) => ({ ...prev, header: !prev.header })),
       },
       sidebar: {
         state: layout.sidebar ? (
@@ -1365,8 +1324,7 @@ export default function ControlPanel({
         ) : (
           <i className="bi bi-toggle-off" />
         ),
-        function: () =>
-          setLayout((prev) => ({ ...prev, sidebar: !prev.sidebar })),
+        function: () => setLayout((prev) => ({ ...prev, sidebar: !prev.sidebar })),
       },
       issues: {
         state: layout.issues ? (
@@ -1374,8 +1332,7 @@ export default function ControlPanel({
         ) : (
           <i className="bi bi-toggle-off" />
         ),
-        function: () =>
-          setLayout((prev) => ({ ...prev, issues: !prev.issues })),
+        function: () => setLayout((prev) => ({ ...prev, issues: !prev.issues })),
       },
       dbml_view: {
         state: layout.dbmlEditor ? (
@@ -1518,11 +1475,7 @@ export default function ControlPanel({
         shortcut: "Ctrl+(Down/Wheel)",
       },
       fullscreen: {
-        state: fullscreen ? (
-          <i className="bi bi-toggle-on" />
-        ) : (
-          <i className="bi bi-toggle-off" />
-        ),
+        state: fullscreen ? <i className="bi bi-toggle-on" /> : <i className="bi bi-toggle-off" />,
         function: fullscreen ? exitFullscreen : enterFullscreen,
       },
     },
@@ -1536,8 +1489,7 @@ export default function ControlPanel({
         ) : (
           <i className="bi bi-toggle-off" />
         ),
-        function: () =>
-          setSettings((prev) => ({ ...prev, autosave: !prev.autosave })),
+        function: () => setSettings((prev) => ({ ...prev, autosave: !prev.autosave })),
       },
       table_width: {
         function: () => setModal(MODAL.TABLE_WIDTH),
@@ -1678,9 +1630,7 @@ export default function ControlPanel({
             style={{ width: "240px" }}
             position={isRtl(i18n.language) ? "bottomRight" : "bottomLeft"}
             render={
-              <Dropdown.Menu
-                style={isRtl(i18n.language) ? { direction: "rtl" } : {}}
-              >
+              <Dropdown.Menu style={isRtl(i18n.language) ? { direction: "rtl" } : {}}>
                 <Dropdown.Item
                   onClick={fitWindow}
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -1719,9 +1669,7 @@ export default function ControlPanel({
             trigger="click"
           >
             <div className="py-1 px-2 hover-2 rounded-sm flex items-center justify-center">
-              <div className="w-[40px]">
-                {Math.floor(transform.zoom * 100)}%
-              </div>
+              <div className="w-[40px]">{Math.floor(transform.zoom * 100)}%</div>
               <div>
                 <IconCaretdown />
               </div>
@@ -1730,9 +1678,7 @@ export default function ControlPanel({
           <Tooltip content={t("zoom_in")} position="bottom">
             <button
               className="py-1 px-2 hover-2 rounded-sm text-lg"
-              onClick={() =>
-                setTransform((prev) => ({ ...prev, zoom: prev.zoom * 1.2 }))
-              }
+              onClick={() => setTransform((prev) => ({ ...prev, zoom: prev.zoom * 1.2 }))}
             >
               <i className="fa-solid fa-magnifying-glass-plus" />
             </button>
@@ -1740,9 +1686,7 @@ export default function ControlPanel({
           <Tooltip content={t("zoom_out")} position="bottom">
             <button
               className="py-1 px-2 hover-2 rounded-sm text-lg"
-              onClick={() =>
-                setTransform((prev) => ({ ...prev, zoom: prev.zoom / 1.2 }))
-              }
+              onClick={() => setTransform((prev) => ({ ...prev, zoom: prev.zoom / 1.2 }))}
             >
               <i className="fa-solid fa-magnifying-glass-minus" />
             </button>
@@ -1839,10 +1783,7 @@ export default function ControlPanel({
             </button>
           </Tooltip>
         </div>
-        <button
-          onClick={() => invertLayout("header")}
-          className="flex items-center"
-        >
+        <button onClick={() => invertLayout("header")} className="flex items-center">
           {layout.header ? <IconChevronUp /> : <IconChevronDown />}
         </button>
       </div>
@@ -1876,12 +1817,7 @@ export default function ControlPanel({
       >
         <div className="flex justify-start items-center">
           <Link to="/">
-            <img
-              width={54}
-              src={icon}
-              alt="logo"
-              className="ms-7 min-w-[54px]"
-            />
+            <img width={54} src={icon} alt="logo" className="ms-7 min-w-[54px]" />
           </Link>
           <div className="ms-1 mt-1">
             <div className="flex items-center ms-3 gap-2">
@@ -1890,8 +1826,7 @@ export default function ControlPanel({
                   src={databases[database].image}
                   className="h-5"
                   style={{
-                    filter:
-                      "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
+                    filter: "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
                   }}
                   alt={databases[database].name + " icon"}
                   title={databases[database].name + " diagram"}
@@ -1909,9 +1844,7 @@ export default function ControlPanel({
                 onClick={!layout.readOnly && (() => setModal(MODAL.RENAME))}
               >
                 <span>
-                  {(window.name.split(" ")[0] === "t"
-                    ? "Templates/"
-                    : "Diagrams/") + title}
+                  {(window.name.split(" ")[0] === "t" ? "Templates/" : "Diagrams/") + title}
                 </span>
                 {version && (
                   <Tag className="mt-1" color="blue" size="small">
@@ -1919,9 +1852,7 @@ export default function ControlPanel({
                   </Tag>
                 )}
               </div>
-              {(showEditName || modal === MODAL.RENAME) && !layout.readOnly && (
-                <IconEdit />
-              )}
+              {(showEditName || modal === MODAL.RENAME) && !layout.readOnly && <IconEdit />}
             </div>
             <div className="flex items-center">
               <div className="flex justify-start text-md select-none me-2">
@@ -1944,37 +1875,26 @@ export default function ControlPanel({
                                 position="rightTop"
                                 render={
                                   <Dropdown.Menu>
-                                    {menu[category][item].children.map(
-                                      (e, i) => {
-                                        if (e.divider) {
-                                          return (
-                                            <Dropdown.Divider
-                                              key={`divider-${i}`}
-                                            />
-                                          );
-                                        }
-                                        return (
-                                          <Dropdown.Item
-                                            key={i}
-                                            onClick={e.function}
-                                            className="flex w-full items-center justify-between gap-1"
-                                            disabled={e.disabled}
-                                          >
-                                            <span className="truncate flex-1 min-w-0">
-                                              {e.name}
-                                            </span>
-                                            {e.label && (
-                                              <Tag
-                                                size="small"
-                                                className="flex-shrink-0"
-                                              >
-                                                {e.label}
-                                              </Tag>
-                                            )}
-                                          </Dropdown.Item>
-                                        );
-                                      },
-                                    )}
+                                    {menu[category][item].children.map((e, i) => {
+                                      if (e.divider) {
+                                        return <Dropdown.Divider key={`divider-${i}`} />;
+                                      }
+                                      return (
+                                        <Dropdown.Item
+                                          key={i}
+                                          onClick={e.function}
+                                          className="flex w-full items-center justify-between gap-1"
+                                          disabled={e.disabled}
+                                        >
+                                          <span className="truncate flex-1 min-w-0">{e.name}</span>
+                                          {e.label && (
+                                            <Tag size="small" className="flex-shrink-0">
+                                              {e.label}
+                                            </Tag>
+                                          )}
+                                        </Dropdown.Item>
+                                      );
+                                    })}
                                   </Dropdown.Menu>
                                 }
                               >
@@ -2033,8 +1953,7 @@ export default function ControlPanel({
                                       {menu[category][item].shortcut}
                                     </div>
                                   )}
-                                  {menu[category][item].state &&
-                                    menu[category][item].state}
+                                  {menu[category][item].state && menu[category][item].state}
                                 </div>
                               </div>
                             </Dropdown.Item>
@@ -2043,9 +1962,7 @@ export default function ControlPanel({
                       </Dropdown.Menu>
                     }
                   >
-                    <div className="px-3 py-1 hover-2 rounded-sm">
-                      {t(category)}
-                    </div>
+                    <div className="px-3 py-1 hover-2 rounded-sm">{t(category)}</div>
                   </Dropdown>
                 ))}
               </div>
@@ -2055,8 +1972,7 @@ export default function ControlPanel({
                   size="small"
                   type="light"
                   prefixIcon={
-                    saveState === State.LOADING ||
-                    saveState === State.SAVING ? (
+                    saveState === State.LOADING || saveState === State.SAVING ? (
                       <Spin size="small" />
                     ) : null
                   }
@@ -2065,14 +1981,19 @@ export default function ControlPanel({
                 </Tag>
               )}
               {aiAssistantConnected !== null && (
-                <Tooltip content={aiAssistantConnected ? "AI Assistant connected and ready" : "AI Assistant disconnected"} position="bottom">
+                <Tooltip
+                  content={
+                    aiAssistantConnected
+                      ? "AI Assistant connected and ready"
+                      : "AI Assistant disconnected"
+                  }
+                  position="bottom"
+                >
                   <Tag
                     size="small"
                     color={aiAssistantConnected ? "green" : "red"}
                     prefixIcon={
-                      <span style={{ fontSize: '10px' }}>
-                        {aiAssistantConnected ? '●' : '○'}
-                      </span>
+                      <span style={{ fontSize: "10px" }}>{aiAssistantConnected ? "●" : "○"}</span>
                     }
                   >
                     {aiAssistantConnected ? "AI Connected" : "AI Disconnected"}

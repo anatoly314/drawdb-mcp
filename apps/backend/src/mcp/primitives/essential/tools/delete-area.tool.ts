@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class DeleteAreaTool {
@@ -11,18 +11,18 @@ export class DeleteAreaTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'delete_area',
+    name: "delete_area",
     description:
-      'Delete a rectangular area from the diagram. Removes the area grouping but does not affect the tables within it.',
+      "Delete a rectangular area from the diagram. Removes the area grouping but does not affect the tables within it.",
     parameters: z.object({
-      areaId: z.string().describe('ID of the area to delete'),
+      areaId: z.string().describe("ID of the area to delete"),
     }),
   })
   async deleteArea(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -40,7 +40,7 @@ export class DeleteAreaTool {
         areaId: input.areaId,
       };
     } catch (error) {
-      this.logger.error('Failed to delete area', error);
+      this.logger.error("Failed to delete area", error);
       throw error;
     }
   }

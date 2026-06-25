@@ -11,14 +11,10 @@ export default function Searchbar() {
   const { setSelectedElement } = useSelect();
   const { t } = useTranslation();
 
-  const [filteredResult, setFilteredResult] = useState(
-    types.map((t) => t.name),
-  );
+  const [filteredResult, setFilteredResult] = useState(types.map((t) => t.name));
 
   const handleStringSearch = (value) => {
-    setFilteredResult(
-      types.map((t) => t.name).filter((i) => i.includes(value)),
-    );
+    setFilteredResult(types.map((t) => t.name).filter((i) => i.includes(value)));
   };
 
   return (

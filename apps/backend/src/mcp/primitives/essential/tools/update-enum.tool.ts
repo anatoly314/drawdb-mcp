@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class UpdateEnumTool {
@@ -11,19 +11,19 @@ export class UpdateEnumTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'update_enum',
-    description: 'Update properties of an existing ENUM type. Can modify name or values list.',
+    name: "update_enum",
+    description: "Update properties of an existing ENUM type. Can modify name or values list.",
     parameters: z.object({
-      enumId: z.string().describe('ID of the enum to update'),
-      name: z.string().optional().describe('New enum type name'),
-      values: z.array(z.string()).optional().describe('New array of allowed enum values'),
+      enumId: z.string().describe("ID of the enum to update"),
+      name: z.string().optional().describe("New enum type name"),
+      values: z.array(z.string()).optional().describe("New array of allowed enum values"),
     }),
   })
   async updateEnum(input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -33,7 +33,7 @@ export class UpdateEnumTool {
       if (input.name !== undefined) updates.name = input.name;
       if (input.values !== undefined) updates.values = input.values;
 
-      await this.drawdbClient.sendCommand('updateEnum', {
+      await this.drawdbClient.sendCommand("updateEnum", {
         id: input.enumId,
         updates,
       });
@@ -49,7 +49,7 @@ export class UpdateEnumTool {
         updates,
       };
     } catch (error) {
-      this.logger.error('Failed to update enum', error);
+      this.logger.error("Failed to update enum", error);
       throw error;
     }
   }

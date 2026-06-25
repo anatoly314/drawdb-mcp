@@ -1,10 +1,4 @@
-import {
-  Image,
-  Input,
-  Modal as SemiUIModal,
-  Spin,
-  Toast,
-} from "@douyinfe/semi-ui";
+import { Image, Input, Modal as SemiUIModal, Spin, Toast } from "@douyinfe/semi-ui";
 import { saveAs } from "file-saver";
 import { Parser } from "node-sql-parser";
 import { Parser as OracleParser } from "oracle-sql-parser";
@@ -27,11 +21,7 @@ import {
 import { isRtl } from "../../../i18n/utils/rtl";
 import { importSQL } from "../../../utils/importSQL";
 import { ensureEnumIds, ensureTypeIds } from "../../../utils/ensureIds";
-import {
-  getModalTitle,
-  getModalWidth,
-  getOkText,
-} from "../../../utils/modalData";
+import { getModalTitle, getModalWidth, getOkText } from "../../../utils/modalData";
 import CodeEditor from "../../CodeEditor";
 import ImportDiagram from "./ImportDiagram";
 import ImportSource from "./ImportSource";
@@ -41,7 +31,7 @@ import Open from "./Open";
 import Rename from "./Rename";
 import SetTableWidth from "./SetTableWidth";
 import Share from "./Share";
-import { IdContext } from "../../Workspace";
+import { IdContext } from "../../../context/IdContext";
 
 const extensionToLanguage = {
   md: "markdown",
@@ -73,9 +63,7 @@ export default function Modal({
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { setSaveState } = useSaveState();
   const [uncontrolledTitle, setUncontrolledTitle] = useState(title);
-  const [uncontrolledLanguage, setUncontrolledLanguage] = useState(
-    i18n.language,
-  );
+  const [uncontrolledLanguage, setUncontrolledLanguage] = useState(i18n.language);
   const [importSource, setImportSource] = useState({
     src: "",
     overwrite: false,
@@ -148,7 +136,7 @@ export default function Modal({
   const parseSQLAndLoadDiagram = () => {
     const targetDatabase = database === DB.GENERIC ? importDb : database;
 
-    let ast = null;
+    let ast;
     try {
       if (targetDatabase === DB.ORACLESQL) {
         const oracleParser = new OracleParser();
@@ -171,19 +159,13 @@ export default function Modal({
     }
 
     try {
-      const diagramData = importSQL(
-        ast,
-        database === DB.GENERIC ? importDb : database,
-        database,
-      );
+      const diagramData = importSQL(ast, database === DB.GENERIC ? importDb : database, database);
 
       if (importSource.overwrite) {
         setTables(diagramData.tables);
         setRelationships(diagramData.relationships);
-        if (databases[database].hasTypes)
-          setTypes(ensureTypeIds(diagramData.types));
-        if (databases[database].hasEnums)
-          setEnums(ensureEnumIds(diagramData.enums));
+        if (databases[database].hasTypes) setTypes(ensureTypeIds(diagramData.types));
+        if (databases[database].hasEnums) setEnums(ensureEnumIds(diagramData.enums));
         setTransform((prev) => ({ ...prev, pan: { x: 0, y: 0 } }));
         setNotes([]);
         setAreas([]);
@@ -205,7 +187,7 @@ export default function Modal({
       setRedoStack([]);
 
       setModal(MODAL.NONE);
-    } catch (e) {
+    } catch {
       setError({
         type: STATUS.ERROR,
         message: `Please check for syntax errors or let us know about the error.`,
@@ -221,10 +203,7 @@ export default function Modal({
   const getModalOnOk = async () => {
     switch (modal) {
       case MODAL.IMG:
-        saveAs(
-          exportData.data,
-          `${exportData.filename}.${exportData.extension}`,
-        );
+        saveAs(exportData.data, `${exportData.filename}.${exportData.extension}`);
         return;
       case MODAL.CODE: {
         const blob = new Blob([exportData.data], {
@@ -301,23 +280,14 @@ export default function Modal({
           />
         );
       case MODAL.RENAME:
-        return (
-          <Rename key={title} title={title} setTitle={setUncontrolledTitle} />
-        );
+        return <Rename key={title} title={title} setTitle={setUncontrolledTitle} />;
       case MODAL.OPEN:
         return (
-          <Open
-            selectedDiagramId={selectedDiagramId}
-            setSelectedDiagramId={setSelectedDiagramId}
-          />
+          <Open selectedDiagramId={selectedDiagramId} setSelectedDiagramId={setSelectedDiagramId} />
         );
       case MODAL.SAVEAS:
         return (
-          <Input
-            placeholder={t("name")}
-            value={saveAsTitle}
-            onChange={(v) => setSaveAsTitle(v)}
-          />
+          <Input placeholder={t("name")} value={saveAsTitle} onChange={(v) => setSaveAsTitle(v)} />
         );
       case MODAL.CODE:
       case MODAL.IMG:
@@ -340,9 +310,7 @@ export default function Modal({
                 value={exportData.filename}
                 placeholder={t("filename")}
                 suffix={<div className="p-2">{`.${exportData.extension}`}</div>}
-                onChange={(value) =>
-                  setExportData((prev) => ({ ...prev, filename: value }))
-                }
+                onChange={(value) => setExportData((prev) => ({ ...prev, filename: value }))}
                 field="filename"
               />
             </>
@@ -357,12 +325,7 @@ export default function Modal({
       case MODAL.TABLE_WIDTH:
         return <SetTableWidth />;
       case MODAL.LANGUAGE:
-        return (
-          <Language
-            language={uncontrolledLanguage}
-            setLanguage={setUncontrolledLanguage}
-          />
-        );
+        return <Language language={uncontrolledLanguage} setLanguage={setUncontrolledLanguage} />;
       case MODAL.SHARE:
         return <Share title={title} setModal={setModal} />;
       default:
@@ -403,8 +366,7 @@ export default function Modal({
       okButtonProps={{
         disabled:
           (error && error?.type === STATUS.ERROR) ||
-          (modal === MODAL.IMPORT &&
-            (error.type === STATUS.ERROR || !importData)) ||
+          (modal === MODAL.IMPORT && (error.type === STATUS.ERROR || !importData)) ||
           (modal === MODAL.RENAME && title === "") ||
           ((modal === MODAL.IMG || modal === MODAL.CODE) && !exportData.data) ||
           (modal === MODAL.SAVEAS && saveAsTitle === "") ||
@@ -416,8 +378,7 @@ export default function Modal({
       width={getModalWidth(modal)}
       bodyStyle={{
         maxHeight: window.innerHeight - 280,
-        overflow:
-          modal === MODAL.CODE || modal === MODAL.IMG ? "hidden" : "auto",
+        overflow: modal === MODAL.CODE || modal === MODAL.IMG ? "hidden" : "auto",
         direction: "ltr",
       }}
     >

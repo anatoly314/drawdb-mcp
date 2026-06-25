@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Tool } from '@rekog/mcp-nest';
-import type { Context } from '@rekog/mcp-nest';
-import { z } from 'zod';
-import { DrawDBClientService } from '@/drawdb';
+import { Injectable, Logger } from "@nestjs/common";
+import { Tool } from "@rekog/mcp-nest";
+import type { Context } from "@rekog/mcp-nest";
+import { z } from "zod";
+import { DrawDBClientService } from "@/drawdb";
 
 @Injectable()
 export class GetDiagramTool {
@@ -11,16 +11,16 @@ export class GetDiagramTool {
   constructor(private readonly drawdbClient: DrawDBClientService) {}
 
   @Tool({
-    name: 'get_diagram',
+    name: "get_diagram",
     description:
-      'Get a high-level summary of the database diagram. Returns table names/IDs and counts only - use get_table for detailed table information.',
+      "Get a high-level summary of the database diagram. Returns table names/IDs and counts only - use get_table for detailed table information.",
     parameters: z.object({}),
   })
   async getDiagram(_input: any, context: Context) {
     try {
       if (!this.drawdbClient.isConnected()) {
         throw new Error(
-          'DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.',
+          "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
         );
       }
 
@@ -30,7 +30,7 @@ export class GetDiagramTool {
 
       await context.reportProgress({ progress: 100, total: 100 });
 
-      this.logger.log('Retrieved diagram summary');
+      this.logger.log("Retrieved diagram summary");
 
       // Return only summary data to avoid token limit issues
       return {
@@ -67,7 +67,7 @@ export class GetDiagramTool {
         },
       };
     } catch (error) {
-      this.logger.error('Failed to get diagram', error);
+      this.logger.error("Failed to get diagram", error);
       throw error;
     }
   }

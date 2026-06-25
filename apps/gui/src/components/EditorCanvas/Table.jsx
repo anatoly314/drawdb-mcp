@@ -37,31 +37,20 @@ export default function Table({
   const { deleteTable, deleteField, updateTable } = useDiagram();
   const { settings } = useSettings();
   const { t } = useTranslation();
-  const {
-    selectedElement,
-    setSelectedElement,
-    bulkSelectedElements,
-    setBulkSelectedElements,
-  } = useSelect();
+  const { selectedElement, setSelectedElement, bulkSelectedElements, setBulkSelectedElements } =
+    useSelect();
 
   const borderColor = useMemo(
     () => (settings.mode === "light" ? "border-zinc-300" : "border-zinc-600"),
     [settings.mode],
   );
 
-  const height = getTableHeight(
-    tableData,
-    settings.tableWidth,
-    settings.showComments,
-  );
+  const height = getTableHeight(tableData, settings.tableWidth, settings.showComments);
 
   const isSelected = useMemo(() => {
     return (
-      (selectedElement.id == tableData.id &&
-        selectedElement.element === ObjectType.TABLE) ||
-      bulkSelectedElements.some(
-        (e) => e.type === ObjectType.TABLE && e.id === tableData.id,
-      )
+      (selectedElement.id == tableData.id && selectedElement.element === ObjectType.TABLE) ||
+      bulkSelectedElements.some((e) => e.type === ObjectType.TABLE && e.id === tableData.id)
     );
   }, [selectedElement, tableData, bulkSelectedElements]);
 
@@ -77,9 +66,7 @@ export default function Table({
         open: false,
       });
       setBulkSelectedElements((prev) =>
-        prev.filter(
-          (el) => el.id !== tableData.id || el.type !== ObjectType.TABLE,
-        ),
+        prev.filter((el) => el.id !== tableData.id || el.type !== ObjectType.TABLE),
       );
     };
 
@@ -163,9 +150,7 @@ export default function Table({
               settings.mode === "light" ? "bg-zinc-200" : "bg-zinc-900"
             } ${tableData.comment && settings.showComments ? "pb-3" : ""}`}
           >
-            <div
-              className={`overflow-hidden font-bold h-[40px] flex justify-between items-center`}
-            >
+            <div className={`overflow-hidden font-bold h-[40px] flex justify-between items-center`}>
               <div className="px-3 overflow-hidden text-ellipsis whitespace-nowrap">
                 {tableData.name}
               </div>
@@ -196,18 +181,10 @@ export default function Table({
                       <div className="popover-theme">
                         <div className="mb-2">
                           <strong>{t("comment")}:</strong>{" "}
-                          {tableData.comment === "" ? (
-                            t("not_set")
-                          ) : (
-                            <div>{tableData.comment}</div>
-                          )}
+                          {tableData.comment === "" ? t("not_set") : <div>{tableData.comment}</div>}
                         </div>
                         <div>
-                          <strong
-                            className={`${
-                              tableData.indices.length === 0 ? "" : "block"
-                            }`}
-                          >
+                          <strong className={`${tableData.indices.length === 0 ? "" : "block"}`}>
                             {t("indices")}:
                           </strong>{" "}
                           {tableData.indices.length === 0 ? (
@@ -218,19 +195,13 @@ export default function Table({
                                 <div
                                   key={k}
                                   className={`flex items-center my-1 px-2 py-1 rounded ${
-                                    settings.mode === "light"
-                                      ? "bg-gray-100"
-                                      : "bg-zinc-800"
+                                    settings.mode === "light" ? "bg-gray-100" : "bg-zinc-800"
                                   }`}
                                 >
                                   <i className="fa-solid fa-thumbtack me-2 mt-1 text-slate-500"></i>
                                   <div>
                                     {index.fields.map((f) => (
-                                      <Tag
-                                        color="blue"
-                                        key={f}
-                                        className="me-1"
-                                      >
+                                      <Tag color="blue" key={f} className="me-1">
                                         {f}
                                       </Tag>
                                     ))}
@@ -271,9 +242,7 @@ export default function Table({
               </div>
             </div>
             {tableData.comment && settings.showComments && (
-              <div className="text-xs px-3 line-clamp-5">
-                {tableData.comment}
-              </div>
+              <div className="text-xs px-3 line-clamp-5">{tableData.comment}</div>
             )}
           </div>
 
@@ -288,11 +257,7 @@ export default function Table({
                       style={{ direction: "ltr" }}
                     >
                       <p className="me-4 font-bold">{e.name}</p>
-                      <p
-                        className={
-                          "ms-4 font-mono " + dbToTypes[database][e.type].color
-                        }
-                      >
+                      <p className={"ms-4 font-mono " + dbToTypes[database][e.type].color}>
                         {e.type +
                           ((dbToTypes[database][e.type].isSized ||
                             dbToTypes[database][e.type].hasPrecision) &&
@@ -335,11 +300,7 @@ export default function Table({
                 }
                 position="right"
                 showArrow
-                style={
-                  isRtl(i18n.language)
-                    ? { direction: "rtl" }
-                    : { direction: "ltr" }
-                }
+                style={isRtl(i18n.language) ? { direction: "rtl" } : { direction: "ltr" }}
               >
                 {field(e, i)}
               </Popover>
@@ -377,9 +338,7 @@ export default function Table({
     return (
       <div
         className={`${
-          index === tableData.fields.length - 1
-            ? ""
-            : "border-b border-gray-400"
+          index === tableData.fields.length - 1 ? "" : "border-b border-gray-400"
         } group h-[36px] px-2 py-1 flex justify-between items-center gap-1 w-full overflow-hidden`}
         onPointerEnter={(e) => {
           if (!e.isPrimary) return;
@@ -426,11 +385,7 @@ export default function Table({
                   index * tableFieldHeight +
                   tableHeaderHeight +
                   tableColorStripHeight +
-                  getCommentHeight(
-                    tableData.comment,
-                    settings.tableWidth,
-                    settings.showComments,
-                  ) +
+                  getCommentHeight(tableData.comment, settings.tableWidth, settings.showComments) +
                   14,
                 endX: tableData.x + 15,
                 endY:
@@ -438,18 +393,12 @@ export default function Table({
                   index * tableFieldHeight +
                   tableHeaderHeight +
                   tableColorStripHeight +
-                  getCommentHeight(
-                    tableData.comment,
-                    settings.tableWidth,
-                    settings.showComments,
-                  ) +
+                  getCommentHeight(tableData.comment, settings.tableWidth, settings.showComments) +
                   14,
               }));
             }}
           />
-          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-            {fieldData.name}
-          </span>
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">{fieldData.name}</span>
         </div>
         <div className="text-zinc-400">
           {hoveredField === index ? (
@@ -470,11 +419,7 @@ export default function Table({
             <div className="flex gap-1 items-center">
               {fieldData.primary && <IconKeyStroked />}
               {!fieldData.notNull && <span className="font-mono">?</span>}
-              <span
-                className={
-                  "font-mono " + dbToTypes[database][fieldData.type].color
-                }
-              >
+              <span className={"font-mono " + dbToTypes[database][fieldData.type].color}>
                 {fieldData.type +
                   ((dbToTypes[database][fieldData.type].isSized ||
                     dbToTypes[database][fieldData.type].hasPrecision) &&
