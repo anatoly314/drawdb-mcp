@@ -2,9 +2,9 @@ import { LoggerService } from "@nestjs/common";
 import { pino } from "pino";
 
 /**
- * Creates a Pino logger configured for the specified transport mode
+ * Creates a Pino logger
  *
- * @param destination - File descriptor: 1 (stdout) for HTTP, 2 (stderr) for STDIO
+ * @param destination - File descriptor to write to: 1 (stdout) or 2 (stderr)
  * @returns Configured pino logger instance
  */
 export function createPinoLogger(destination: 1 | 2) {

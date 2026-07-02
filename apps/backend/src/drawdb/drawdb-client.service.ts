@@ -1,166 +1,85 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { DrawDBCommand, DrawDBResponse } from "./drawdb.types";
+import { OrpcWsService, SINGLE_AUTHLESS_KEY } from "@orpc-ws/server-nestjs";
+import type { ClientContract } from "@drawdb-mcp/remote-control-contract";
 
 /**
- * Service for managing WebSocket communication with DrawDB client
+ * Facade over the ORPC WebSocket transport for talking to the DrawDB GUI.
+ *
+ * The GUI hosts the `clientContract` procedures (server -> client RPC); this
+ * service holds the typed caller for the single authless connection and
+ * preserves the public API the MCP tools were written against:
+ *   - `isConnected()` — a live GUI connection exists.
+ *   - `sendCommand(command, params)` — dynamic dispatch by wire-command name.
+ *   - one typed wrapper per command (addTable, updateTable, ... importDBML).
+ *
+ * Error model: under ORPC the legacy `{ success, data, error }` envelope is
+ * gone — resolution value IS the data, and a failed command rejects with the
+ * ORPC error thrown by the GUI handler.
  */
 @Injectable()
 export class DrawDBClientService {
   private readonly logger = new Logger(DrawDBClientService.name);
-  private ws: any = null;
-  private isSettingConnection = false; // Lock to prevent race conditions
-  private pendingRequests = new Map<
-    string,
-    { resolve: (value: any) => void; reject: (error: Error) => void; timeout: NodeJS.Timeout }
-  >();
-  private requestTimeout = 30000; // 30 seconds
+  private readonly requestTimeout = 30000; // 30 seconds
+
+  constructor(private readonly orpcWs: OrpcWsService) {}
 
   /**
-   * Set the WebSocket connection
-   * Closes any existing connection to ensure only one GUI is active at a time
-   * Uses a lock to prevent race conditions from simultaneous connections
+   * The typed server->client caller for the single authless GUI connection,
+   * or undefined when no GUI is connected.
    */
-  async setConnection(ws: any) {
-    // Wait if another connection is being set up (prevents race condition)
-    let waitCount = 0;
-    while (this.isSettingConnection && waitCount < 20) {
-      // Wait max 2 seconds (20 * 100ms)
-      this.logger.warn(`Connection setup already in progress, waiting... (${waitCount + 1}/20)`);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      waitCount++;
-    }
-
-    if (this.isSettingConnection) {
-      this.logger.error("Connection setup timeout - forcing connection replacement");
-      this.isSettingConnection = false; // Force unlock
-    }
-
-    // Set lock
-    this.isSettingConnection = true;
-
-    try {
-      // Close existing connection if present
-      if (this.ws) {
-        const oldWs = this.ws;
-        const isOpen = oldWs.readyState === 1; // WebSocket.OPEN = 1
-
-        if (isOpen) {
-          this.logger.log("Closing previous DrawDB client connection - new client connecting");
-
-          // Remove event handlers from old connection to prevent interference
-          oldWs.removeAllListeners();
-
-          // Close the old connection
-          oldWs.close(1000, "Replaced by new connection");
-
-          // Wait a tiny bit for close to propagate
-          await new Promise((resolve) => setTimeout(resolve, 50));
-        } else {
-          this.logger.debug(`Previous connection already closed (state: ${oldWs.readyState})`);
-        }
-      }
-
-      this.ws = ws;
-      this.logger.log("DrawDB client connected");
-
-      // Setup message handler
-      ws.on("message", (data: string) => {
-        try {
-          const message = JSON.parse(data);
-
-          // Handle ping/pong heartbeat
-          if (message.type === "ping") {
-            this.logger.debug("Received ping, sending pong");
-            ws.send(JSON.stringify({ type: "pong" }));
-            return;
-          }
-
-          // Handle normal command responses
-          const response: DrawDBResponse = message;
-          this.handleResponse(response);
-        } catch (error) {
-          this.logger.error("Failed to parse message from DrawDB client:", error);
-        }
-      });
-
-      // Setup close handler
-      ws.on("close", () => {
-        this.logger.log("DrawDB client disconnected");
-        this.ws = null;
-        // Reject all pending requests
-        this.pendingRequests.forEach(({ reject, timeout }) => {
-          clearTimeout(timeout);
-          reject(new Error("DrawDB client disconnected"));
-        });
-        this.pendingRequests.clear();
-      });
-    } finally {
-      // Release lock
-      this.isSettingConnection = false;
-    }
+  private getClient() {
+    return this.orpcWs.getConnection<ClientContract>(SINGLE_AUTHLESS_KEY)?.client;
   }
 
   /**
-   * Check if client is connected
+   * Check if a DrawDB GUI client is connected
    */
   isConnected(): boolean {
-    return this.ws !== null && this.ws.readyState === 1; // WebSocket.OPEN
+    return this.getClient() !== undefined;
   }
 
   /**
-   * Send a command to DrawDB and wait for response
+   * Send a command to DrawDB and wait for the result.
+   *
+   * Dynamic-dispatch escape hatch: `command` must be a procedure name of the
+   * client contract (the wire-command catalog). Prefer the typed wrappers.
+   * `params` is passed through as the procedure input — leave it undefined
+   * for no-input commands (getDiagram, exportSQL, exportDBML).
    */
-  async sendCommand<T = any>(command: string, params: Record<string, any> = {}): Promise<T> {
-    if (!this.isConnected()) {
+  async sendCommand<T = any>(command: string, params?: Record<string, any>): Promise<T> {
+    const client = this.getClient();
+    if (!client) {
       throw new Error(
         "DrawDB client is not connected. Make sure the DrawDB frontend is running with remote control enabled.",
       );
     }
 
-    const id = `cmd_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const message: DrawDBCommand = { id, command, params };
+    // The ORPC caller proxy is dynamic at runtime; the typed surface is
+    // keyed by contract procedure names. This single cast is the seam that
+    // lets the string-based `sendCommand` API keep working.
+    const procedures = client as unknown as Record<
+      string,
+      (input: unknown, options: { signal: AbortSignal }) => Promise<unknown>
+    >;
 
-    return new Promise((resolve, reject) => {
-      // Setup timeout
-      const timeout = setTimeout(() => {
-        this.pendingRequests.delete(id);
-        reject(new Error(`Command ${command} timed out after ${this.requestTimeout}ms`));
-      }, this.requestTimeout);
+    // Per-call timeout. The abort signal is threaded through ORPC's client
+    // link into the peer, which rejects the pending call with the abort
+    // reason AND notifies the GUI to abort the in-flight handler.
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      controller.abort(new Error(`Command ${command} timed out after ${this.requestTimeout}ms`));
+    }, this.requestTimeout);
 
-      // Store pending request
-      this.pendingRequests.set(id, { resolve, reject, timeout });
-
-      // Send command
-      try {
-        this.ws.send(JSON.stringify(message));
-        this.logger.debug(`Sent command: ${command} (${id})`);
-      } catch (error) {
-        clearTimeout(timeout);
-        this.pendingRequests.delete(id);
-        reject(error);
-      }
-    });
-  }
-
-  /**
-   * Handle response from DrawDB client
-   */
-  private handleResponse(response: DrawDBResponse) {
-    const pending = this.pendingRequests.get(response.id);
-    if (!pending) {
-      this.logger.warn(`Received response for unknown request: ${response.id}`);
-      return;
-    }
-
-    clearTimeout(pending.timeout);
-    this.pendingRequests.delete(response.id);
-
-    if (response.success) {
-      this.logger.debug(`Command ${response.id} succeeded`);
-      pending.resolve(response.data);
-    } else {
-      this.logger.error(`Command ${response.id} failed: ${response.error}`);
-      pending.reject(new Error(response.error || "Unknown error"));
+    try {
+      this.logger.debug(`Sending command: ${command}`);
+      const result = await procedures[command](params, { signal: controller.signal });
+      this.logger.debug(`Command ${command} succeeded`);
+      return result as T;
+    } catch (error) {
+      this.logger.error(`Command ${command} failed: ${String(error)}`);
+      throw error;
+    } finally {
+      clearTimeout(timer);
     }
   }
 
@@ -284,24 +203,10 @@ export class DrawDBClientService {
   }
 
   /**
-   * Get all tables
-   */
-  async getTables() {
-    return this.sendCommand("getTables");
-  }
-
-  /**
    * Get a specific table by ID or name
    */
   async getTable(tableId?: string, tableName?: string) {
     return this.sendCommand("getTable", { tableId, tableName });
-  }
-
-  /**
-   * Get all relationships
-   */
-  async getRelationships() {
-    return this.sendCommand("getRelationships");
   }
 
   /**

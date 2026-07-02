@@ -36,6 +36,14 @@ lerna-debug.log*
 # Turborepo
 .turbo/
 
+# tshy dual-build temp artifacts (packages/remote-control-contract).
+# `.tshy/` holds tshy's generated scratch tsconfigs; `.tshy-build/` is its
+# scratch outDir; `src/package.json` is the per-dialect type marker tshy
+# drops during the CJS pass.
+.tshy/
+.tshy-build/
+packages/*/src/package.json
+
 # OS
 .DS_Store
 Thumbs.db

@@ -9,8 +9,9 @@ WORKDIR /app
 # Copy workspace configuration
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 
-# Copy all apps
+# Copy all apps and shared workspace packages
 COPY apps ./apps
+COPY packages ./packages
 
 # Install dependencies for all workspaces
 RUN pnpm install --frozen-lockfile
@@ -21,6 +22,11 @@ ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV VITE_REMOTE_CONTROL_ENABLED=true
 RUN pnpm build
 
+# Produce a self-contained backend bundle (dist + prod node_modules with
+# workspace deps materialized) — plain `pnpm install --prod` cannot resolve
+# `workspace:*` outside the workspace.
+RUN pnpm deploy --filter=backend --prod /prod/backend
+
 # Stage 2: Production image with both frontend and backend
 FROM node:20-alpine
 
@@ -29,9 +35,8 @@ LABEL org.opencontainers.image.source=https://github.com/anatoly-lab/drawdb-mcp
 LABEL org.opencontainers.image.description="DrawDB - Database design and diagramming tool with AI assistant"
 LABEL org.opencontainers.image.licenses=AGPL-3.0
 
-# Install pnpm, nginx, and dumb-init
-RUN npm install -g pnpm@8.15.0 && \
-    apk add --no-cache nginx dumb-init
+# Install nginx and dumb-init (no pnpm needed: backend arrives pre-installed via pnpm deploy)
+RUN apk add --no-cache nginx dumb-init
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
@@ -39,12 +44,8 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# Copy backend package.json and install production dependencies
-COPY apps/backend/package.json ./package.json
-RUN pnpm install --prod && pnpm store prune
-
-# Copy built backend
-COPY --from=build /app/apps/backend/dist ./dist
+# Copy the self-contained backend produced by pnpm deploy in the build stage
+COPY --from=build /prod/backend ./
 
 # Copy built frontend to nginx html directory
 COPY --from=build /app/apps/gui/dist /usr/share/nginx/html

@@ -147,9 +147,9 @@ Each field has: `id`, `name`, `type`, `primary`, `unique`, `notNull`, `increment
 
 The app supports remote control via WebSocket for AI/LLM-assisted diagram generation:
 
-- **Hook**: `useRemoteControl` (`src/hooks/useRemoteControl.js`)
+- **Integration**: `src/remote-control/` — `RemoteControl.jsx` mounts the ORPC WebSocket client (`@orpc-ws/react`); per-entity handler hooks live in `src/remote-control/handlers/`
 - **Enable**: Set `VITE_REMOTE_CONTROL_ENABLED=true` in `.env`
-- **Protocol**: WebSocket commands map to DiagramContext methods
+- **Protocol**: typed ORPC server→client procedures (contract in `packages/remote-control-contract`) mapping to the entity context methods
 - **Documentation**: See `docs/REMOTE_CONTROL.md` for complete API reference
 - **Use case**: LLM/MCP servers can programmatically create/modify diagrams
 

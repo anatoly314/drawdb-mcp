@@ -15,9 +15,9 @@ This MCP server acts as a bridge between AI assistants (like Claude) and the Dra
 
 ```
 AI Assistant (Claude, etc.)
-    ↓ (MCP protocol)
+    ↓ (MCP protocol over HTTP)
 DrawDB MCP Server (this project)
-    ↓ (WebSocket commands)
+    ↓ (typed ORPC calls over WebSocket, contract: @drawdb-mcp/remote-control-contract)
 DrawDB Frontend (with remote control enabled)
     ↓ (React state updates)
 Diagram Editor
@@ -25,7 +25,7 @@ Diagram Editor
 
 ## Prerequisites
 
-- Node.js 20 or higher
+- Node.js 20.19+ or 22.22+ (see `engines` in `package.json`)
 - DrawDB frontend running with remote control enabled
 
 ## Installation
@@ -52,8 +52,9 @@ The DrawDB frontend must be configured to accept remote control:
 1. In the DrawDB project, create a \`.env\` file:
    \`\`\`env
    VITE_REMOTE_CONTROL_ENABLED=true
-   VITE_REMOTE_CONTROL_WS=ws://localhost:8080/remote-control
+   VITE_REMOTE_CONTROL_WS=ws://localhost:3000/remote-control
    \`\`\`
+   \`VITE_REMOTE_CONTROL_WS\` is optional — when unset the GUI derives the URL from \`window.location\`.
 
 2. Start the DrawDB frontend:
    \`\`\`bash

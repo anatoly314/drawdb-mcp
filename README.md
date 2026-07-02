@@ -53,7 +53,7 @@ See [GHCR_DEPLOYMENT.md](./docs/GHCR_DEPLOYMENT.md) for available tags and advan
 
 #### Prerequisites
 
-- Node.js 20+
+- Node.js 20.19+ or 22.22+ (see `engines` in `package.json`)
 - pnpm 8.15.0+ (install via `npm install -g pnpm`)
 
 **Start both GUI and backend:**

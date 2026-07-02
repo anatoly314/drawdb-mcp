@@ -66,6 +66,10 @@ import {
   useTasks,
 } from "../../hooks";
 import { enterFullscreen, exitFullscreen } from "../../utils/fullscreen";
+import { resolveMcpUrl } from "../../remote-control/ws";
+
+// Build-time constant (env-derived only); null when the MCP URL is unknown.
+const mcpUrl = resolveMcpUrl();
 import { dataURItoBlob } from "../../utils/utils";
 import { IconAddArea, IconAddNote, IconAddTable } from "../../icons";
 import LayoutDropdown from "./LayoutDropdown";
@@ -2004,6 +2008,27 @@ export default function ControlPanel({
                 <Tooltip content="DrawDB MCP Server Version" position="bottom">
                   <Tag size="small" color="blue">
                     v{import.meta.env.VITE_APP_VERSION}
+                  </Tag>
+                </Tooltip>
+              )}
+              {aiAssistantConnected !== null && mcpUrl && (
+                <Tooltip
+                  content="MCP endpoint URL - click to copy"
+                  position="bottom"
+                >
+                  <Tag
+                    size="small"
+                    className="cursor-pointer"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(mcpUrl);
+                        Toast.success("MCP URL copied to clipboard");
+                      } catch {
+                        Toast.error("Could not copy MCP URL");
+                      }
+                    }}
+                  >
+                    {mcpUrl}
                   </Tag>
                 </Tooltip>
               )}

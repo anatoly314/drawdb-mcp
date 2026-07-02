@@ -1,0 +1,16 @@
+{
+  // tshy build config (mirrors the @orpc-ws/* packages' setup). Extends the
+  // package's editor/typecheck tsconfig but relaxes what conflicts with
+  // tshy's dual ESM+CJS emit:
+  //
+  // `verbatimModuleSyntax: false` — tshy compiles the SAME source a second
+  // time as CommonJS (it drops a `{"type":"commonjs"}` src/package.json for
+  // the CJS pass). Under NodeNext that makes every file CJS-detected, and
+  // `verbatimModuleSyntax` then forbids ESM `import`/`export` syntax in a
+  // CJS file (TS1286). Dev-time strictness is unaffected: `type-check`
+  // still runs the ESM-only `tsconfig.json` with verbatim ON.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false
+  }
+}

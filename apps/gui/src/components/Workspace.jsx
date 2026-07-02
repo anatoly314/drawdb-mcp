@@ -18,8 +18,8 @@ import {
   useTasks,
   useSaveState,
   useEnums,
-  useRemoteControl,
 } from "../hooks";
+import RemoteControl from "../remote-control/RemoteControl";
 import FloatingControls from "./FloatingControls";
 import { Button, Modal, Tag } from "@douyinfe/semi-ui";
 import { IconAlertTriangle } from "@douyinfe/semi-icons";
@@ -61,7 +61,7 @@ export default function WorkSpace() {
 
   // Enable remote control if VITE_REMOTE_CONTROL_ENABLED is set
   const remoteControlEnabled = import.meta.env.VITE_REMOTE_CONTROL_ENABLED === "true";
-  const { isConnected: aiAssistantConnected } = useRemoteControl(remoteControlEnabled);
+  const [aiAssistantConnected, setAiAssistantConnected] = useState(false);
   const handleResize = (e) => {
     if (!resize) return;
     const w = isRtl(i18n.language) ? window.innerWidth - e.clientX : e.clientX;
@@ -411,6 +411,10 @@ export default function WorkSpace() {
 
   return (
     <div className="h-full flex flex-col overflow-hidden theme">
+      {/* Mounted inside the editor's context providers (Editor.jsx wraps
+          WorkSpace) so the remote-control handler hooks can read the entity
+          contexts. Renders no UI. */}
+      {remoteControlEnabled && <RemoteControl onConnectedChange={setAiAssistantConnected} />}
       <IdContext.Provider value={{ gistId, setGistId, version, setVersion }}>
         <ControlPanel
           diagramId={id}

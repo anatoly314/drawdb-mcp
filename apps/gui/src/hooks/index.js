@@ -13,4 +13,3 @@ export { default as useTypes } from "./useTypes";
 export { default as useUndoRedo } from "./useUndoRedo";
 export { default as useEnums } from "./useEnums";
 export { default as useThemedPage } from "./useThemedPage";
-export { useRemoteControl } from "./useRemoteControl";

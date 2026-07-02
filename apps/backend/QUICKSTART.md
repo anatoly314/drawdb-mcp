@@ -47,7 +47,7 @@ You should see:
 ```
 DrawDB MCP Server started
 HTTP server listening on http://localhost:3000
-MCP endpoint: http://localhost:3000/mcp
+MCP endpoint: http://localhost:3000/
 WebSocket endpoint: ws://localhost:3000/remote-control
 ```
 
@@ -57,23 +57,15 @@ WebSocket endpoint: ws://localhost:3000/remote-control
 2. Open the browser console (F12)
 3. You should see: "AI Assistant connected" toast notification
 
-## Step 7: Test with Claude Desktop (Optional)
+## Step 7: Test with Claude Code (Optional)
 
-Add to your Claude config (`~/Library/Application Support/Claude/claude_desktop_config.json` on Mac):
+The server speaks MCP over HTTP (there is no STDIO mode). Connect Claude Code to the running server:
 
-```json
-{
-  "mcpServers": {
-    "drawdb": {
-      "command": "node",
-      "args": ["/full/path/to/drawdb-mcp-server/dist/main-http.js"],
-      "env": {}
-    }
-  }
-}
+```bash
+claude mcp add --transport http drawdb-mcp http://127.0.0.1:3000
 ```
 
-Restart Claude Desktop, then try:
+Then try:
 
 > "Can you create a users table with id, email, and name fields?"
 

@@ -2,7 +2,6 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { createPinoLogger, createLoggerService } from "./bootstrap";
 import { parseCliArgs, displayStartupBanner } from "./cli";
-import { WsAdapter } from "@nestjs/platform-ws";
 
 async function bootstrap() {
   const options = parseCliArgs();
@@ -11,18 +10,21 @@ async function bootstrap() {
   process.env.PORT = options.port.toString();
   process.env.HOST = options.host;
 
-  // Create logger that writes to stdout (fd 1) for HTTP mode
+  // Create logger that writes to stdout (fd 1)
   const pinoLogger = createPinoLogger(1);
   const loggerService = createLoggerService(pinoLogger);
 
-  // HTTP mode - create NestJS HTTP application with WebSocket support
-  const app = await NestFactory.create(AppModule.forHttp(), {
+  // Create NestJS HTTP application; the ORPC WebSocket server (OrpcWsModule)
+  // attaches itself to the underlying http.Server at OnApplicationBootstrap.
+  const app = await NestFactory.create(AppModule, {
     logger: loggerService,
     bufferLogs: true,
   });
 
-  // Configure WebSocket adapter
-  app.useWebSocketAdapter(new WsAdapter(app));
+  // Required for OrpcWsService's BeforeApplicationShutdown hook — without it
+  // dispose() never runs and GUI clients see a TCP RST instead of the clean
+  // 4009 close frame on shutdown.
+  app.enableShutdownHooks();
 
   // Show startup information
   displayStartupBanner(options);
